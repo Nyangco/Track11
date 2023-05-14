@@ -1,0 +1,44 @@
+<%@page import="dao.NewsDao"%>
+<%@page import="dto.NewsDto"%>
+<%@page import="common.CommonUtil"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="../common_session.jsp" %>
+<%
+	if(sessionLevel.equals("top")){
+		request.setCharacterEncoding("utf-8");
+		NewsDao dao = new NewsDao();
+		String no = request.getParameter("t_no");
+		String title = request.getParameter("t_title");
+		String content = request.getParameter("t_content");
+		String reg_id = sessionId;
+		String update_date = CommonUtil.getTodayTime();
+		NewsDto dto = new NewsDto(no,title,content,reg_id,"",update_date);
+		int k = dao.updateDB(dto);
+		String msg = "수정 실패";
+		if(k==1) msg = "수정 성공";
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>진행중</title>
+<script>
+	alert("<%=msg%>");
+	<%if(k==1){%>
+		location.href="news_list.jsp";
+	<%}else{%>
+		window.history.back();
+	<%}%>
+</script>
+</head>
+<body>
+
+</body>
+<%} else{ %>
+	<script>
+		alert("관리자 권한이 아닙니다.");
+		window.history.back();
+	</script>
+<%} %>
+</html>
