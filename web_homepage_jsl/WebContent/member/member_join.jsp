@@ -18,6 +18,7 @@
 	}
 	
 	function memberJoin(){
+		alert("1");
 		if(checkValue(mem.t_id,"아이디를"));
 		else if(mem.t_idCheck.value=="" || mem.t_idCheck.value=="1"){
 			alert("ID 중복검사를 해주세요");
