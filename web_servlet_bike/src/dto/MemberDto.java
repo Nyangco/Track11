@@ -1,16 +1,18 @@
 package dto;
 
 public class MemberDto {
-	private String id, name, password, area, address, mobile_1, mobile_2, mobile_3, gender, hobby_travel;
+	private String id, sLevel, name, password, area, address, mobile_1, mobile_2, mobile_3, gender, hobby_travel;
 	private String hobby_reading, hobby_sports, reg_date, update_date, last_login_date, exit_date;
 	private int password_len;
 	
-	public MemberDto(String id, String name, String password, String area, String address, String mobile_1,
-			String mobile_2, String mobile_3, String gender, String hobby_travel, String hobby_reading,
+	//전부
+	public MemberDto(String id, String sLevel, String name, String password, String area, String address,
+			String mobile_1, String mobile_2, String mobile_3, String gender, String hobby_travel, String hobby_reading,
 			String hobby_sports, String reg_date, String update_date, String last_login_date, String exit_date,
 			int password_len) {
 		super();
 		this.id = id;
+		this.sLevel = sLevel;
 		this.name = name;
 		this.password = password;
 		this.area = area;
@@ -29,8 +31,20 @@ public class MemberDto {
 		this.password_len = password_len;
 	}
 
+	//세션 만들기 용
+	public MemberDto(String sLevel, String name) {
+		super();
+		this.sLevel = sLevel;
+		this.name = name;
+	}
+
+
 	public String getId() {
 		return id;
+	}
+
+	public String getsLevel() {
+		return sLevel;
 	}
 
 	public String getName() {
@@ -96,8 +110,7 @@ public class MemberDto {
 	public int getPassword_len() {
 		return password_len;
 	}
-	
-	
+
 	
 	
 }

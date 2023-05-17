@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <link href="css/index_c.css" rel="stylesheet">
@@ -89,9 +90,18 @@
 			<div id="b_top_menu">
 				<ul class="top_menu">
 					<li><a href="" class="allclick"><i class="fas fa-bars"></i></a></li>
+					<c:if test="${sId eq null}">
 					<li><a href="javascript:void()" onClick="goWork('join')">Join</a></li>
 					<li><a href="javascript:void()" onClick="goWork('login')">Login</a></li>
+					</c:if>
+					<c:if test="${sId ne null}">
+					<li><a href="javascript:void()" onClick="goWork('myinfo')">Myinfo</a></li>
+					<li><a href="javascript:void()" onClick="goWork('logout')">Logout</a></li>
+					</c:if>
 					<li><a href="javascript:void()" onClick="goHome()"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+					<c:if test="${sId ne null}">
+					<li><a>${sName }님</a></li>
+					</c:if>
 				</ul>
 			</div>	
 	</div>

@@ -30,6 +30,18 @@ function checking(input,len,obj){
 	}else return false;
 }
 
+function checkingMobile(input,len,obj){
+	if(input.value==""){
+		alert(obj+" 확인해주세요");
+		input.focus();
+		return true;
+	}else if(Number(input.value.length)!=Number(len)){
+		alert(obj+" 길이는 "+len+"자리로 해주세요");
+		input.focus();
+		return true;
+	}else return false;
+}
+
 /*
 function checkId(){
 		$.ajax({

@@ -2,6 +2,30 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/common_header.jsp" %>
 <script>
+	function checkId(){
+		alert("시작");
+		$.ajax({
+			type : "POST",
+			url : "IdCheck",
+			data: "t_id="+mem.t_id.value,
+			dataType : "text",
+			error : function(){
+				alert('통신실패!!!!!');
+			},
+			success : function(data){
+				var result= $.trim(data);
+				mem.t_idCheck.value= result;
+				if(result == "사용 가능"){
+					mem.t_idCheckValue.value = mem.t_id.value;
+				} else{
+					mem.t_idCheckValue.value ="";
+				}
+			}
+		});				
+		alert("끝");
+	}
+</script>
+<script>
 	function goSave(){
 		if(checking(mem.t_id,10,"ID"));
 		else if(checking(mem.t_name,10,"이름"));
@@ -13,9 +37,9 @@
 		}
 		else if(checking(mem.t_area,5,"지역"));
 		else if(checking(mem.t_address,40,"주소"));
-		else if(checking(mem.t_mobile_1,3,"전화번호"));
-		else if(checking(mem.t_mobile_2,4,"전화번호"));
-		else if(checking(mem.t_mobile_3,4,"전화번호"));
+		else if(checkingMobile(mem.t_mobile_1,3,"전화번호"));
+		else if(checkingMobile(mem.t_mobile_2,4,"전화번호"));
+		else if(checkingMobile(mem.t_mobile_3,4,"전화번호"));
 		else if(checking(mem.t_gender,1,"성별"));
 		else {
 			if(mem.t_hobby_travel.checked) mem.t_hobby_travel_c.value="y";
@@ -57,7 +81,8 @@
 				  <th><label for="id">I D</label></th>
 				  <td>
 					<input name="t_id" type="text" size="10" id="id" title="id입력하세요">
-					<input type="button" onclick="checkId()" value="ID중복검사" class="checkB">
+					<input type="button" onClick="checkId()" value="ID중복검사" class="checkB">
+					<input type="text" name="t_idCheckValue">
 				  </td>
 				</tr>
 				<tr>
@@ -100,7 +125,7 @@
 				  <th>남여구분</th>
 				  <td>
 					  <input type="radio" value="f" name="t_gender" class="middleCheck" /> 여&nbsp;&nbsp;        
-					  <input type="radio" value="y" name="t_gender" class="middleCheck" /> 남        
+					  <input type="radio" value="m" name="t_gender" class="middleCheck" /> 남        
 				  </td>
 				</tr>
 				<tr>
