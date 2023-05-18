@@ -10,10 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import command.member.DBdelete;
 import command.member.DBlogin;
 import command.member.DBsave;
+import command.member.DBupdate;
 import command.member.Logout;
 import command.member.Myinfo;
+import command.member.Update;
 
 /**
  * Servlet implementation class Member
@@ -39,6 +42,7 @@ public class Member extends HttpServlet {
 		HttpSession session = request.getSession();
 		String page = "alert.jsp";
 		String requestPage = request.getParameter("t_requestPage");
+		if(requestPage == null) requestPage=(String)request.getAttribute("t_requestPage");
 		if(requestPage == null) requestPage="login"; // session 작업 완료 후 로그인 상태에서 들어올 시 마이페이지로 변경하기
 		if(requestPage.equals("")) requestPage="login";
 		
@@ -68,11 +72,27 @@ public class Member extends HttpServlet {
 			Myinfo member = new Myinfo();
 			member.excute(request);
 			page="member/member_myinfo.jsp";
+		//계정 삭제
+		}else if(requestPage.equals("DBdelete")) {
+			DBdelete member = new DBdelete();
+			member.excute(request);
+			page="alert.jsp";
+		//계정 정보 변경
+		}else if(requestPage.equals("update")) {
+			Update member = new Update();
+			member.excute(request);
+			page="member/member_update.jsp";
+		//DB 수정
+		}else if(requestPage.equals("DBupdate")) {
+			DBupdate member = new DBupdate();
+			member.excute(request);
+			page="alert.jsp";
 		}
 		
 		
 		RequestDispatcher rd = request.getRequestDispatcher(page);
-		rd.forward(request, response);	}
+		rd.forward(request, response);	
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

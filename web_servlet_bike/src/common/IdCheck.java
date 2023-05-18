@@ -30,8 +30,12 @@ public class IdCheck extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		out.print("1");
+		request.setCharacterEncoding("utf-8");
+    	PrintWriter out = response.getWriter();
+    	MemberDao dao = new MemberDao();
+		String id = request.getParameter("t_id");
+		int number = dao.idCheckDB(id);
+		out.print(number);
 	}
 
 	/**

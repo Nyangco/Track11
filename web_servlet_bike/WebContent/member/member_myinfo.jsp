@@ -2,13 +2,30 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/common_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script>
+	function goUpdate(){
+		mem.t_requestPage.value="update";
+		mem.method="post";
+		mem.action="Member";
+		mem.submit();
+	}function goDelete(){
+		if(confirm("정말로 탈퇴 하시겠습니까?")){
+			mem.t_requestPage.value="DBdelete";
+			mem.method="post";
+			mem.action="Member";
+			mem.submit();
+		}
+	}
+</script>
+<form name="mem">
+	<input type="hidden" name="t_id" value="${t_dto.getId() }">
+	<input type="hidden" name="t_requestPage">
+</form>
 	<div id="container">
 		<div id="b_right">
 			<p class="n_title">
 				MEMBER MYINFO
 			</p>
-			<form name="mem">
-			<input type="hidden" name="t_requestPage">
 			<table class="boardForm">
 			  <colgroup>
 				<col width="200" />
@@ -64,9 +81,9 @@
 				</tr>
 			  </tbody>
 			</table>
-			</form>
 			<div class="buttonGroup_center">
-				<a href="javascript:void()" onClick="goSave()" class="butt">JOIN</a>
+				<a href="javascript:void()" onClick="goUpdate()" class="butt">계정 정보 변경</a>
+				<a href="javascript:void()" onClick="goDelete()" class="butt">계정 삭제</a>
 			</div>	
 		</div>	
 	</div>

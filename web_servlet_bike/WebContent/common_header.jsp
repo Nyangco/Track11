@@ -5,7 +5,7 @@
 <title>JSL11 연석모</title>
 <link href="css/sub_c.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
-<script type="text/javascript" src="/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
 <script src="js/common.js"></script>
 <script type="text/javascript">
     //<![CDATA[
@@ -43,14 +43,14 @@
 			<ul class="top_menu">
 				<li><a href="" class="allclick"><i class="fas fa-bars"></i></a></li>
 					<c:if test="${sId eq null}">
-					<li><a href="javascript:void()" onClick="goWork('join')">Join</a></li>
-					<li><a href="javascript:void()" onClick="goWork('login')">Login</a></li>
+					<li><a href="javascript:void()" onClick="goMember('join')">Join</a></li>
+					<li><a href="javascript:void()" onClick="goMember('login')">Login</a></li>
 					</c:if>
 					<c:if test="${sId ne null}">
-					<li><a href="javascript:void()" onClick="goWork('myinfo')">Myinfo</a></li>
-					<li><a href="javascript:void()" onClick="goWork('logout')">Logout</a></li>
+					<li><a href="javascript:void()" onClick="goMember('myinfo')">Myinfo</a></li>
+					<li><a href="javascript:void()" onClick="goMember('logout')">Logout</a></li>
 					</c:if>
-					<li><a href="javascript:void()" onClick="goHome()"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+					<li><a href="javascript:void()" onClick="location.href='Index'"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
 					<c:if test="${sId ne null}">
 					<li><a>${sName }님</a></li>
 					</c:if>

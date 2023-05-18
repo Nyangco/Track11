@@ -34,6 +34,7 @@ public class Index extends HttpServlet {
 		HttpSession session = request.getSession();
 		String page = "index.jsp";
 		String requestPage = request.getParameter("t_requestPage");
+		if(requestPage == null) requestPage=(String)request.getAttribute("t_requestPage");
 		if(requestPage == null) requestPage="";
 		if(requestPage.equals("")) requestPage="";
 		

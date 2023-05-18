@@ -28,13 +28,18 @@ public class DBlogin implements CommonExcute {
 		}
 		MemberDto dto = dao.idCheckDB(id, password);
 		if(dto!=null) {
-			dao.recentLogin(id);
-			session.setAttribute("sLevel", dto.getsLevel());
-			session.setAttribute("sName", dto.getName());
-			session.setAttribute("sId", id);
-			request.setAttribute("t_msg", "로그인 되었습니다");
-			request.setAttribute("t_url", "Index");
-			session.setMaxInactiveInterval(60*60);
+			if(dto.getExit_date()==null) {
+				dao.recentLogin(id);
+				session.setAttribute("sLevel", dto.getsLevel());
+				session.setAttribute("sName", dto.getName());
+				session.setAttribute("sId", id);
+				session.setMaxInactiveInterval(60*60);
+				request.setAttribute("t_msg", "로그인 되었습니다");
+				request.setAttribute("t_url", "Index");
+			}else {
+				request.setAttribute("t_msg", "탈퇴한 사용자입니다.");
+				request.setAttribute("t_url", "Index");
+			}
 		}
 		
 		

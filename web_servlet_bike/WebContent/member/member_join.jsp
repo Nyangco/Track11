@@ -2,8 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/common_header.jsp" %>
 <script>
-	function checkId(){
-		alert("시작");
+	function ajax(){
 		$.ajax({
 			type : "POST",
 			url : "IdCheck",
@@ -15,19 +14,29 @@
 			success : function(data){
 				var result= $.trim(data);
 				mem.t_idCheck.value= result;
-				if(result == "사용 가능"){
-					mem.t_idCheckValue.value = mem.t_id.value;
+				if(result == "0"){
+					mem.t_idCheckValue.value = "사용 가능";
 				} else{
-					mem.t_idCheckValue.value ="";
+					mem.t_idCheckValue.value = "중복된 id";
 				}
 			}
-		});				
-		alert("끝");
+		});	
 	}
 </script>
 <script>
-	function goSave(){
+	function checkId(){
+		if(mem.t_id.value==""){
+			alert("id를 입력해주세요");
+			mem.t_id.focus();
+		}else {
+			ajax();
+		}
+	}function goSave(){
 		if(checking(mem.t_id,10,"ID"));
+		else if(mem.t_idCheck.value!=0){
+			alert("아이디 중복검사를 해주세요");
+			mem.t_id.focus();
+		}
 		else if(checking(mem.t_name,10,"이름"));
 		else if(checking(mem.t_password,64,"비밀번호"));
 		else if(checking(mem.t_password_confirm,64,"비밀번호 확인"));
@@ -55,7 +64,6 @@
 		}
 	}
 </script>
-
 	<div id="container">
 		<div id="b_left">
 			<P>MEMBER</P>
@@ -80,22 +88,23 @@
 				<tr>
 				  <th><label for="id">I D</label></th>
 				  <td>
-					<input name="t_id" type="text" size="10" id="id" title="id입력하세요">
-					<input type="button" onClick="checkId()" value="ID중복검사" class="checkB">
-					<input type="text" name="t_idCheckValue">
+					<input name="t_id" type="text" size="10" id="id" title="id입력하세요" onkeypress="mem.t_idCheck.value='2'" maxlength="10">
+					<input type="button" onClick="checkId()" value="ID중복검사" class="checkB" >
+					<input type="hidden" name="t_idCheck" value="2">
+					<input type="text" name="t_idCheckValue" disabled style="border:none;">
 				  </td>
 				</tr>
 				<tr>
 				  <th><label for="nana">성 명</label></th>
-				  <td><input name="t_name" type="text" size="8" id="nana"></td>
+				  <td><input name="t_name" type="text" size="8" id="nana" maxlength="10"></td>
 				</tr>
 				<tr>
 				  <th>비밀번호</th>
-				  <td><input name="t_password" type="password" size="13"></td>
+				  <td><input name="t_password" type="password" size="13" maxlength="60"></td>
 				</tr>
 				<tr>
 				  <th>비밀번호확인</th>
-				  <td><input name="t_password_confirm" type="password" size="13"></td>
+				  <td><input name="t_password_confirm" type="password" size="13" maxlength="60"></td>
 				</tr>
 				<tr>
 				  <th>지역</th>
@@ -111,14 +120,14 @@
 				
 				<tr>
 				  <th>주소</th>
-				  <td><input name="t_address" type="text" size="40"></td>
+				  <td><input name="t_address" type="text" size="40" maxlength="40"></td>
 				</tr>
 				<tr>
 				  <th>연락처</th>
 				  <td>
-					<input name="t_mobile_1" type="text" size="3"> -
-					<input name="t_mobile_2" type="text" size="4"> -
-					<input name="t_mobile_3" type="text" size="4">
+					<input name="t_mobile_1" type="text" size="3" maxlength="3"> -
+					<input name="t_mobile_2" type="text" size="4" maxlength="4"> -
+					<input name="t_mobile_3" type="text" size="4" maxlength="4">
 				  </td>
 				</tr>
 				<tr>

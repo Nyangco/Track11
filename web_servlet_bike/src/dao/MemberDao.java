@@ -15,6 +15,42 @@ public class MemberDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public int updateDB(MemberDto dto) {
+		int k = 0;
+		String sql = "update bike_연석모_member set name='"+dto.getName()+"', area='"+dto.getArea()+"', address='"+
+					dto.getAddress()+"', mobile_1='"+dto.getMobile_1()+"', mobile_2='"+dto.getMobile_2()+"', mobile_3='"+
+					dto.getMobile_3()+"', gender='"+dto.getGender()+"', hobby_travel='"+dto.getHobby_travel()+"', hobby_reading='"+
+					dto.getHobby_reading()+"', hobby_sports='"+dto.getHobby_sports()+"', update_date=to_date('"+
+					CommonUtil.getTodayTime()+"','yyyy-mm-dd hh24:mi:ss') where id = '"+dto.getId()+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("deleteDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
+	
+	public int deleteDB(String id) {
+		int k = 0;
+		String sql = "update bike_연석모_member set exit_date=to_date('"+CommonUtil.getToday()+"','yyyy-mm-dd') where id='"+id+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("deleteDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
+	
 	public MemberDto myinfoDB(String id) {
 		MemberDto dto = null;
 		String sql = "select id, slevel, name, password_len, area, address, mobile_1, mobile_2, mobile_3, gender, hobby_travel, hobby_reading, hobby_sports, "
@@ -72,7 +108,7 @@ public class MemberDao {
 	
 	public MemberDto idCheckDB(String id, String password) {
 		MemberDto dto = null;
-		String sql = "select slevel, name from bike_연석모_member where id='"+id+"' and password='"+password+"'";
+		String sql = "select slevel, name, exit_date from bike_연석모_member where id='"+id+"' and password='"+password+"'";
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
@@ -80,7 +116,8 @@ public class MemberDao {
 			if(rs.next()) {
 				String sLevel = rs.getString("slevel");
 				String name = rs.getString("name");
-				dto = new MemberDto(sLevel,name);
+				String exit_date = rs.getString("exit_date");
+				dto = new MemberDto(sLevel,name,exit_date);
 			}
 		}catch(SQLException e) {
 			System.out.println("idConfirmDB:"+sql);
