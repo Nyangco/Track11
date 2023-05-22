@@ -2,6 +2,24 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/common_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script>
+	function goSearch(){
+		notice.method="post";
+		notice.action="Notice";
+		notice.submit();
+	}function goPage(page){
+		notice.t_nowPage.value=page;
+		notice.method="post";
+		notice.action="Notice";
+		notice.submit();
+	}function goView(no){
+		notice.t_no.value=no;
+		notice.t_requestPage.value="view";
+		notice.method="post";
+		notice.action="Notice";
+		notice.submit();
+	}
+</script>
 	<div id="container">
 		<%@ include file="./notice_leftBoard.jsp" %>
 		<div id="b_right">
@@ -9,18 +27,21 @@
 				NOTICE
 			</p>
 			<div class="record_group record_group_left">
-				<p><i class="fa-solid fa-bell"></i> 총게시글<span> 4 </span>건</p>
+				<p><i class="fa-solid fa-bell"></i> 총게시글<span> ${t_arr.size() } </span>건</p>
 			</div>			
+			<form name="notice">
+			<input type="hidden" name="t_no">
+			<input type="hidden" name="t_nowPage">
+			<input type="hidden" name="t_requestPage" value="list">
 			<p class="select_box select_box_right">
 				<select name="t_select" class="sel_box">
-					<option value="" selected >Title</option>
-					<option value=""  >Content</option>
+					<option value="title" <c:if test="${t_select eq 'title' }">selected</c:if> >Title</option>
+					<option value="content" <c:if test="${t_select eq 'content' }">selected</c:if> >Content</option>
 				</select>
-				<input type="text" name="" value="" class="sel_text">
-
-				<button type="button"  class="sel_button"><i class="fa fa-search"></i> SEARCH</button>
+				<input type="text" name="t_search" value="${t_search }" class="sel_text">
+				<button type="button" onClick="goSearch()" class="sel_button"><i class="fa fa-search"></i> SEARCH</button>
 			</p>			
-			
+			</form>
 			<table class="boardList">
 				<colgroup>
 					<col width="5%">
@@ -41,99 +62,21 @@
 					</tr>
 				</thead>
 				<tbody>
+				<c:forEach items="${t_arr }" var="arr">
 					<tr>
-						<td>9</td>
-						<td class="t_left"><a href="notice_view.html">구매 절차 과정 안내 드립니다.</a></td>
-						<td><img src="../images/clip.png"></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
+						<td>${arr.getNo() }</td>
+						<td class="t_left"><a href="javascript:void()" onClick="goView('${arr.getNo() }')">${arr.getTitle() }</a></td>
+						<td><c:if test="${arr.getAttach() ne null }"><img src="images/clip.png"></c:if></td>
+						<td>${arr.getReg_name() }</td>
+						<td>${arr.getReg_date() }</td>
+						<td>${arr.getHit() }</td>
 					</tr>	
-					<tr>
-						<td>8</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
-					<tr>
-						<td>7</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td><img src="../images/clip.png"></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
-					<tr>
-						<td>6</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td><img src="../images/clip.png"></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
-					<tr>
-						<td>5</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
-					<tr>
-						<td>4</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
-					<tr>
-						<td>3</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
-					<tr>
-						<td>2</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
-					<tr>
-						<td>1</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
-					<tr>
-						<td>0</td>
-						<td class="t_center">구매 절차 과정 안내 드립니다.</td>
-						<td></td>
-						<td>관리자</td>
-						<td>2020-07-28</td>
-						<td>412</td>
-					</tr>	
+				</c:forEach>
 				</tbody>
 			</table>
 			
 			<div class="paging">
-				<a href=""><i class="fa fa-angle-double-left"></i></a>
-				<a href=""><i class="fa fa-angle-left"></i></a>
-				<a href="" class="active">1</a>
-				<a href="">2</a>
-				<a href="">3</a>
-				<a href="">4</a>
-				<a href="">5</a>
-				<a href=""><i class="fa fa-angle-right"></i></a>
-				<a href=""><i class="fa fa-angle-double-right"></i></a>
+				${t_paging }
 				<a href="javascript:void()" onClick="goNotice('write')" class="write">글쓰기</a>
 			</div>
 		</div>	

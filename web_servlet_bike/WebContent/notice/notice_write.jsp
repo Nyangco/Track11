@@ -6,11 +6,8 @@
 		if(checking(notice.t_title,50,"제목"));
 		else if(checking(notice.t_content,2000,"내용"));
 		else{
-			request.method="post";
 			notice.method="post";
-			request.method="Notice";
-			notice.action="Notice";
-			request.submit();
+			notice.action="Notice?t_requestPage=DBSave";
 			notice.submit();
 		}
 	}
@@ -21,7 +18,6 @@
 			<p class="n_title">
 				NOTICE
 			</p>
-			<form name="request"><input type="hidden" name="t_requestPage" value="DBsave"></form>
 			<form name="notice" enctype="multipart/form-data">
 			<table class="boardForm">
 				<colgroup>

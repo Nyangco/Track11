@@ -15,6 +15,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import command.notice.DBsave;
 import command.notice.List;
+import command.notice.View;
 import command.notice.Write;
 
 /**
@@ -37,7 +38,6 @@ public class Notice extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("2");
 		request.setCharacterEncoding("utf-8");
 		String page="alert.jsp";
 		String requestPage = request.getParameter("t_requestPage");
@@ -54,11 +54,15 @@ public class Notice extends HttpServlet {
 			notice.excute(request);
 			page="notice/notice_write.jsp";
 		//notice DB 저장
-		}else if(requestPage.equals("DBsave")) {
-			System.out.print("l");
-			DBsave member = new DBsave();
-			member.excute(request);
+		}else if(requestPage.equals("DBSave")) {
+			DBsave notice = new DBsave();
+			notice.excute(request);
 			page="alert.jsp";
+		//상세 조회
+		}else if(requestPage.equals("view")) {
+			View notice = new View();
+			notice.excute(request);
+			page="notice/notice_view.jsp";
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher(page);

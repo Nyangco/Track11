@@ -15,6 +15,23 @@ public class MemberDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public String getPw(String id) {
+		String result = null;
+		String sql = "select password from bike_연석모_member where id = '"+id+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) result=rs.getString("password");
+		}catch(SQLException e) {
+			System.out.println("deleteDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return result;
+	}
+	
 	public int updateDB(MemberDto dto) {
 		int k = 0;
 		String sql = "update bike_연석모_member set name='"+dto.getName()+"', area='"+dto.getArea()+"', address='"+

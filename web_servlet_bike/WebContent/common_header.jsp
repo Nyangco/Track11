@@ -22,20 +22,20 @@
 </script> 
 <script>
 	function goMember(page){
-		goPage.t_requestPage.value=page;
-		goPage.method="post";
-		goPage.action="Member";
-		goPage.submit();
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Member";
+		goGo.submit();
 	}function goNotice(page){
-		goPage.t_requestPage.value=page;
-		goPage.method="post";
-		goPage.action="Notice";
-		goPage.submit();
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Notice";
+		goGo.submit();
 	}
 </script>
 </head>
 <body>
-<form name="goPage">
+<form name="goGo">
 	<input type="hidden" name="t_requestPage">
 </form>
 	<div id="container">

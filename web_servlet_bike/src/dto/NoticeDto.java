@@ -5,6 +5,13 @@ public class NoticeDto {
 	private String no, reg_id, title, content, attach, reg_date, update_date, reg_name;
 	private int hit;
 	
+	//View 앞 뒤 찾아오기용
+	public NoticeDto(String no, String title) {
+		super();
+		this.no = no;
+		this.title = title;
+	}
+
 	//전체
 	public NoticeDto(String no, String reg_id, String title, String content, String attach, String reg_date,
 			String update_date, String reg_name, int hit) {
