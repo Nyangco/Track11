@@ -42,16 +42,16 @@
 		<div id="b_top_menu">
 			<ul class="top_menu">
 				<li><a href="" class="allclick"><i class="fas fa-bars"></i></a></li>
-					<c:if test="${sId eq null}">
+					<c:if test="${empty sId }">
 					<li><a href="javascript:void()" onClick="goMember('join')">Join</a></li>
 					<li><a href="javascript:void()" onClick="goMember('login')">Login</a></li>
 					</c:if>
-					<c:if test="${sId ne null}">
+					<c:if test="${!empty sId }">
 					<li><a href="javascript:void()" onClick="goMember('myinfo')">Myinfo</a></li>
 					<li><a href="javascript:void()" onClick="goMember('logout')">Logout</a></li>
 					</c:if>
 					<li><a href="javascript:void()" onClick="location.href='Index'"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-					<c:if test="${sId ne null}">
+					<c:if test="${!empty sId}">
 					<li><a>${sName }님</a></li>
 					</c:if>
 			</ul>

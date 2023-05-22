@@ -6,7 +6,7 @@
 <link href="css/index_c.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>	
-<title>홍길동</title>
+<title>JSL11 연석모</title>
 <script type="text/javascript">
 	$(function(){
 		$(".main_menu > li > a").hover(function(){
@@ -67,14 +67,19 @@
 #disableDiv { position:absolute; left:0; top:0;width:100%; height:1700px; z-index:995 ; background-color:#EEEEEE; filter:Alpha(opacity=80);opacity:0.8; -moz-opaciry:0.8}
 </style>
 <script>
-	function goWork(page){
+	function goMember(page){
 		bike.t_requestPage.value=page;
 		bike.method="post";
 		bike.action="Member";
 		bike.submit();
-	}function goHome(){
+	}function goIndex(){
 		bike.method="post";
 		bike.action="Index";
+		bike.submit();
+	}function goNotice(page){
+		bike.t_requestPage.value=page;
+		bike.method="post";
+		bike.action="Notice";
 		bike.submit();
 	}
 </script>
@@ -90,16 +95,16 @@
 			<div id="b_top_menu">
 				<ul class="top_menu">
 					<li><a href="" class="allclick"><i class="fas fa-bars"></i></a></li>
-					<c:if test="${sId eq null}">
-					<li><a href="javascript:void()" onClick="goWork('join')">Join</a></li>
-					<li><a href="javascript:void()" onClick="goWork('login')">Login</a></li>
+					<c:if test="${empty sId}">
+					<li><a href="javascript:void()" onClick="goMember('join')">Join</a></li>
+					<li><a href="javascript:void()" onClick="goMember('login')">Login</a></li>
 					</c:if>
-					<c:if test="${sId ne null}">
-					<li><a href="javascript:void()" onClick="goWork('myinfo')">Myinfo</a></li>
-					<li><a href="javascript:void()" onClick="goWork('logout')">Logout</a></li>
+					<c:if test="${!empty sId}">
+					<li><a href="javascript:void()" onClick="goMember('myinfo')">Myinfo</a></li>
+					<li><a href="javascript:void()" onClick="goMember('logout')">Logout</a></li>
 					</c:if>
-					<li><a href="javascript:void()" onClick="goHome()"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-					<c:if test="${sId ne null}">
+					<li><a href="javascript:void()" onClick="goIndex()"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+					<c:if test="${!empty sId}">
 					<li><a>${sName }님</a></li>
 					</c:if>
 				</ul>
@@ -167,9 +172,9 @@
 						<li>menu6 sub5</li>
 					</ul>
 				</div>
-				<div class="menu1"><a href="notice/notice_list.html"><span class="maintitle">Notice & News</span></a>
+				<div class="menu1"><a href="javascript:void()" onClick="goNotice('list')"><span class="maintitle">Notice & News</span></a>
 					<ul>
-						<li><a href="notice/notice_list.html">Notice</a></li>
+						<li><a href="javascript:void()" onClick="goNotice('list')">Notice</a></li>
 						<li><a href="">News</a></li>
 						<li><a href="">Q & A</a></li>
 						<li><a href="">Free Board</a></li>
@@ -195,7 +200,7 @@
 				<li><a href="">Maintenance</a></li>
 				<li><a href="">Parts</a></li>
 				<li><a href="">Tires & Tubes</a></li>
-				<li><a href="notice/notice_list.html">Notice & News</a></li>
+				<li><a href="javascript:void()" onClick="goNotice('list')">Notice & News</a></li>
 			</ul>
 		</div>
 		
@@ -213,7 +218,7 @@
 		<hr><br>
 		<div id="b_left">
 			<p class="left_top">
-				<img src="images/left_top.jpg"><a href="notice/notice_list.html"><img src="images/left_right.jpg"></a>
+				<img src="images/left_top.jpg"><a href="javascript:void()" onClick="goNotice('list')"><img src="images/left_right.jpg"></a>
 			</p>
 			<div class="left_middle">
 				<ul>

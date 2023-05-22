@@ -39,7 +39,6 @@ public class Member extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
 		String page = "alert.jsp";
 		String requestPage = request.getParameter("t_requestPage");
 		if(requestPage == null) requestPage=(String)request.getAttribute("t_requestPage");
@@ -71,7 +70,9 @@ public class Member extends HttpServlet {
 		}else if(requestPage.equals("myinfo")) {
 			Myinfo member = new Myinfo();
 			member.excute(request);
-			page="member/member_myinfo.jsp";
+			String msg = (String)request.getAttribute("t_msg");
+			if(msg!=null) page="alert.jsp";
+			else page="member/member_myinfo.jsp";
 		//계정 삭제
 		}else if(requestPage.equals("DBdelete")) {
 			DBdelete member = new DBdelete();

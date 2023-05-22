@@ -1,3 +1,4 @@
+
 function test_alert(){
 	alert("imported");
 }

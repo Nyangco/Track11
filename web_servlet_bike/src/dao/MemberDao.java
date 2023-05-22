@@ -108,7 +108,8 @@ public class MemberDao {
 	
 	public MemberDto idCheckDB(String id, String password) {
 		MemberDto dto = null;
-		String sql = "select slevel, name, exit_date from bike_연석모_member where id='"+id+"' and password='"+password+"'";
+		String sql = "select slevel, name, to_char(exit_date,'yyyy-mm-dd') as exit_date, "
+				+ "to_char(last_login_date,'yyyy-mm-dd hh24:mi:ss') as last_login_date from bike_연석모_member where id='"+id+"' and password='"+password+"'";
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
@@ -116,8 +117,9 @@ public class MemberDao {
 			if(rs.next()) {
 				String sLevel = rs.getString("slevel");
 				String name = rs.getString("name");
+				String last_login_date = rs.getString("last_login_date");
 				String exit_date = rs.getString("exit_date");
-				dto = new MemberDto(sLevel,name,exit_date);
+				dto = new MemberDto(sLevel,name,exit_date,last_login_date);
 			}
 		}catch(SQLException e) {
 			System.out.println("idConfirmDB:"+sql);

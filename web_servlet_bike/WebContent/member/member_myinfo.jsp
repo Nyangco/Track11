@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/common_header.jsp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+input:disabled {
+    background: red;
+}
+</style>
 <script>
 	function goUpdate(){
 		mem.t_requestPage.value="update";
@@ -65,7 +70,11 @@
 				</tr>
 				<tr>
 				  <th>취미</th>
-				  <td>${t_dto.getName()}</td>
+				  <td>
+				  	<input type="checkbox" <c:if test="${t_dto.getHobby_travel() eq 'y'}">checked</c:if> disabled>여행 &nbsp;&nbsp;&nbsp;
+				  	<input type="checkbox" <c:if test="${t_dto.getHobby_reading() eq 'y'}">checked</c:if> disabled>독서&nbsp;&nbsp;&nbsp;
+				  	<input type="checkbox" <c:if test="${t_dto.getHobby_sports() eq 'y'}">checked</c:if> disabled>스포츠
+				  </td>
 				</tr>
 				<tr>
 				  <th>가입일</th>

@@ -32,11 +32,12 @@ public class MemberDto {
 	}
 
 	//세션 만들기 용
-	public MemberDto(String sLevel, String name, String exit_date) {
+	public MemberDto(String sLevel, String name, String exit_date, String last_login_date) {
 		super();
 		this.sLevel = sLevel;
 		this.name = name;
 		this.exit_date = exit_date;
+		this.last_login_date = last_login_date;
 	}
 
 

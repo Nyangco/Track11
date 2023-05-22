@@ -20,6 +20,8 @@ public class DBlogin implements CommonExcute {
 		MemberDao dao = new MemberDao();
 		String id = request.getParameter("t_id");
 		String password = request.getParameter("t_password");
+		String msg = "ID나 비밀번호가 맞지 않습니다.";
+		String url = "Index";
 		try {
 			password = CommonUtil.encryptSHA256(password);
 		}catch(NoSuchAlgorithmException e) {
@@ -29,18 +31,19 @@ public class DBlogin implements CommonExcute {
 		MemberDto dto = dao.idCheckDB(id, password);
 		if(dto!=null) {
 			if(dto.getExit_date()==null) {
-				dao.recentLogin(id);
 				session.setAttribute("sLevel", dto.getsLevel());
 				session.setAttribute("sName", dto.getName());
 				session.setAttribute("sId", id);
-				session.setMaxInactiveInterval(60*60);
-				request.setAttribute("t_msg", "로그인 되었습니다");
-				request.setAttribute("t_url", "Index");
+				session.setMaxInactiveInterval(60 * 60);
+				msg = "로그인 되었습니다. 최근 로그인 시간 : "+dto.getLast_login_date();
+				dao.recentLogin(id);
 			}else {
-				request.setAttribute("t_msg", "탈퇴한 사용자입니다.");
-				request.setAttribute("t_url", "Index");
+				msg = "탈퇴한 사용자입니다.";
 			}
 		}
+		
+		request.setAttribute("t_msg", msg);
+		request.setAttribute("t_url", url);
 		
 		
 	}

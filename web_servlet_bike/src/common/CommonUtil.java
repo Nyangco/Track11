@@ -9,7 +9,7 @@ public class CommonUtil {
 	
 	//파일 경로 잡는 method
 	public static String getFile_dir(String path) {
-		String result = "D:/track11_ysm/work_project/web_homepage_jsl/WebContent/attach/"+path+"/";
+		String result = "C:/track11_ysm/work_project/Track11/web_servlet_bike/WebContent/attach/"+path+"/";
 		return result;
 	}
 	
