@@ -13,8 +13,11 @@ import javax.servlet.http.HttpSession;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import command.notice.DBdelete;
 import command.notice.DBsave;
+import command.notice.DBupdate;
 import command.notice.List;
+import command.notice.Update;
 import command.notice.View;
 import command.notice.Write;
 
@@ -54,7 +57,7 @@ public class Notice extends HttpServlet {
 			notice.excute(request);
 			page="notice/notice_write.jsp";
 		//notice DB 저장
-		}else if(requestPage.equals("DBSave")) {
+		}else if(requestPage.equals("DBsave")) {
 			DBsave notice = new DBsave();
 			notice.excute(request);
 			page="alert.jsp";
@@ -63,6 +66,21 @@ public class Notice extends HttpServlet {
 			View notice = new View();
 			notice.excute(request);
 			page="notice/notice_view.jsp";
+		//삭제
+		}else if(requestPage.equals("DBdelete")) {
+			DBdelete notice = new DBdelete();
+			notice.excute(request);
+			page="alert.jsp";
+		//수정 화면으로 이동
+		}else if(requestPage.equals("update")) {
+			Update notice = new Update();
+			notice.excute(request);
+			page="notice/notice_update.jsp";
+		//수정 DB 조작
+		}else if(requestPage.equals("DBupdate")) {
+			DBupdate notice = new DBupdate();
+			notice.excute(request);
+			page="alert.jsp";
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher(page);

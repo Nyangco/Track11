@@ -15,6 +15,42 @@ public class NoticeDao {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
+	public int updateDB(NoticeDto dto,String delete) {
+		int k = 0;
+		String sql = "update bike_연석모_notice set title='"+dto.getTitle()+"', content='"+dto.getContent()+"', update_date=to_date('"+
+					dto.getUpdate_date()+"','yyyy-mm-dd hh24:mi:ss'), update_id='"+dto.getUpdate_id()+"'";
+		if(dto.getAttach()!=null) sql = sql + ", attach='"+dto.getAttach()+"'";
+		else if(delete.equals("y")) sql = sql + ", attach=''";
+		sql = sql + " where no = '"+dto.getNo()+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("updateDB : "+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
+	
+	public int deleteDB(String no) {
+		int k = 0;
+		String sql = "delete from bike_연석모_notice where no='"+no+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("deleteDB : "+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
 
 	public NoticeDto getNo(String gubun, String no) {
 		NoticeDto dto = null;
@@ -33,7 +69,7 @@ public class NoticeDao {
 				dto = new NoticeDto(newNo,title);
 			}
 		}catch(SQLException e) {
-			System.out.println("listDB : "+sql);
+			System.out.println("getNo : "+sql);
 			e.printStackTrace();
 		}finally {
 			DBConnection.closeDB(con, ps, rs);
@@ -56,10 +92,10 @@ public class NoticeDao {
 				String reg_name = rs.getString("name");
 				String reg_date = rs.getString("reg_date");
 				int hit = rs.getInt("hit");
-				dto = new NoticeDto(no,"",title,content,attach,reg_date,"",reg_name,hit);
+				dto = new NoticeDto(no,"",title,content,attach,reg_date,"","",reg_name,hit);
 			}
 		}catch(SQLException e) {
-			System.out.println("listDB : "+sql);
+			System.out.println("viewDB : "+sql);
 			e.printStackTrace();
 		}finally {
 			DBConnection.closeDB(con, ps, rs);
@@ -120,7 +156,7 @@ public class NoticeDao {
 				String reg_name = rs.getString("name");
 				String reg_date = rs.getString("reg_date");
 				int hit = rs.getInt("hit");
-				NoticeDto dto = new NoticeDto(no,"",title,"",attach,reg_date,"",reg_name,hit);
+				NoticeDto dto = new NoticeDto(no,"",title,"",attach,reg_date,"","",reg_name,hit);
 				arr.add(dto);
 			}
 		}catch(SQLException e) {

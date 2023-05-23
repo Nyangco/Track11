@@ -7,7 +7,7 @@
 		else if(checking(notice.t_content,2000,"내용"));
 		else{
 			notice.method="post";
-			notice.action="Notice?t_requestPage=DBSave";
+			notice.action="Notice?t_requestPage=DBsave";
 			notice.submit();
 		}
 	}

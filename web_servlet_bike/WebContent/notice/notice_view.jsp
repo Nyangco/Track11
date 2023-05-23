@@ -14,15 +14,24 @@
 		notice.action="Notice";
 		notice.submit();
 	}function goDelete(){
-		notice.t_requestPage.value="delete";
+		notice.t_requestPage.value="DBdelete";
 		notice.method="post";
 		notice.action="Notice";
 		notice.submit();
+	}function goDown(){
+		down.method="post";
+		down.action="/web_servlet_bike/common/filedown.jsp";
+		down.submit();
 	}
 </script>
+<form name="down">
+	<input type="hidden" name="t_fileDir" value="notice">
+	<input type="hidden" name="t_fileName" value="${t_dto.getAttach() }">
+</form>
 <form name="notice">
 	<input type="hidden" name="t_no" value="${t_dto.getNo() }">
 	<input type="hidden" name="t_requestPage" >
+	<input type="hidden" name="t_attach" value="${t_dto.getAttach() }">
 </form>
 	<div id="container">
 		<%@ include file="./notice_leftBoard.jsp" %>
@@ -52,7 +61,7 @@
 					</tr>	
 					<tr>
 						<th>Attach</th>
-						<td colspan="3">${t_dto.getAttach() }</td>
+						<td colspan="3"><c:if test="${t_dto.getAttach() ne null }"><a href="javascript:void()" onClick="goDown()">${t_dto.getAttach() }</a></c:if></td>
 					</tr>	
 					<tr>
 						<th>Writer</th>
