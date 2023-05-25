@@ -13,7 +13,6 @@
 	}
 </script>
 	<div id="container">
-		<%@ include file="./notice_leftBoard.jsp" %>
 		<div id="b_right">
 			<p class="n_title">
 				NOTICE

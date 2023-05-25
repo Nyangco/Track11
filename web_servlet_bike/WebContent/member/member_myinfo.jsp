@@ -20,6 +20,11 @@ input:disabled {
 			mem.action="Member";
 			mem.submit();
 		}
+	}function goPWchange(){
+		mem.t_requestPage.value="PWchange";
+		mem.method="post";
+		mem.action="Member";
+		mem.submit();
 	}
 </script>
 <form name="mem">
@@ -48,6 +53,10 @@ input:disabled {
 				<tr>
 				  <th>비밀번호</th>
 				  <td>${t_dto.getPassword()}</td>
+				</tr>
+				<tr>
+				  <th>이메일</th>
+				  <td>${t_dto.getEmail()}</td>
 				</tr>
 				<tr>
 				  <th>지역</th>
@@ -92,6 +101,7 @@ input:disabled {
 			</table>
 			<div class="buttonGroup_center">
 				<a href="javascript:void()" onClick="goUpdate()" class="butt">계정 정보 변경</a>
+				<a href="javascript:void()" onClick="goPWchange()" class="butt">비밀 번호 변경</a>
 				<a href="javascript:void()" onClick="goDelete()" class="butt">계정 삭제</a>
 			</div>	
 		</div>	

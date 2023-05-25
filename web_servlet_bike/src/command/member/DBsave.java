@@ -28,6 +28,7 @@ public class DBsave implements CommonExcute {
 			e.printStackTrace();
 		}
 		String area = request.getParameter("t_area");
+		String email = request.getParameter("t_email");
 		String address = request.getParameter("t_address");
 		String mobile_1 = request.getParameter("t_mobile_1");
 		String mobile_2 = request.getParameter("t_mobile_2");
@@ -39,7 +40,7 @@ public class DBsave implements CommonExcute {
 		String reg_date = CommonUtil.getToday();
 		msg+=reg_date;
 		MemberDto dto = new MemberDto(id,"",name,password,area,address,mobile_1,mobile_2,mobile_3,gender,hobby_travel_c,hobby_reading_c,hobby_sports_c,reg_date,"","","",password_len);
-		int k = dao.saveDB(dto);
+		int k = dao.saveDB(dto,email);
 		
 		if(k!=1) {
 			msg = "회원가입에 실패했습니다. 다시 작성해주세요.";

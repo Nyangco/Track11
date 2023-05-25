@@ -137,4 +137,16 @@
 				</li>
 			</ul>		
 		</div>	
+		<c:if test="${t_nowPage ne 'Member' }">
+			<div id="b_left">
+			<P>${t_nowPage }</P>
+			<ul>
+				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'Notice' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> NOTICE</a></li>
+				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'News' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> NEWS</a></li>
+				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'QNA' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> Q & A</a></li>
+				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'FreeBoard' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> FREE BOARD</a></li>
+				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'ETC' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> ETC</a></li>
+			</ul>
+			</div>
+		</c:if>
 	</div>

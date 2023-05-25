@@ -34,7 +34,6 @@
 	<input type="hidden" name="t_attach" value="${t_dto.getAttach() }">
 </form>
 	<div id="container">
-		<%@ include file="./notice_leftBoard.jsp" %>
 		<div id="b_right">
 			<p class="n_title">
 				NOTICE
@@ -94,8 +93,10 @@
 				
 			</div>			
 			<div class="buttonGroup">
+				<c:if test="${sLevel >= 1 }">
 				<a href="javascript:void()" onClick="if(confirm('정말로 삭제하시겠습니까?')) goDelete()" class="butt">Delete</a>
 				<a href="javascript:void()" onClick="goUpdate()" class="butt">Update</a>
+				</c:if>
 				<a href="javascript:void()" onClick="goNotice('list')" class="butt">List</a>
 			</div>	
 		</div>	

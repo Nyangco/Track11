@@ -21,7 +21,6 @@
 	}
 </script>
 	<div id="container">
-		<%@ include file="./notice_leftBoard.jsp" %>
 		<div id="b_right">
 			<p class="n_title">
 				NOTICE
@@ -77,7 +76,7 @@
 			
 			<div class="paging">
 				${t_paging }
-				<a href="javascript:void()" onClick="goNotice('write')" class="write">글쓰기</a>
+				<c:if test="${sLevel >= 1 }"><a href="javascript:void()" onClick="goNotice('write')" class="write">글쓰기</a></c:if>
 			</div>
 		</div>	
 	</div>

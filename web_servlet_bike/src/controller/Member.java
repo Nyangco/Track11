@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import command.member.DBPWchange;
+import command.member.DBPasswordFind;
 import command.member.DBdelete;
+import command.member.DBidFind;
 import command.member.DBlogin;
 import command.member.DBsave;
 import command.member.DBupdate;
@@ -39,11 +42,13 @@ public class Member extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
+		request.setAttribute("t_nowPage", "Member");
 		String page = "alert.jsp";
 		String requestPage = request.getParameter("t_requestPage");
 		if(requestPage == null) requestPage=(String)request.getAttribute("t_requestPage");
 		if(requestPage == null) requestPage="login"; // session 작업 완료 후 로그인 상태에서 들어올 시 마이페이지로 변경하기
 		if(requestPage.equals("")) requestPage="login";
+		request.setAttribute("t_requestPage", requestPage);
 		
 		//로그인
 		if(requestPage.equals("login")) {
@@ -88,7 +93,29 @@ public class Member extends HttpServlet {
 			DBupdate member = new DBupdate();
 			member.excute(request);
 			page="alert.jsp";
+		//ID/비밀번호 찾기
+		}else if(requestPage.equals("passwordFind")) {
+			page="member/member_passwordFind.jsp";
+		//ID 찾기 DB 작업
+		}else if(requestPage.equals("DBidFind")) {
+			DBidFind member = new DBidFind();
+			member.excute(request);
+			page="alert.jsp";
+		//비밀번호 찾기 DB 작업
+		}else if(requestPage.equals("DBpasswordFind")) {
+			DBPasswordFind member = new DBPasswordFind();
+			member.excute(request);
+			page="alert.jsp";
+		//비밀번호 변경
+		}else if(requestPage.equals("PWchange")) {
+			page="member/member_PWchange.jsp";
+		//비밀번호 변경 DB 작업
+		}else if(requestPage.equals("DBPWchange")) {
+			DBPWchange member = new DBPWchange();
+			member.excute(request);
+			page="alert.jsp";
 		}
+		
 		
 		
 		RequestDispatcher rd = request.getRequestDispatcher(page);

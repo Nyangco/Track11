@@ -44,6 +44,11 @@
 			alert("비밀번호가 일치하지 않습니다");
 			mem.t_password.focus();
 		}
+		else if(checking(mem.t_email,50,"이메일"));
+		else if(mem.t_email.value.indexOf("@")==-1){
+			alert("이메일 주소가 정상적이지 않습니다.");
+			mem.t_email.focus();
+		}
 		else if(checking(mem.t_area,5,"지역"));
 		else if(checking(mem.t_address,40,"주소"));
 		else if(checkingMobile(mem.t_mobile_1,3,"전화번호"));
@@ -65,14 +70,7 @@
 	}
 </script>
 	<div id="container">
-		<div id="b_left">
-			<P>MEMBER</P>
-			<ul>
-				<li><a href="javascript:void()" onClick="goMember('login')">LOGIN</a></li>
-				<li><a href="">ID / PASSWORD</a></li>
-				<li><a href="javascript:void()" onClick="goMember('join')"><span class="fnt"><i class="fas fa-apple-alt"></i></span> CONTACT</a></li>
-			</ul>
-		</div>
+	<%@include file="./member_leftN.jsp" %>
 		<div id="b_right">
 			<p class="n_title">
 				MEMBER JOIN
@@ -107,6 +105,10 @@
 				  <td><input name="t_password_confirm" type="password" size="13" maxlength="60"></td>
 				</tr>
 				<tr>
+				  <th>이메일</th>
+				  <td><input name="t_email" type="email" size="40" maxlength="50"></td>
+				</tr>
+				<tr>
 				  <th>지역</th>
 				  <td>
 					<select name="t_area">
@@ -117,7 +119,6 @@
 					</select>	  
 				  </td>
 				</tr>	
-				
 				<tr>
 				  <th>주소</th>
 				  <td><input name="t_address" type="text" size="40" maxlength="40"></td>

@@ -22,6 +22,7 @@
 </script>
 <script>
 	function goUpdate(){
+		ajax();
 		if(checking(mem.t_name,10,"이름"));
 		else if(checking(mem.t_area,5,"지역"));
 		else if(checking(mem.t_address,40,"주소"));
@@ -30,7 +31,6 @@
 		else if(checkingMobile(mem.t_mobile_3,4,"전화번호"));
 		else if(checking(mem.t_gender,1,"성별"));
 		else {
-			ajax();
 			if(mem.t_pwCheck.value==2){
 				alert("비밀번호 확인을 입력해주세요.");
 				mem.t_password.focus();
@@ -74,6 +74,11 @@
 				<tr>
 				  <th><label for="nana">성 명</label></th>
 				  <td><input name="t_name" type="text" size="8" id="nana" value="${t_dto.getName() }" ></td>
+				</tr>
+				<tr>
+				  <th>이메일</th>
+				  <td><input name="t_email" type="text" size="40" value="${t_dto.getEmail() }"></td>
+				</tr>
 				<tr>
 				  <th>지역</th>
 				  <td>
@@ -85,7 +90,6 @@
 					</select>	  
 				  </td>
 				</tr>	
-				
 				<tr>
 				  <th>주소</th>
 				  <td><input name="t_address" type="text" size="40" value="${t_dto.getAddress() }"></td>

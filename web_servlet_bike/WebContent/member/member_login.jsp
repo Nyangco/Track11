@@ -11,15 +11,7 @@
 	}
 </script>
 	<div id="container">
-		<div id="b_left">
-			<P>MEMBER</P>
-			<ul>
-				<li><a href="javascript:void()" onClick="goMember('login')"><span class="fnt"><i class="fas fa-apple-alt"></i></span>LOGIN</a></li>
-				<li><a href="">ID / PASSWORD</a></li>
-				<li><a href="javascript:void()" onClick="goMember('join')"> CONTACT</a></li>
-			</ul>
-		</div>
-		
+		<%@include file="./member_leftN.jsp" %>
 		<div id="b_right">
 			<p class="n_title">
 				MEMBER LOGIN 

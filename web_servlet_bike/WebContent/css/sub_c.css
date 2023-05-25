@@ -411,9 +411,9 @@
 .login_form .btn_login {
     position: absolute;
     top: 0;
-    right: -108px;
+    right: -110px;
     display: block;
-    width: 98px;
+    width: 106px;
     height: 84px;
     line-height: 84px;
     text-align: center;

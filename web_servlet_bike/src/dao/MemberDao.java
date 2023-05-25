@@ -15,6 +15,72 @@ public class MemberDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public int setMemberPW(String id, String oldPW, String newPW) {
+		int k = 0;
+		String sql = "update bike_연석모_member set password='"+newPW+"' where id = '"+id+"' and password='"+oldPW+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("setMemberPW:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
+	
+	public int setMemberPW(String id, String pw) {
+		int k = 0;
+		String sql = "update bike_연석모_member set password='"+pw+"' where id = '"+id+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("setMemberPW:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
+	
+	public String checkMemberID(String name, String email) {
+		String result = null;
+		String sql = "select id from bike_연석모_member where name='"+name+"' and email='"+email+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) result=rs.getString("id");
+		}catch(SQLException e) {
+			System.out.println("checkMemberID:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return result;
+	}
+
+	public String checkMemberPW(String id, String email) {
+		String result = null;
+		String sql = "select name from bike_연석모_member where id='"+id+"' and email='"+email+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) result=rs.getString("name");
+		}catch(SQLException e) {
+			System.out.println("checkMemberPW:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return result;
+	}
+	
 	public String getPw(String id) {
 		String result = null;
 		String sql = "select password from bike_연석모_member where id = '"+id+"'";
@@ -24,7 +90,7 @@ public class MemberDao {
 			rs = ps.executeQuery();
 			if(rs.next()) result=rs.getString("password");
 		}catch(SQLException e) {
-			System.out.println("deleteDB:"+sql);
+			System.out.println("getPw:"+sql);
 			e.printStackTrace();
 		}finally {
 			DBConnection.closeDB(con, ps, rs);
@@ -32,19 +98,19 @@ public class MemberDao {
 		return result;
 	}
 	
-	public int updateDB(MemberDto dto) {
+	public int updateDB(MemberDto dto, String email) {
 		int k = 0;
 		String sql = "update bike_연석모_member set name='"+dto.getName()+"', area='"+dto.getArea()+"', address='"+
 					dto.getAddress()+"', mobile_1='"+dto.getMobile_1()+"', mobile_2='"+dto.getMobile_2()+"', mobile_3='"+
 					dto.getMobile_3()+"', gender='"+dto.getGender()+"', hobby_travel='"+dto.getHobby_travel()+"', hobby_reading='"+
 					dto.getHobby_reading()+"', hobby_sports='"+dto.getHobby_sports()+"', update_date=to_date('"+
-					CommonUtil.getTodayTime()+"','yyyy-mm-dd hh24:mi:ss') where id = '"+dto.getId()+"'";
+					CommonUtil.getTodayTime()+"','yyyy-mm-dd hh24:mi:ss'), email='"+email+"' where id = '"+dto.getId()+"'";
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
 			k = ps.executeUpdate();
 		}catch(SQLException e) {
-			System.out.println("deleteDB:"+sql);
+			System.out.println("updateDB:"+sql);
 			e.printStackTrace();
 		}finally {
 			DBConnection.closeDB(con, ps, rs);
@@ -72,7 +138,7 @@ public class MemberDao {
 		MemberDto dto = null;
 		String sql = "select id, slevel, name, password_len, area, address, mobile_1, mobile_2, mobile_3, gender, hobby_travel, hobby_reading, hobby_sports, "
 					+ "to_char(reg_date,'yyyy-mm-dd') as reg_date, to_char(update_date,'yyyy-mm-dd') as update_date, "
-					+ "to_char(last_login_date,'yyyy-mm-dd hh24:mi:ss') as last_login_date from bike_연석모_member where id = '"+id+"'";
+					+ "to_char(last_login_date,'yyyy-mm-dd hh24:mi:ss') as last_login_date, email from bike_연석모_member where id = '"+id+"'";
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
@@ -97,10 +163,11 @@ public class MemberDao {
 				for(int k = 0; k<password_len; k++) {
 					password+="*";
 				}
-				dto = new MemberDto(id,slevel,name,password,area,address,mobile_1,mobile_2,mobile_3,gender,hobby_travel,hobby_reading,hobby_sports,reg_date,update_date,last_login_date,"",0);
+				String email = rs.getString("email");
+				dto = new MemberDto(id,slevel,name,password,area,address,mobile_1,mobile_2,mobile_3,gender,hobby_travel,hobby_reading,hobby_sports,reg_date,update_date,last_login_date,"",email,0);
 			}
 		}catch(SQLException e) {
-			System.out.println("myinfo : "+sql);
+			System.out.println("myinfoDB : "+sql);
 			e.printStackTrace();
 		}finally {
 			DBConnection.closeDB(con, ps, rs);
@@ -166,13 +233,13 @@ public class MemberDao {
 		return k;
 	}
 		
-	public int saveDB(MemberDto dto) {
+	public int saveDB(MemberDto dto, String email) {
 		int k = 0;
 		String sql = "insert into bike_연석모_member (id, name, password, area, address, mobile_1, mobile_2, mobile_3, "
-					+ "gender, hobby_travel, hobby_reading, hobby_sports, reg_date, password_len) values ('"+dto.getId()+"', '"
+					+ "gender, hobby_travel, hobby_reading, hobby_sports, reg_date, password_len, email) values ('"+dto.getId()+"', '"
 					+dto.getName()+"', '"+dto.getPassword()+"', '"+dto.getArea()+"', '"+dto.getAddress()+"', '"+dto.getMobile_1()+"', '"
 					+dto.getMobile_2()+"', '"+dto.getMobile_3()+"', '"+dto.getGender()+"', '"+dto.getHobby_travel()+"', '"
-					+dto.getHobby_reading()+"', '"+dto.getHobby_sports()+"', to_date('"+dto.getReg_date()+"','yyyy-mm-dd'),"+dto.getPassword_len()+")";
+					+dto.getHobby_reading()+"', '"+dto.getHobby_sports()+"', to_date('"+dto.getReg_date()+"','yyyy-mm-dd'),"+dto.getPassword_len()+",'"+email+"')";
 		
 		try {
 			con = DBConnection.getConnection();

@@ -37,7 +37,7 @@ public class PwCheck extends HttpServlet {
 		MemberDao dao = new MemberDao();
 		String id = request.getParameter("t_id");
 		String password = request.getParameter("t_password");
-		if(password==null) out.print("2");
+		if(password.equals("")) out.print("2");
 		else {
 			try {
 				password = CommonUtil.encryptSHA256(password);
