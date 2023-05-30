@@ -20,6 +20,7 @@ import command.member.DBupdate;
 import command.member.Logout;
 import command.member.Myinfo;
 import command.member.Update;
+import common.CommonUtil;
 
 /**
  * Servlet implementation class Member
@@ -43,12 +44,14 @@ public class Member extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		request.setAttribute("t_nowPage", "Member");
-		String page = "alert.jsp";
+		
 		String requestPage = request.getParameter("t_requestPage");
 		if(requestPage == null) requestPage=(String)request.getAttribute("t_requestPage");
 		if(requestPage == null) requestPage="login"; // session 작업 완료 후 로그인 상태에서 들어올 시 마이페이지로 변경하기
 		if(requestPage.equals("")) requestPage="login";
 		request.setAttribute("t_requestPage", requestPage);
+		
+		String page = "alert.jsp";
 		
 		//로그인
 		if(requestPage.equals("login")) {
@@ -73,26 +76,31 @@ public class Member extends HttpServlet {
 			page="alert.jsp";
 		//내 정보
 		}else if(requestPage.equals("myinfo")) {
-			Myinfo member = new Myinfo();
-			member.excute(request);
-			String msg = (String)request.getAttribute("t_msg");
-			if(msg!=null) page="alert.jsp";
-			else page="member/member_myinfo.jsp";
+			if(CommonUtil.checkSession(request)) {
+				Myinfo member = new Myinfo();
+				member.excute(request);
+				page="member/member_myinfo.jsp";
+			}
 		//계정 삭제
 		}else if(requestPage.equals("DBdelete")) {
-			DBdelete member = new DBdelete();
-			member.excute(request);
-			page="alert.jsp";
+			if(CommonUtil.checkSession(request)) {
+				DBdelete member = new DBdelete();
+				member.excute(request);
+				page="alert.jsp";
+			}
 		//계정 정보 변경
 		}else if(requestPage.equals("update")) {
-			Update member = new Update();
-			member.excute(request);
-			page="member/member_update.jsp";
+			if(CommonUtil.checkSession(request)) {
+				Update member = new Update();
+				member.excute(request);
+				page="member/member_update.jsp";
+			}
 		//DB 수정
 		}else if(requestPage.equals("DBupdate")) {
-			DBupdate member = new DBupdate();
-			member.excute(request);
-			page="alert.jsp";
+			if(CommonUtil.checkSession(request)) {
+				DBupdate member = new DBupdate();
+				member.excute(request);
+			}
 		//ID/비밀번호 찾기
 		}else if(requestPage.equals("passwordFind")) {
 			page="member/member_passwordFind.jsp";
@@ -100,23 +108,22 @@ public class Member extends HttpServlet {
 		}else if(requestPage.equals("DBidFind")) {
 			DBidFind member = new DBidFind();
 			member.excute(request);
-			page="alert.jsp";
 		//비밀번호 찾기 DB 작업
 		}else if(requestPage.equals("DBpasswordFind")) {
 			DBPasswordFind member = new DBPasswordFind();
 			member.excute(request);
-			page="alert.jsp";
 		//비밀번호 변경
 		}else if(requestPage.equals("PWchange")) {
-			page="member/member_PWchange.jsp";
+			if(CommonUtil.checkSession(request)) {
+				page="member/member_PWchange.jsp";
+			}
 		//비밀번호 변경 DB 작업
 		}else if(requestPage.equals("DBPWchange")) {
-			DBPWchange member = new DBPWchange();
-			member.excute(request);
-			page="alert.jsp";
+			if(CommonUtil.checkSession(request)) {
+				DBPWchange member = new DBPWchange();
+				member.excute(request);
+			}
 		}
-		
-		
 		
 		RequestDispatcher rd = request.getRequestDispatcher(page);
 		rd.forward(request, response);	

@@ -43,13 +43,16 @@ public class Notice extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		request.setAttribute("t_nowPage", "Notice");
+		
 		HttpSession session = request.getSession();
 		String ssLevel = (String)session.getAttribute("sLevel");
 		if(ssLevel==null) ssLevel="0";
 		int sLevel = Integer.parseInt(ssLevel);
-		String page="alert.jsp";
+		
 		String requestPage = request.getParameter("t_requestPage");
 		if(requestPage==null || requestPage.equals("")) requestPage = "list";
+
+		String page="alert.jsp";
 		
 		//리스트
 		if(requestPage.equals("list")) {

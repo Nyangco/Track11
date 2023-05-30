@@ -15,9 +15,9 @@ public class MemberDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	public int setMemberPW(String id, String oldPW, String newPW) {
+	public int setMemberPW(String id, String oldPW, String newPW, int pwLength) {
 		int k = 0;
-		String sql = "update bike_연석모_member set password='"+newPW+"' where id = '"+id+"' and password='"+oldPW+"'";
+		String sql = "update bike_연석모_member set password='"+newPW+"', PASSWORD_LEN="+pwLength+" where id = '"+id+"' and password='"+oldPW+"'";
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
@@ -31,9 +31,9 @@ public class MemberDao {
 		return k;
 	}
 	
-	public int setMemberPW(String id, String pw) {
+	public int setMemberPW(String id, String pw, int pwLength) {
 		int k = 0;
-		String sql = "update bike_연석모_member set password='"+pw+"' where id = '"+id+"'";
+		String sql = "update bike_연석모_member set password='"+pw+"', PASSWORD_LEN="+pwLength+" where id = '"+id+"'";
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);

@@ -26,8 +26,9 @@ public class DBPasswordFind implements CommonExcute {
 			String nPassword = "";
 			try {
 				nPassword = CommonUtil.getNewPassword(8);
+				int PASSWORD_LEN = nPassword.length();
 				String newPassword = CommonUtil.encryptSHA256(nPassword);
-				int k = dao.setMemberPW(id, newPassword);
+				int k = dao.setMemberPW(id, newPassword,PASSWORD_LEN);
 				if(k==1) {
 					String mailSet_Server="smtp.mail.nate.com"; // 보내는 메일 server
 					String mailSet_ID="ysm951204";        // 보내는 메일 ID

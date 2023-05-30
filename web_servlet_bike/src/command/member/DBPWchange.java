@@ -17,6 +17,7 @@ public class DBPWchange implements CommonExcute {
 		String id = request.getParameter("t_id");
 		String oldPW = request.getParameter("t_oldPassword");
 		String newPW = request.getParameter("t_newPassword");
+		int pwLength = newPW.length();
 		try {
 			oldPW = CommonUtil.encryptSHA256(oldPW);
 			newPW = CommonUtil.encryptSHA256(newPW);
@@ -24,7 +25,7 @@ public class DBPWchange implements CommonExcute {
 			e.printStackTrace();
 		}
 		String msg = "변경에 실패하였습니다."; String url="Member"; String nextPage="PWchange";
-		int k = dao.setMemberPW(id, oldPW, newPW);
+		int k = dao.setMemberPW(id, oldPW, newPW,pwLength);
 		if(k==1) {
 			msg = "변경에 성공하였습니다.";
 			nextPage = "myinfo";

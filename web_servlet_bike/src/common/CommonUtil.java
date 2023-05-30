@@ -6,7 +6,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 public class CommonUtil {
+	
+	public static boolean checkSession(HttpServletRequest request) {
+		boolean tf = false;
+		HttpSession session = request.getSession();
+		String sLevel = (String)session.getAttribute("sLevel");
+		if(sLevel==null) {
+			request.setAttribute("t_msg", "로그인 정보가 만료되었습니다.");
+			request.setAttribute("t_url", "Member");
+			request.setAttribute("t_nextPage", "login");
+		}else tf = true;
+		return tf;
+	}
 	
 	//새로운 비밀번호 생성
 	public static String getNewPassword(int pwLength) {

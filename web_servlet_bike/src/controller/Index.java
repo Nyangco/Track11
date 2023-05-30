@@ -36,7 +36,6 @@ public class Index extends HttpServlet {
 		String requestPage = request.getParameter("t_requestPage");
 		if(requestPage == null) requestPage=(String)request.getAttribute("t_requestPage");
 		if(requestPage == null) requestPage="";
-		if(requestPage.equals("")) requestPage="";
 		
 		RequestDispatcher rd = request.getRequestDispatcher(page);
 		rd.forward(request, response);
