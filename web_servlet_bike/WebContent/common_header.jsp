@@ -31,6 +31,26 @@
 		goGo.method="post";
 		goGo.action="Notice";
 		goGo.submit();
+	}function goNews(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="News";
+		goGo.submit();
+	}function goQna(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Qna";
+		goGo.submit();
+	}function goFreeBoard(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="FreeBoard";
+		goGo.submit();
+	}function goEtc(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Etc";
+		goGo.submit();
 	}
 </script>
 </head>
@@ -128,10 +148,10 @@
 					<div class="div7">
 						<ul>
 							<li><a href="javascript:void()" onClick="goNotice('list')">NOTICE</a></li>
-							<li><a href="">NEWS</a></li>
-							<li><a href="">Q AND A</a></li>
-							<li><a href="">FREE BOARD</a></li>
-							<li><a href="">ETC</a></li>
+							<li><a href="javascript:void()" onClick="goNews('list')">NEWS</a></li>
+							<li><a href="javascript:void()" onClick="goQna('list')">Q & A</a></li>
+							<li><a href="javascript:void()" onClick="goFreeBoard('list')">FREE BOARD</a></li>
+							<li><a href="javascript:void()" onClick="goEtc('list')">ETC</a></li>
 						</ul>
 					</div>					
 				</li>
@@ -142,10 +162,10 @@
 			<P>${t_nowPage }</P>
 			<ul>
 				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'Notice' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> NOTICE</a></li>
-				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'News' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> NEWS</a></li>
-				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'QNA' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> Q & A</a></li>
-				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'FreeBoard' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> FREE BOARD</a></li>
-				<li><a href="javascript:void()" onClick="goNotice('list')"><c:if test="${t_nowPage eq 'ETC' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> ETC</a></li>
+				<li><a href="javascript:void()" onClick="goNews('list')"><c:if test="${t_nowPage eq 'News' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> NEWS</a></li>
+				<li><a href="javascript:void()" onClick="goQna('list')"><c:if test="${t_nowPage eq 'Qna' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> Q & A</a></li>
+				<li><a href="javascript:void()" onClick="goFreeBoard('list')"><c:if test="${t_nowPage eq 'FreeBoard' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> FREE BOARD</a></li>
+				<li><a href="javascript:void()" onClick="goEtc('list')"><c:if test="${t_nowPage eq 'Etc' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> ETC</a></li>
 			</ul>
 			</div>
 		</c:if>

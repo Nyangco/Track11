@@ -79,20 +79,25 @@ public class NoticeDao {
 	
 	public NoticeDto viewDB(String no) {
 		NoticeDto dto = null;
-		String sql = "select n.title, n.hit, n.content, n.attach, m.name, to_char(n.reg_date,'yyyy-mm-dd') as reg_date "
-					+ "from bike_연석모_notice n, bike_연석모_member m where no = '"+no+"'";
+		String sql = "select n.title, n.hit, n.content, n.attach, m.name as reg_name, to_char(n.reg_date,'yyyy-mm-dd') as reg_date, "
+					+ "u.name as update_name, to_char(n.update_date,'yyyy-mm-dd hh24:mi:ss') as update_date "
+					+ "from bike_연석모_notice n, bike_연석모_member m, bike_연석모_member u "
+					+ "where m.id = n.reg_id and no = '"+no+"' and ((u.id = n.update_id) or (u.id='000')) " ;
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
-			while(rs.next()) {
+			if(rs.next()) {
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				String attach = rs.getString("attach");
-				String reg_name = rs.getString("name");
+				String reg_name = rs.getString("reg_name");
 				String reg_date = rs.getString("reg_date");
+				String update_name = rs.getString("update_name");
+				String update_date = rs.getString("update_date");
+				if(update_date==null) update_date="수정 이력 없음";
 				int hit = rs.getInt("hit");
-				dto = new NoticeDto(no,"",title,content,attach,reg_date,"","",reg_name,hit);
+				dto = new NoticeDto(no,"",title,content,attach,reg_date,update_date,update_name,reg_name,hit);
 			}
 		}catch(SQLException e) {
 			System.out.println("viewDB : "+sql);

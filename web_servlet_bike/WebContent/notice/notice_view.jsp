@@ -68,6 +68,12 @@
 						<th>RegDate</th>
 						<td>${t_dto.getReg_date() }</td>
 					</tr>	
+					<tr>
+						<th>Updater</th>
+						<td>${t_dto.getUpdate_id() }</td>
+						<th>UpdateDate</th>
+						<td>${t_dto.getUpdate_date() }</td>
+					</tr>	
 
 				</tbody>
 			</table>

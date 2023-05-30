@@ -13,8 +13,8 @@ public class View implements CommonExcute {
 		// TODO Auto-generated method stub
 		NoticeDao dao = new NoticeDao();
 		String no = request.getParameter("t_no");
-		dao.getHit(no);
 		NoticeDto dto = dao.viewDB(no);
+		dao.getHit(no);
 		request.setAttribute("t_dto", dto);
 		NoticeDto preDto = dao.getNo("pre",no);
 		request.setAttribute("t_preDto", preDto);
