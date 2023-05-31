@@ -26,6 +26,7 @@ public class List implements CommonExcute {
 		
 		
 		int total_count = dao.totalCountDB(select,search);
+		request.setAttribute("t_totalCount", total_count);
 		int list_setup_count = 5;  //한페이지당 출력 행수 
 		int pageNumber_count = 3;  //한페이지당 출력 페이지 갯수
 		
@@ -48,6 +49,9 @@ public class List implements CommonExcute {
 		
 		ArrayList<NoticeDto> arr = dao.listDB(select,search,start,end);
 		request.setAttribute("t_arr", arr);
+		
+		int k = total_count - (current_page -1) * list_setup_count;
+		request.setAttribute("t_order", k);
 		
 	}
 
