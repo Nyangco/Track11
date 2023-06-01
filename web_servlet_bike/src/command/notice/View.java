@@ -20,6 +20,12 @@ public class View implements CommonExcute {
 		request.setAttribute("t_preDto", preDto);
 		NoticeDto proDto = dao.getNo("pro",no);
 		request.setAttribute("t_proDto", proDto);
+		String extension="";
+		if(dto.getAttach()!=null) {
+			int len = dto.getAttach().indexOf(".");
+			extension = dto.getAttach().substring(len+1);
+		}
+		request.setAttribute("t_extension", extension);
 	}
 
 }

@@ -56,6 +56,9 @@
 						<th>Content</th>
 						<td colspan="3">
 							<textarea class="textArea_H250_noBorder" readonly>${t_dto.getContent() }</textarea>
+							<c:if test="${t_extension eq 'jpg' || t_extension eq 'png' || t_extension eq 'gif' || t_extension eq 'jpeg' || t_extension eq 'webp' || t_extension eq 'svg'}">
+								<img src="attach/notice/${t_dto.getAttach() }" width="600">
+							</c:if>
 						</td>
 					</tr>	
 					<tr>
