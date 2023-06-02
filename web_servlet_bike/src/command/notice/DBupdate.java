@@ -39,8 +39,9 @@ public class DBupdate implements CommonExcute {
 			
 			int k = dao.updateDB(dto,delete);
 			String msg = "수정에 실패했습니다."; String url="Notice?t_no"+no; String nextPage="view";
+			System.out.println(ori_attach);
 			if(k==1) {
-				if((attach!=null || delete.equals("y"))&&ori_attach.equals("null")) {
+				if((attach!=null || delete.equals("y"))) {
 					File f = new File(noticeDir+ori_attach);
 					boolean tf = true;
 					if(f.exists()) tf = f.delete();
