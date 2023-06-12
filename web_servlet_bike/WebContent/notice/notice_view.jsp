@@ -20,7 +20,7 @@
 		notice.submit();
 	}function goDown(){
 		down.method="post";
-		down.action="/web_servlet_bike/common/filedown.jsp";
+		down.action="Filedown";
 		down.submit();
 	}
 </script>
@@ -83,9 +83,12 @@
 			<div class="preNext">
 				<c:if test="${t_preDto ne null }">
 					<a href="javascript:void()" onClick="goView('${t_preDto.getNo()}')">
-						<p class="pre"><span><i class="fa-solid fa-circle-arrow-left"></i> 이전글</span> 
+						<p class="pre"><span><i class="fa-solid fa-circle-arrow-left"></i> 이전글</span>
 							<span class="preNextTitle">
-										${t_preDto.getTitle() }
+								<c:choose>
+									<c:when test="${fn:length(t_preDto.getTitle())>5 }">${fn:substring(t_preDto.getTitle(),0,5) }...</c:when>
+									<c:otherwise>${t_preDto.getTitle()}</c:otherwise>
+								</c:choose>
 							</span>
 						</p>
 					</a>
@@ -94,7 +97,10 @@
 					<a href="javascript:void()" onClick="goView('${t_proDto.getNo()}')">
 						<p class="next"><span>다음글 <i class="fa-solid fa-circle-right"></i></span>
 							<span class="preNextTitle">
-										${t_proDto.getTitle() }
+								<c:choose>
+									<c:when test="${fn:length(t_proDto.getTitle())>5 }">${fn:substring(t_proDto.getTitle(),0,5) }...</c:when>
+									<c:otherwise>${t_proDto.getTitle()}</c:otherwise>
+								</c:choose>
 							</span>
 						</p>
 					</a>
