@@ -105,7 +105,6 @@
 						</p>
 					</a>
 				</c:if>
-				
 			</div>			
 			<div class="buttonGroup">
 				<c:if test="${sLevel >= 1 }">

@@ -1,94 +1,111 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <%@include file="../common_header.jsp"%>
-<script type="text/javascript">
-	$(function(){					
-		function readImage(input) {
-		    // 인풋 태그에 파일이 있는 경우
-		    if(input.files && input.files[0]) {
-		        // 이미지 파일인지 검사 (생략)
-		        // FileReader 인스턴스 생성
-		        const reader = new FileReader()
-		        // 이미지가 로드가 된 경우
-		        reader.onload = e => {
-		            const previewImage = document.getElementById("preview-image")
-		            previewImage.src = e.target.result;
-		        }
-		        // reader가 이미지 읽도록 하기
-		        reader.readAsDataURL(input.files[0])
-		    } else {
-		    	// 이미지 안올렸으면
-				$("#preview-image").attr('src','');
-				$("#preview-image").css("display","none");
-		    }
-		}
-		// input file에 change 이벤트 부여
-		const inputImage = document.getElementById("input-image");
-		inputImage.addEventListener("change", e => {
-			$("#preview-image").css("display","block");
-		    readImage(e.target)
-		})	
-	});	
-</script>
 <script>
-	function goSave(){
-		if(checking(news.t_title,50,"제목"));
-		else if(checking(news.t_content,500,"내용"));
-		else if(checking(news.t_attach,25,"첨부파일"));
-		else {
-			news.method="post";
-			news.action="News?t_requestPage=DBsave";
-			news.submit();
-		}
+	function goUpdate(){
+		news.t_requestPage.value="update";
+		news.method="post";
+		news.action="News";
+		news.submit();
+	}function goDelete(){
+		news.t_requestPage.value="DBdelete";
+		news.method="post";
+		news.action="News";
+		news.submit();
+	}function goView(no){
+		news.t_no.value=no;
+		news.method="post";
+		news.action="News";
+		news.submit();
+	}function goDown(){
+		down.method="post";
+		down.action="Filedown";
+		down.submit();
 	}
 </script>
-<style>
-	#preview-image {
-		border:1px solid gray;
-	}					
-</style>
+<form name="down">
+	<input type="hidden" name="t_fileDir" value="news">
+	<input type="hidden" name="t_fileName" value="${t_dto.getAttach() }">
+</form>
+<form name="news">
+	<input type="hidden" name="t_requestPage" value="view">
+	<input type="hidden" name="t_no" value="${t_dto.getNo() }">
+	<input type="hidden" name="t_attach" value="${t_dto.getAttach() }">
+</form>
 	<div id="container">
 		<div id="b_right">
 			<p class="n_title">
-				News
+				NEWS
 			</p>
-			<form name="news" enctype="multipart/form-data">
 			<table class="boardForm">
 				<colgroup>
 					<col width="15%">
-					<col width="35%">
+					<col width="55%">
 					<col width="10%">
-					<col width="40%">
+					<col width="20%">
 				</colgroup>
 				<tbody>
 					<tr>
-						<th rowspan="2" style="width:70px;">Image</th>
-						<td rowspan="2"><img id="preview-image" style="width:228px;border:1px solid gray;"></td>
-						<th style="width:70px;">Title</th>
-						<td ><input type="text" class="input600" style="width:230px;" name="t_title"></td>
+						<th>Title</th>
+						<td colspan="2">${t_dto.getTitle() }</td>
+						<td> <i class="far fa-eye"></i> ${t_dto.getHit() }</td>
 					</tr>	
 					<tr>
-						<th style="width:70px;">Content</th>
-						<td ><textarea class="textArea_H250" style="width:228px;" name="t_content"></textarea></td>
+						<td colspan="4" >
+							<img src="attach/news/${t_dto.getAttach() }"style="width:298px;border:1px solid gray; margin-bottom:30px;">
+							<textarea class="textArea_H250" style="width:390px;resize:none;border:none;" name="t_content" readonly>${t_dto.getContent() }</textarea>
+						</td>
 					</tr>	
 					<tr>
 						<th style="width:70px;">Attach</th>
-						<td colspan="3">※이미지 첨부 필수 230px * 230px 권장<br><input type="file" class="input600" name="t_attach" ></td>
+						<td colspan="3"><a href="javascript:void()" onclick="goDown()">${t_dto.getAttach() }</a></td>
 					</tr>	
 					<tr>
 						<th style="width:70px;">Writer</th>
-						<td><input type="text" class="input100" value="${sName }" readonly></td>
+						<td>${t_dto.getReg_name()}</td>
 						<th style="width:70px;">RegDate</th>
-						<td><input type="date" class="input130" value="${t_today }" readonly></td>
+						<td>${t_dto.getReg_date()}</td>
+					</tr>	
+					<tr>
+						<th style="width:70px;">Updater</th>
+						<td>${t_dto.getUpdate_name()}</td>
+						<th style="width:70px;">UpdateDate</th>
+						<td>${t_dto.getUpdate_date()}</td>
 					</tr>	
 
 				</tbody>
 			</table>
-			</form>
+			<div class="preNext">
+				<c:if test="${t_preDto ne null }">
+					<a href="javascript:void()" onClick="goView('${t_preDto.getNo()}')">
+						<p class="pre"><span><i class="fa-solid fa-circle-arrow-left"></i> 이전글</span>
+							<span class="preNextTitle">
+								<c:choose>
+									<c:when test="${fn:length(t_preDto.getTitle())>5 }">${fn:substring(t_preDto.getTitle(),0,5) }...</c:when>
+									<c:otherwise>${t_preDto.getTitle()}</c:otherwise>
+								</c:choose>
+							</span>
+						</p>
+					</a>
+				</c:if>
+				<c:if test="${t_proDto ne null }">
+					<a href="javascript:void()" onClick="goView('${t_proDto.getNo()}')">
+						<p class="next"><span>다음글 <i class="fa-solid fa-circle-right"></i></span>
+							<span class="preNextTitle">
+								<c:choose>
+									<c:when test="${fn:length(t_proDto.getTitle())>5 }">${fn:substring(t_proDto.getTitle(),0,5) }...</c:when>
+									<c:otherwise>${t_proDto.getTitle()}</c:otherwise>
+								</c:choose>
+							</span>
+						</p>
+					</a>
+				</c:if>
+			</div>
 			<div class="buttonGroup">
-				<a href="javascript:void()" onClick="goSave()" class="butt">Save</a>
+				<c:if test="${sLevel >= 1 }">
+				<a href="javascript:void()" onClick="if(confirm('정말로 삭제하시겠습니까?')) goDelete()" class="butt">Delete</a>
+				<a href="javascript:void()" onClick="goUpdate()" class="butt">Update</a>
+				</c:if>
 				<a href="javascript:void()" onClick="goNews('list')" class="butt">List</a>
 			</div>	
 		</div>	

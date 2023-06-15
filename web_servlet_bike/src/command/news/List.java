@@ -18,6 +18,11 @@ public class List implements CommonExcute {
 		
 		String select = request.getParameter("t_select");
 		String search = request.getParameter("t_search");
+		if(select == null) {
+			select="title"; search="";
+		}
+		request.setAttribute("t_select", select);
+		request.setAttribute("t_search", search);
 		
 		int total_count = dao.totalCountDB(select,search);
 		request.setAttribute("t_totalCount", total_count);
@@ -37,9 +42,15 @@ public class List implements CommonExcute {
 		
 		int start = (current_page -1) * list_setup_count + 1;
 		int end   = current_page * list_setup_count;
+		int k = total_count - (current_page -1) * list_setup_count;
+		request.setAttribute("t_order", k);		
 		
 		String paging = CommonUtil.pageListPost(current_page, total_page, pageNumber_count);
 		request.setAttribute("t_paging", paging);
+		
+		ArrayList<NewsDto> arr = dao.listDB(select,search,start,end);
+		request.setAttribute("t_arr", arr);
+		
 	}
 
 }

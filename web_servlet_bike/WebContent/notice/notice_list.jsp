@@ -60,13 +60,10 @@
 					</tr>
 				</thead>
 				<tbody>
-				<c:set var="num" value="${ t_order}"></c:set>
+				<c:set var="number" value="${ t_order}"></c:set>
 					<c:forEach items="${t_arr }" var="arr">
 						<tr>
-							<td>
-								${num}
-								<c:set var="num" value="${ num-1}"></c:set>
-							</td>
+							<td>${number}<c:set value="${number -1 }" var="number"></c:set></td>
 							<td class="t_left"><a href="javascript:void()" onClick="goView('${arr.getNo() }')">${arr.getTitle() }</a></td>
 							<td><c:if test="${not empty arr.getAttach() }"><img src="images/clip.png"></c:if></td>
 							<td>${arr.getReg_name() }</td>

@@ -70,17 +70,19 @@ public class News extends HttpServlet {
 			if(sLevel>0) {
 				DBsave news = new DBsave();
 				news.excute(request);
-				page="alert.jsp";
 			}else {
 				request.setAttribute("t_msg", "접근 권한이 없습니다.");
 				request.setAttribute("t_url", "News");
 			}
 		}if(requestPage.equals("view")) {
 			View news = new View();
-			
+			news.excute(request);
+			page="news/news_view.jsp";
 		}if(requestPage.equals("update")) {
 			if(sLevel>0) {
 				Update news = new Update();
+				news.excute(request);
+				page="news/news_update.jsp";
 			}else {
 				request.setAttribute("t_msg", "접근 권한이 없습니다.");
 				request.setAttribute("t_url", "News");
@@ -88,6 +90,7 @@ public class News extends HttpServlet {
 		}if(requestPage.equals("DBupdate")) {
 			if(sLevel>0) {
 				DBupdate news = new DBupdate();
+				news.excute(request);
 			}else {
 				request.setAttribute("t_msg", "접근 권한이 없습니다.");
 				request.setAttribute("t_url", "News");
@@ -95,6 +98,7 @@ public class News extends HttpServlet {
 		}if(requestPage.equals("DBdelete")) {
 			if(sLevel>0) {
 				DBdelete news = new DBdelete();
+				news.excute(request);
 			}else {
 				request.setAttribute("t_msg", "접근 권한이 없습니다.");
 				request.setAttribute("t_url", "News");

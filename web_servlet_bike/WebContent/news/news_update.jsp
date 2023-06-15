@@ -32,14 +32,14 @@
 </script>
 
 <script>
-	function goSave(){
+	function goUpdate(){
 		if(checking(news.t_title,50,"제목"));
 		else if(checking(news.t_content,500,"내용"));
 		else if(checking(news.t_attach,25,"첨부파일"));
 		else if(checkAttach(news.t_attach));
 		else {
 			news.method="post";
-			news.action="News?t_requestPage=DBsave";
+			news.action="News?t_requestPage=DBupdate";
 			news.submit();
 		}
 	}
@@ -90,6 +90,8 @@
 				NEWS
 			</p>
 			<form name="news" enctype="multipart/form-data">
+			<input type="hidden" name="t_old_attach" value=${t_dto.getAttach() }>
+			<input type="hidden" name="t_no" value=${t_dto.getNo() }>
 			<table class="boardForm">
 				<colgroup>
 					<col width="15%">
@@ -100,30 +102,37 @@
 				<tbody>
 					<tr>
 						<th rowspan="2" style="width:70px;">Image</th>
-						<td rowspan="2"><img id="preview-image" style="width:228px;border:1px solid gray;display:none;"></td>
+						<td rowspan="2"><img src="attach/news/${t_dto.getAttach() }" id="preview-image" style="width:228px;border:1px solid gray;"></td>
 						<th style="width:70px;">Title</th>
-						<td ><input type="text" class="input600" style="width:230px;" name="t_title"></td>
+						<td ><input type="text" class="input600" style="width:230px;" name="t_title" value="${t_dto.getTitle() }"></td>
 					</tr>	
 					<tr>
 						<th style="width:70px;">Content</th>
-						<td ><textarea class="textArea_H250" style="width:228px;" name="t_content"></textarea></td>
+						<td ><textarea class="textArea_H250" style="width:228px;" name="t_content">${t_dto.getContent() }</textarea></td>
 					</tr>	
 					<tr>
 						<th style="width:70px;">Attach</th>
-						<td colspan="3">※이미지 첨부 필수 230px * 230px 권장<br><input type="file" class="input600" name="t_attach" id="input-image"></td>
+						<td colspan="3"><input type="file" class="input600" name="t_attach" id="input-image"></td>
 					</tr>	
 					<tr>
 						<th style="width:70px;">Writer</th>
-						<td><input type="text" class="input100" value="${sName }" readonly></td>
+						<td>${t_dto.getReg_name()}</td>
 						<th style="width:70px;">RegDate</th>
-						<td><input type="date" class="input130" value="${t_today }" readonly></td>
+						<td>${t_dto.getReg_date()}</td>
 					</tr>	
+					<tr>
+						<th style="width:70px;">Updater</th>
+						<td><input type="text" class="input100" value="${sName }" readonly style="border:none;"></td>
+						<th style="width:70px;">UpdateDate</th>
+						<td><input type="date" class="input130" value="${t_today }" readonly style="border:none;"></td>
+					</tr>	
+					
 
 				</tbody>
 			</table>
 			</form>
 			<div class="buttonGroup">
-				<a href="javascript:void()" onClick="goSave()" class="butt">Save</a>
+				<a href="javascript:void()" onClick="goUpdate()" class="butt">Save</a>
 				<a href="javascript:void()" onClick="goNews('list')" class="butt">List</a>
 			</div>	
 		</div>	

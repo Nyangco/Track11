@@ -42,11 +42,43 @@
     height:73px;
 }
 
-#Container .top_banner{
-    height:400px;
-    background-color:yellow
-}
-#Container .main_banner{
+.common_sector{
+    background-color: yellow;
+    margin-left:5%;
+    margin-right:5%;
     margin-top:70px;
-    height:1000px;
+}
+
+.common_sector .common_sector_head{
+    height:60px;
+    margin-bottom:30px;
+}
+
+.common_sector_body>div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
+
+}
+.common_merchandise{
+    height:392px;
+    width:296px;
+    background-color:aqua;
+}
+
+.common_merchandise .img{
+
+}
+
+.common_merchandise .text{
+    
+}
+
+.common_merchandise .price{
+    
+}
+
+.common_merchandise .tag{
+    
 }
