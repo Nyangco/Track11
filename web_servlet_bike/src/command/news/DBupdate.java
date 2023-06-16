@@ -32,12 +32,14 @@ public class DBupdate implements CommonExcute {
 			String update_id = (String)session.getAttribute("sId");
 			String update_date = CommonUtil.getTodayTime();
 			
-			if(old_attach!=null) {
+			if(attach!=null && old_attach!=null) {
 				File f = new File(CommonUtil.getFile_dir("news")+old_attach);
 				boolean tf = true;
 				if(f.exists()) tf = f.delete();
 				if(!tf) System.out.print("파일 제거 오류");
 			}
+			
+			if(attach==null) attach = old_attach;
 			
 			NewsDto dto = new NewsDto(no, title, content, attach, "", "", "", update_id, update_date, "", 0);			
 			int k = dao.updateDB(dto);

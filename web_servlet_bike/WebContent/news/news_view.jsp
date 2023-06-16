@@ -53,7 +53,8 @@
 					<tr>
 						<td colspan="4" >
 							<img src="attach/news/${t_dto.getAttach() }"style="width:298px;border:1px solid gray; margin-bottom:30px;">
-							<textarea class="textArea_H250" style="width:390px;resize:none;border:none;" name="t_content" readonly>${t_dto.getContent() }</textarea>
+							<!--<textarea class="textArea_H250" style="width:390px;resize:none;border:none;" name="t_content" readonly>${t_dto.getContent() }</textarea>-->
+							<div style="width:390px;resize:none;border:none;float:right;white-space:pre-wrap;">${t_dto.getContent() }</div>
 						</td>
 					</tr>	
 					<tr>

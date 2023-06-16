@@ -35,7 +35,7 @@
 	function goUpdate(){
 		if(checking(news.t_title,50,"제목"));
 		else if(checking(news.t_content,500,"내용"));
-		else if(checking(news.t_attach,25,"첨부파일"));
+		else if(checkLength(news.t_attach,25,"첨부파일"));
 		else if(checkAttach(news.t_attach));
 		else {
 			news.method="post";

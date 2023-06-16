@@ -22,6 +22,7 @@ public class DBsave implements CommonExcute {
 		NewsDao dao = new NewsDao();
 		HttpSession session = request.getSession();
 		
+		
 		try {
 			MultipartRequest mpr = new MultipartRequest(request,CommonUtil.getFile_dir("news"),1024*1024*10,"utf-8",new DefaultFileRenamePolicy());
 			String title = mpr.getParameter("t_title");
