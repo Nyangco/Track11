@@ -68,24 +68,45 @@
 </style>
 <script>
 	function goMember(page){
-		bike.t_requestPage.value=page;
-		bike.method="post";
-		bike.action="Member";
-		bike.submit();
-	}function goIndex(){
-		bike.method="post";
-		bike.action="Index";
-		bike.submit();
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Member";
+		goGo.submit();
 	}function goNotice(page){
-		bike.t_requestPage.value=page;
-		bike.method="post";
-		bike.action="Notice";
-		bike.submit();
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Notice";
+		goGo.submit();
+	}function goNews(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="News";
+		goGo.submit();
+	}function goQna(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Qna";
+		goGo.submit();
+	}function goFreeBoard(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="FreeBoard";
+		goGo.submit();
+	}function goEtc(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Etc";
+		goGo.submit();
+	}function goAdmin(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Admin";
+		goGo.submit();
 	}
 </script>
 </head>
 <body>
-<form name="bike">
+<form name="goGo">
 	<input type="hidden" name="t_requestPage">
 </form>
 <div id="disableDiv" class="disableDiv" style="display:none"></div>
@@ -95,6 +116,9 @@
 			<div id="b_top_menu">
 				<ul class="top_menu">
 					<li><a href="" class="allclick"><i class="fas fa-bars"></i></a></li>
+					<c:if test="${sLevel >= 1 }">
+					<li><a href="javascript:void()" onClick="goAdmin('list')">Admin</a></li>
+					</c:if>
 					<c:if test="${empty sId}">
 					<li><a href="javascript:void()" onClick="goMember('join')">Join</a></li>
 					<li><a href="javascript:void()" onClick="goMember('login')">Login</a></li>

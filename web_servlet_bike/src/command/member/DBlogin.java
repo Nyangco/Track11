@@ -36,7 +36,8 @@ public class DBlogin implements CommonExcute {
 				session.setAttribute("sName", dto.getName());
 				session.setAttribute("sId", id);
 				session.setMaxInactiveInterval(60 * 60 * 2);
-				msg = "로그인 되었습니다. 최근 로그인 시간 : "+dto.getLast_login_date();
+				msg = "로그인 되었습니다.";
+				if(dto.getLast_login_date()!=null) msg += "최근 로그인 시간 : "+dto.getLast_login_date();
 				url = "Index";
 				dao.recentLogin(id);
 			}else {

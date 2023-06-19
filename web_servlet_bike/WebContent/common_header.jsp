@@ -52,6 +52,11 @@
 		goGo.method="post";
 		goGo.action="Etc";
 		goGo.submit();
+	}function goAdmin(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Admin";
+		goGo.submit();
 	}
 </script>
 </head>
@@ -63,6 +68,9 @@
 		<div id="b_top_menu">
 			<ul class="top_menu">
 				<li><a href="" class="allclick"><i class="fas fa-bars"></i></a></li>
+					<c:if test="${sLevel >= 1 }">
+					<li><a href="javascript:void()" onClick="goAdmin('list')">Admin</a></li>
+					</c:if>
 					<c:if test="${empty sId }">
 					<li><a href="javascript:void()" onClick="goMember('join')">Join</a></li>
 					<li><a href="javascript:void()" onClick="goMember('login')">Login</a></li>
@@ -158,7 +166,7 @@
 				</li>
 			</ul>		
 		</div>	
-		<c:if test="${t_nowPage ne 'Member' }">
+		<c:if test="${t_nowPage ne 'Member' && t_nowPage ne 'Admin'}">
 			<div id="b_left">
 			<P>${t_nowPage }</P>
 			<ul>
@@ -167,6 +175,15 @@
 				<li><a href="javascript:void()" onClick="goQna('list')"><c:if test="${t_nowPage eq 'Qna' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> Q & A</a></li>
 				<li><a href="javascript:void()" onClick="goFreeBoard('list')"><c:if test="${t_nowPage eq 'FreeBoard' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> FREE BOARD</a></li>
 				<li><a href="javascript:void()" onClick="goEtc('list')"><c:if test="${t_nowPage eq 'Etc' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> ETC</a></li>
+			</ul>
+			</div>
+		</c:if>
+		<c:if test="${t_nowPage eq 'Admin' }">
+			<div id="b_left">
+			<P>Admin</P>
+			<ul>
+				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_requestPage eq 'list' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MEMBER</a></li>
+				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_nowPage eq '' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PRODUCT</a></li>
 			</ul>
 			</div>
 		</c:if>

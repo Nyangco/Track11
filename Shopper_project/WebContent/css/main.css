@@ -194,13 +194,17 @@ ul {list-style: none;}
 .review_sector .review_sector_body{
     padding: 0 auto;
     padding-bottom: 70px;
-    height:474px;
 }
 
-.review_sector .review_merchandise{
+.review_merchandise_short{
+    width:1261.44px;
+    margin: 0 auto;
+}
+
+.review_merchandise_short .review_merchandise{
     width:296px;
     height:486px;
-    padding: 0 16px;
+    padding: 0 8px;
     display:inline-block;
     background-color: #20c5b0;
     margin: 20px 0;
@@ -238,4 +242,98 @@ ul {list-style: none;}
     border-top: solid #ededed;
     height:15px;
     padding-top:16px;
+}
+
+.review_merchandise_long{
+    width:1259.44px;
+    border:1px solid #ededed;
+    background-color: white;
+    margin:0 auto;
+}
+
+.review_merchandise_long .review_merchandise{
+    width:1158px;
+    height:80px;
+    padding:25px 0;
+}
+
+.review_merchandise_long .merchandise_img{
+    width:80px;
+    height:80px;
+    float:left;
+}
+
+.review_merchandise_long .merchandise_img> img{
+    width:80px;
+    height:80px;
+}
+
+.review_merchandise_long .merchandise_text{
+    width:810px;
+    height:80px;
+    float:left;
+}
+
+.review_merchandise_long .merchandise_text>.merchandise_content{
+    height:14px;
+    padding-top:21px;
+}
+
+.review_merchandise_long .merchandise_text>.merchandise_content>p{
+    font-size: 14px;
+    color:#666;
+}
+
+.review_merchandise_long .merchandise_text>.merchandise_title{
+    margin-top:10px;
+    padding-bottom:21px;
+    height:14px;
+}
+
+.review_merchandise_long .merchandise_text>.merchandise_title>p{
+    font-size:14px;
+    color:#444;
+}
+
+.review_merchandise_long .merchandise_personal{
+    margin: auto 0;
+    width:217.75px;
+    height:80px;
+    float:right;
+}
+
+.merchandise_personal p{
+    padding-top:33px;
+    font-size:14px;
+    margin:auto 0;
+}
+
+.review_merchandise_long .merchandise_personal>div{
+   height:14px;
+   float:right;
+}
+
+.review_merchandise_long_block{
+    padding-bottom: 70px;
+}
+
+#footer{
+    width:1275.44px;
+    height:92px;
+    padding:25px;
+    border-top: solid 1px;
+    margin:0 auto;
+}
+
+#footer .notice{
+    text-align: center;
+}
+
+.notice span{
+    display:block;
+}
+
+#footer .site_desc{
+    margin-top:30px;
+    text-align:center;
 }
