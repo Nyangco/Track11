@@ -5,7 +5,7 @@
 <head>
 <title>JSL11 연석모</title>
 <link href="css/sub_c.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/17da812ad5.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
 <script src="js/common.js"></script>
 <script type="text/javascript">
@@ -182,8 +182,8 @@
 			<div id="b_left">
 			<P>Admin</P>
 			<ul>
-				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_requestPage eq 'list' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MEMBER</a></li>
-				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_nowPage eq '' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PRODUCT</a></li>
+				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_requestPage eq 'list' || t_requestPage eq 'view' || t_requestPage eq 'update'}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MEMBER</a></li>
+				<li><a href="javascript:void()" onClick="goAdmin('product_list')"><c:if test="${t_requestPage eq 'product_list' || t_requestPage eq 'product_write'  }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PRODUCT</a></li>
 			</ul>
 			</div>
 		</c:if>

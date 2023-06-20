@@ -10,7 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import command.admin.DBdelete;
+import command.admin.DBupdate;
 import command.admin.List;
+import command.admin.Product_list;
+import command.admin.Product_write;
+import command.admin.Update;
+import command.admin.View;
 
 /**
  * Servlet implementation class Admin
@@ -52,6 +58,29 @@ public class Admin extends HttpServlet {
 				List admin = new List();
 				admin.excute(request);
 				page="admin/admin_list.jsp";
+			}else if(requestPage.equals("view")) {
+				View admin = new View();
+				admin.excute(request);
+				page="admin/admin_view.jsp";
+			}else if(requestPage.equals("update")) {
+				Update admin = new Update();
+				admin.excute(request);
+				page="admin/admin_update.jsp";
+			}else if(requestPage.equals("DBupdate")) {
+				DBupdate admin = new DBupdate();
+				admin.excute(request);
+				page="alert.jsp";
+			}else if(requestPage.equals("DBdelete")) {
+				DBdelete admin = new DBdelete();
+				admin.excute(request);
+			}else if(requestPage.equals("product_list")) {
+				Product_list admin = new Product_list();
+				admin.excute(request);
+				page="admin/product_list.jsp";
+			}else if(requestPage.equals("product_write")) {
+				Product_write admin = new Product_write();
+				admin.excute(request);
+				page="admin/product_write.jsp";
 			}
 		}
 		

@@ -5,12 +5,16 @@
 <script>
 	function goPage(page){
 		admin.t_nowPage.value=page;
-		admin.t_requestPage.value="list";
 		admin.method="post";
 		admin.action="Admin";
 		admin.submit();
 	}function goList(){
-		admin.t_requestPage.value="list";
+		admin.method="post";
+		admin.action="Admin";
+		admin.submit();
+	}function goView(id){
+		admin.t_id.value=id;
+		admin.t_requestPage.value="view";
 		admin.method="post";
 		admin.action="Admin";
 		admin.submit();
@@ -18,14 +22,15 @@
 </script>
 	<div id="b_right">
 		<p class="n_title">
-			Member
+			MEMBER
 		</p>
 		<div class="record_group record_group_left">
 			<p><i class="fa-solid fa-bell"></i> 총 회원수<span> ${t_totalCount} </span>건</p>
 		</div>			
 		<form name="admin">
 		<input type="hidden" name="t_nowPage">
-		<input type="hidden" name="t_requestPage">
+		<input type="hidden" name="t_requestPage" value="list">
+		<input type="hidden" name="t_id">
 			<p class="select_box select_box_right" style="width:500px;">
 				<input type="radio" name="t_sort" value="5" onchange="goList()" <c:if test="${t_sort eq '5' }">checked</c:if>>5명 
 				<input type="radio" name="t_sort" value="10" onchange="goList()" <c:if test="${t_sort eq '10' }">checked</c:if>>10명 
@@ -44,16 +49,16 @@
 		
 		<table class="boardList">
 			<colgroup>
-				<col width="5%">
-				<col width="12%">
-				<col width="5%">
-				<col width="8%">
-				<col width="10%">
-				<col width="7%">
-				<col width="10%">
-				<col width="10%">
-				<col width="10%">
-				<col width="3%">
+				<col width="33.91px">
+				<col width="98.96px">
+				<col width="50.7px">
+				<col width="71.06px">
+				<col width="89.05px">
+				<col width="64.19px">
+				<col width="84.7px">
+				<col width="84.7px">
+				<col width="84.91px">
+				<col width="20.42px">
 			</colgroup>
 			<thead>
 				<tr>
@@ -74,12 +79,19 @@
 				<c:forEach items="${t_arr}" var="dto">
 				<tr>
 					<td>${order}<c:set value="${order -1 }" var="order"></c:set></td>
-					<td>${dto.getId() }</td>
-					<td>${dto.getsLevel() }</td>
+					<td><a href="javascript:void()" onclick="goView('${dto.getId()}')">${dto.getId() }</a></td>
+					<td><a href="javascript:void()" onclick="goView('${dto.getId()}')">${dto.getsLevel() }</a></td>
 					<td>${dto.getName() }</td>
-					<td>${fn:substringBefore(dto.getEmail(),'@')}@<br>${fn:substringAfter(dto.getEmail(),'@')}</td>
+					<td>
+						<c:choose>
+							<c:when test="${fn:length(dto.getEmail())>20}">
+								${fn:substring(dto.getEmail(),0,20) }...
+							</c:when>
+							<c:otherwise>${dto.getEmail() }</c:otherwise>
+						</c:choose>
+					</td>
 					<td>${dto.getArea() }</td>
-					<td>${dto.getMobile_1() }-{dto.getMobile_2() }-{dto.getMobile_3() }</td>
+					<td>${dto.getMobile_1() }-${dto.getMobile_2() }-${dto.getMobile_3() }</td>
 					<td>${dto.getReg_date() }</td>
 					<td>${dto.getLast_login_date() }</td>
 					<td><c:choose>

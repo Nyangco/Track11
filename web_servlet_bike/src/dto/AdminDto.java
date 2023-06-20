@@ -3,12 +3,13 @@ package dto;
 public class AdminDto {
 
 	private String id, sLevel, name, area, address, mobile_1, mobile_2, mobile_3, gender, hobby_travel, hobby_reading, hobby_sports;
-	private String reg_date, last_login_date, exit_date, email;
+	private String reg_date, update_date, last_login_date, exit_date, email;
 	private int pwLen;
 	
 	public AdminDto(String id, String sLevel, String name, String area, String address, String mobile_1,
 			String mobile_2, String mobile_3, String gender, String hobby_travel, String hobby_reading,
-			String hobby_sports, String reg_date, String last_login_date, String exit_date, String email, int pwLen) {
+			String hobby_sports, String reg_date, String update_date, String last_login_date, String exit_date,
+			String email, int pwLen) {
 		super();
 		this.id = id;
 		this.sLevel = sLevel;
@@ -23,6 +24,7 @@ public class AdminDto {
 		this.hobby_reading = hobby_reading;
 		this.hobby_sports = hobby_sports;
 		this.reg_date = reg_date;
+		this.update_date = update_date;
 		this.last_login_date = last_login_date;
 		this.exit_date = exit_date;
 		this.email = email;
@@ -81,6 +83,10 @@ public class AdminDto {
 		return reg_date;
 	}
 
+	public String getUpdate_date() {
+		return update_date;
+	}
+
 	public String getLast_login_date() {
 		return last_login_date;
 	}
@@ -96,8 +102,6 @@ public class AdminDto {
 	public int getPwLen() {
 		return pwLen;
 	}
-	
-	
 	
 	
 }
