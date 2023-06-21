@@ -102,6 +102,11 @@
 		goGo.method="post";
 		goGo.action="Admin";
 		goGo.submit();
+	}function goProduct(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Product";
+		goGo.submit();
 	}
 </script>
 </head>

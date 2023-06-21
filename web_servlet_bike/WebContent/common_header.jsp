@@ -57,6 +57,11 @@
 		goGo.method="post";
 		goGo.action="Admin";
 		goGo.submit();
+	}function goProduct(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Product";
+		goGo.submit();
 	}
 </script>
 </head>
@@ -166,7 +171,7 @@
 				</li>
 			</ul>		
 		</div>	
-		<c:if test="${t_nowPage ne 'Member' && t_nowPage ne 'Admin'}">
+		<c:if test="${t_nowPage ne 'Member' && t_nowPage ne 'Admin' && t_nowPage ne 'Product'}">
 			<div id="b_left">
 			<P>${t_nowPage }</P>
 			<ul>
@@ -178,12 +183,12 @@
 			</ul>
 			</div>
 		</c:if>
-		<c:if test="${t_nowPage eq 'Admin' }">
+		<c:if test="${t_nowPage eq 'Admin' || t_nowPage eq 'Product'}">
 			<div id="b_left">
 			<P>Admin</P>
 			<ul>
-				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_requestPage eq 'list' || t_requestPage eq 'view' || t_requestPage eq 'update'}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MEMBER</a></li>
-				<li><a href="javascript:void()" onClick="goAdmin('product_list')"><c:if test="${t_requestPage eq 'product_list' || t_requestPage eq 'product_write'  }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PRODUCT</a></li>
+				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_nowPage eq 'Admin'}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MEMBER</a></li>
+				<li><a href="javascript:void()" onClick="goProduct('list')"><c:if test="${t_nowPage eq 'Product'}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PRODUCT</a></li>
 			</ul>
 			</div>
 		</c:if>

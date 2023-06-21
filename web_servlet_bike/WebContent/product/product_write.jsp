@@ -30,17 +30,24 @@
 		})	
 	});	
 </script>
-
 <script>
 	function goSave(){
-		if(checking(news.t_title,50,"제목"));
-		else if(checking(news.t_content,500,"내용"));
-		else if(checking(news.t_attach,25,"첨부파일"));
-		else if(checkAttach(news.t_attach));
+		if(checking(product.t_p_name,20,"상품명"));
+		else if(checking(product.t_tag,10,"태그"));
+		else if(checking(product.t_p_level,1,"판촉 레벨"));
+		else if(checking(product.t_content,500,"상품 상세설명"));
+		else if(checking(product.t_attach,20,"사진 첨부"));
+		else if(checkAttach(product.t_attach));
+		else if(checking(product.t_p_size_w,4,"가로 길이"));
+		else if(checking(product.t_p_weight,6,"무게"));
+		else if(checking(product.t_p_size_l,4,"세로 길이"));
+		else if(checking(product.t_c_name,10,"제조사명"));
+		else if(checking(product.t_p_size_h,4,"높이"));
+		else if(checking(product.t_price,9,"가격"));
 		else {
-			news.method="post";
-			news.action="News?t_requestPage=DBsave";
-			news.submit();
+			product.method="post";
+			product.action="Product?t_requestPage=DBsave";
+			product.submit();
 		}
 	}
 	function checkAttach(dir){
@@ -89,44 +96,94 @@
 			<p class="n_title">
 				PRODUCT
 			</p>
-			<form name="news" enctype="multipart/form-data">
+			<form name="product" enctype="multipart/form-data">
 			<table class="boardForm">
 				<colgroup>
-					<col width="15%">
-					<col width="35%">
+					<col width="10%">
+					<col width="40%">
 					<col width="10%">
 					<col width="40%">
 				</colgroup>
 				<tbody>
 					<tr>
-						<th >Title</th>
-						<td colspan="3"><input type="text" class="input600" name="t_title"></td>
+						<th >상품명</th>
+						<td ><input type="text" class="input300" name="t_p_name"></td>
+						<th >태그/판촉</th>
+						<td>
+							<select name="t_tag">
+								<option value="">태그 선택</option>
+								<c:forEach items="${t_tagArr}" var="sTag">
+								<option value="${sTag[0]}">${sTag[1]}</option>
+								</c:forEach>
+							</select>
+							<select name="t_p_level">
+								<option value="">판촉 레벨 선택</option>
+								<option value="0">보통(0)</option>
+								<option value="1">높음(1)</option>
+								<option value="2">매우 높음(2)</option>
+							</select>	
+						</td>
+						
 					</tr>
 					<tr>
-						<th >Image</th>
-						<td colspan="3"><img id="preview-image" style="border:1px solid gray;display:none;"></td>
+						<th >상품 사진</th>
+						<td colspan="3" style="height:400px;"><img id="preview-image" style="border:1px solid gray;display:none;"></td>
 					</tr>
 					<tr>
-						<th >Content</th>
+						<th >상품 상세설명</th>
 						<td colspan="3"><textarea class="textArea_H250" name="t_content"></textarea></td>
 					</tr>	
 					<tr>
-						<th style=>Attach</th>
+						<th >사진 첨부</th>
 						<td colspan="3">※이미지 첨부 필수 400px * 400px 권장<br><input type="file" class="input600" name="t_attach" id="input-image"></td>
+					</tr>
+					<tr>
+						<th >가로 길이</th>
+						<td><input type="text" class="input100" name="t_p_size_w">mm</td>
+						<th >무게</th>
+						<td><input type="text" class="input100" name="t_p_weight"></td>
 					</tr>	
 					<tr>
-						<th >Writer</th>
-						<td><input type="text" class="input100" value="${sName }" readonly></td>
-						<th >RegDate</th>
-						<td><input type="date" class="input130" value="${t_today }" readonly></td>
+						<th >세로 길이</th>
+						<td><input type="text" class="input100" name="t_p_size_l">mm</td>
+						<th >제조사명</th>
+						<td><input type="text" class="input100" name="t_c_name"></td>
+					</tr>	
+					<tr>
+						<th >높이</th>
+						<td><input type="text" class="input100" name="t_p_size_h">mm</td>
+						<th >가격</th>
+						<td >
+							<input type="text" class="input100" name="t_price">원&nbsp;&nbsp;
+							<select name="t_discount">
+								<option value="100">할인율</option>
+								<option value="90">10%</option>
+								<option value="80">20%</option>
+								<option value="50">50%</option>
+								<option value="10">90%</option>
+							</select>
+						</td>
+					</tr>	
+					<tr>
+						<th >작성자</th>
+						<td>
+							<input type="text" class="input100" value="${sName }" readonly>
+							<input type="hidden" value="${sId }" name="t_reg_id">
+						</td>
+						<th >작성일자</th>
+						<td>
+							<input type="date" class="input130" value="${t_today }" name="t_reg_date" readonly>
+						</td>
 					</tr>	
 
 				</tbody>
 			</table>
 			</form>
+			
+			
 			<div class="buttonGroup">
-				<a href="javascript:void()" onClick="goSave()" class="butt">Save</a>
-				<a href="javascript:void()" onClick="goNews('list')" class="butt">List</a>
+				<a href="javascript:void()" onClick="goSave()" class="butt">저장</a>
+				<a href="javascript:void()" onClick="goProduct('list')" class="butt">목록</a>
 			</div>	
 		</div>	
 	</div>
