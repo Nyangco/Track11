@@ -32,6 +32,7 @@ public class Product_list implements CommonExcute {
 		request.setAttribute("t_select", select);
 		request.setAttribute("t_search", search);
 		request.setAttribute("t_sort", sort);
+		request.setAttribute("t_tag", tag);
 		
 		int total_count = dao.totalCountDB(select,search,tag);
 		request.setAttribute("t_totalCount", total_count);

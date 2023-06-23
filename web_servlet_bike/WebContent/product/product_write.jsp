@@ -33,9 +33,9 @@
 <script>
 	function goSave(){
 		if(checking(product.t_p_name,20,"상품명"));
-		else if(checking(product.t_tag,10,"태그"));
+		else if(checking(product.t_p_tag,10,"태그"));
 		else if(checking(product.t_p_level,1,"판촉 레벨"));
-		else if(checking(product.t_content,500,"상품 상세설명"));
+		else if(checking(product.t_p_content,500,"상품 상세설명"));
 		else if(checking(product.t_attach,20,"사진 첨부"));
 		else if(checkAttach(product.t_attach));
 		else if(checking(product.t_p_size_w,4,"가로 길이"));
@@ -110,7 +110,7 @@
 						<td ><input type="text" class="input300" name="t_p_name"></td>
 						<th >태그/판촉</th>
 						<td>
-							<select name="t_tag">
+							<select name="t_p_tag">
 								<option value="">태그 선택</option>
 								<c:forEach items="${t_tagArr}" var="sTag">
 								<option value="${sTag[0]}">${sTag[1]}</option>
@@ -131,7 +131,7 @@
 					</tr>
 					<tr>
 						<th >상품 상세설명</th>
-						<td colspan="3"><textarea class="textArea_H250" name="t_content"></textarea></td>
+						<td colspan="3"><textarea class="textArea_H250" name="t_p_content"></textarea></td>
 					</tr>	
 					<tr>
 						<th >사진 첨부</th>

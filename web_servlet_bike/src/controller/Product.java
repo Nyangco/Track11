@@ -10,8 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import command.product.Product_DBdelete;
 import command.product.Product_DBsave;
+import command.product.Product_DBtag;
+import command.product.Product_DBupdate;
 import command.product.Product_list;
+import command.product.Product_tag;
+import command.product.Product_update;
+import command.product.Product_view;
 import command.product.Product_write;
 
 /**
@@ -60,6 +66,27 @@ public class Product extends HttpServlet {
 				page="product/product_write.jsp";
 			}else if(requestPage.equals("DBsave")) {
 				Product_DBsave product = new Product_DBsave();
+				product.excute(request);
+			}else if(requestPage.equals("tag")) {
+				Product_tag product = new Product_tag();
+				product.excute(request);
+				page="product/product_tag.jsp";
+			}else if(requestPage.equals("DBtag")) {
+				Product_DBtag product = new Product_DBtag();
+				product.excute(request);
+			}else if(requestPage.equals("view")) {
+				Product_view product = new Product_view();
+				product.excute(request);
+				page="product/product_view.jsp";
+			}else if(requestPage.equals("update")) {
+				Product_update product = new Product_update();
+				product.excute(request);
+				page="product/product_update.jsp";
+			}else if(requestPage.equals("DBupdate")) {
+				Product_DBupdate product = new Product_DBupdate();
+				product.excute(request);
+			}else if(requestPage.equals("DBdelete")) {
+				Product_DBdelete product = new Product_DBdelete();
 				product.excute(request);
 			}
 		}else {

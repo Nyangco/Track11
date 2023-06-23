@@ -16,11 +16,125 @@ public class ProductDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public int deleteDB(String p_no) {
+		int k = 0;
+		String sql = "delete bike_연석모_product where p_no = '"+p_no+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("deleteDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
+
+	public ProductDto anotherViewDB(String p_no, String gubun) {
+		ProductDto dto = null;
+		String sql = "select p_no, p_name from bike_연석모_product where p_no ";
+		if(gubun.equals("pre")) sql+= "< '"+p_no+"' order by p_no desc";
+		else if(gubun.equals("pro")) sql+= "> '"+p_no+"' order by p_no asc";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String newNo = rs.getString("p_no");
+				String p_name = rs.getString("p_name");
+				dto = new ProductDto(newNo, p_name, "", "", "", "", "", "", "", "", "", "", 0, "", "", "", "");
+			}
+		}catch(SQLException e) {
+			System.out.println("anotherViewDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return dto;
+	}
+	
+	public ProductDto viewDB(String p_no) {
+		ProductDto dto = null;
+		String sql = "select p.p_name, p.hit, t.tag_name as p_tag, p.p_level, p.attach, p.p_content, p.p_size_w, "
+					+ "p.p_size_l, p.p_size_h, p.p_weight, p.c_name, p.price, r.name as reg_name, to_char(p.reg_date,'yyyy-mm-dd') as reg_date, "
+					+ "u.name as update_name, to_char(p.update_date,'yyyy-mm-dd hh24:mi:ss') as update_date from bike_연석모_product p, "
+					+ "bike_연석모_product_tag t, bike_연석모_member r, bike_연석모_member u where r.id = p.reg_id and ((u.id = p.update_id) or (u.id = '000')) "
+					+ "and p.p_tag = t.tag_code and p.p_no = '"+p_no+"'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				int hit = rs.getInt("hit");
+				String p_name = rs.getString("p_name");
+				String p_tag = rs.getString("p_tag");
+				String p_level = rs.getString("p_level");
+				String attach = rs.getString("attach");
+				String p_content = rs.getString("p_content");
+				String p_size_w = rs.getString("p_size_w");
+				String p_size_l = rs.getString("p_size_l");
+				String p_size_h = rs.getString("p_size_h");
+				String p_weight = rs.getString("p_weight");
+				String c_name = rs.getString("c_name");
+				String price = rs.getString("price");
+				String reg_name = rs.getString("reg_name");
+				String reg_date = rs.getString("reg_date");
+				String update_name = rs.getString("update_name");
+				String update_date = rs.getString("update_date");
+				dto = new ProductDto(p_no, p_name, p_content, p_tag, attach, p_size_w, p_size_l, p_size_h, p_weight, price, p_level, c_name, hit, reg_date, reg_name, update_name, update_date);
+				
+			}
+		}catch(SQLException e) {
+			System.out.println("viewDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return dto;
+	}
+	
+	public int insertTagDB(String tag_name, String tag_code) {
+		int k = 0;
+		String sql = "insert into bike_연석모_product_tag (tag_name, tag_code) values('"+tag_name+"','"+tag_code+"')";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("insertTagDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
+	
+	public int updateTagDB(String tag_name, String tag_code) {
+		int k = 0;
+		String sql = "update bike_연석모_product_tag set tag_name='"+tag_name+"' where tag_code='"+tag_code+"'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("updateTagDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
+	
 	public ArrayList<ProductDto> listDB(String select, String search, String tag, int start, int end){
 		ArrayList<ProductDto> arr = new ArrayList<ProductDto>();
-		String subSql = "select p_no, attach, p_name, p_level, price from bike_연석모_product where "+select+" like '%"+search+"%'";
-		if(tag!=null) subSql += "and p_tag='"+tag+"' ";
-		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+") tbl) where rnum>="+start+" and rnum<="+end+" order by p_level asc";
+		String subSql = "select p_no, attach, p_name, p_level, price, reg_date from bike_연석모_product where "+select+" like '%"+search+"%' ";
+		if(tag!=null && !tag.equals("")) subSql += "and p_tag='"+tag+"' ";
+		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+") tbl) where rnum>="+start+" and rnum<="+end+" order by p_level desc, reg_date desc";
 		
 		try {
 			con = DBConnection.getConnection();
@@ -32,10 +146,6 @@ public class ProductDao {
 				String p_name = rs.getString("p_name");
 				String p_level = rs.getString("p_level");
 				String price = rs.getString("price");
-				if(price.length()>3) {
-					
-				}
-				
 				ProductDto dto = new ProductDto(p_no, p_name, "", "", attach, "", "", "", "", price, p_level, "", 0, "", "", "", "");
 				arr.add(dto);
 			}
@@ -43,7 +153,7 @@ public class ProductDao {
 			System.out.println("listDB:"+sql);
 			e.printStackTrace();
 		}finally {
-			DBConnection.getConnection();
+			DBConnection.closeDB(con, ps, rs);
 		}
 		return arr;
 	}
@@ -51,7 +161,7 @@ public class ProductDao {
 	public int totalCountDB(String select, String search, String tag) {
 		int k = 0;
 		String sql = "select count(*) as count from bike_연석모_product where "+select+" like '%"+search+"%' " ;
-		if(tag!=null) sql += "and p_tag='"+tag+"' ";
+		if(tag!=null && !tag.equals("")) sql += "and p_tag='"+tag+"' ";
 				
 		try {
 			con = DBConnection.getConnection();
@@ -64,9 +174,8 @@ public class ProductDao {
 			System.out.println("totalCountDB:"+sql);
 			e.printStackTrace();
 		}finally {
-			DBConnection.getConnection();
-		}
-		return k;
+			DBConnection.closeDB(con, ps, rs);
+		}return k;
 	}
 	
 	public int insertDB(ProductDto dto) {
@@ -84,7 +193,7 @@ public class ProductDao {
 			System.out.println("insertDB:"+sql);
 			e.printStackTrace();
 		}finally {
-			DBConnection.getConnection();
+			DBConnection.closeDB(con, ps, rs);
 		}
 		return k;
 	}
@@ -104,7 +213,7 @@ public class ProductDao {
 			System.out.println("getMaxNo:"+sql);
 			e.printStackTrace();
 		}finally {
-			DBConnection.getConnection();
+			DBConnection.closeDB(con, ps, rs);
 		}
 		result = result.substring(1);
 		int iResult = Integer.parseInt(result);
@@ -132,7 +241,7 @@ public class ProductDao {
 			System.out.println("selectTagDB:"+sql);
 			e.printStackTrace();
 		}finally {
-			DBConnection.getConnection();
+			DBConnection.closeDB(con, ps, rs);
 		}
 		return arr;
 	}

@@ -2,6 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@include file="../common_header.jsp"%>	
 <script>
+	function goSearch(){
+		product.method="post";
+		product.action="Product";
+		product.submit();
+	}function goView(no){
+		product.t_requestPage.value="view";
+		product.t_p_no.value=no
+		product.method="post";
+		product.action="Product";
+		product.submit();
+	}
 </script>
 	<div id="container">
 		<div id="b_right">
@@ -11,27 +22,26 @@
 			<div class="record_group record_group_left">
 				<p><i class="fa-solid fa-bell"></i> 총 상품 수<span> ${t_totalCount } </span>건</p>
 			</div>			
-			<form name="admin">
+			<form name="product">
 			<input type="hidden" name="t_requestPage" value="list">
-			<input type="hidden" name="t_no">
-			<input type="hidden" name="t_nowPage">
+			<input type="hidden" name="t_p_no">
 			<p class="select_box select_box_right" style="width:600px;">
-				<select name="t_sort">
-					<option value="5">5개씩 정렬</option>
-					<option value="10">10개씩 정렬</option>
-					<option value="20">20개씩 정렬</option>
-					<option value="50">50개씩 정렬</option>
+				<select name="t_sort" onchange="goSearch()">
+					<option value="5" <c:if test="${t_sort eq '5' }">selected</c:if> >5개씩 정렬</option>
+					<option value="10" <c:if test="${t_sort eq '10' }">selected</c:if> >10개씩 정렬</option>
+					<option value="20" <c:if test="${t_sort eq '20' }">selected</c:if> >20개씩 정렬</option>
+					<option value="50" <c:if test="${t_sort eq '50' }">selected</c:if> >50개씩 정렬</option>
 				</select>
-				<select name="t_tag">
-					<option value="">모든 태그</option>
-					<c:forEach items="${t_tagArr }" var="str">
-						<option value="${str[0] }">${str[1] }</option>
+				<select name="t_tag" onchange="goSearch()">
+					<option value="" >모든 태그</option>
+					<c:forEach items="${t_tagArr }" var="str" >
+						<option value="${str[0] }" <c:if test="${t_tag eq str[0] }">selected</c:if> >${str[1] }</option>
 					</c:forEach>
 				</select>
 				<select name="t_select" class="sel_box">
-					<option value="title" <c:if test="${t_select eq 'title' }">selected</c:if> >제품 번호</option>
-					<option value="title" <c:if test="${t_select eq 'title' }">selected</c:if> >제품명</option>
-					<option value="title" <c:if test="${t_select eq 'title' }">selected</c:if> >판촉 레벨</option>
+					<option value="p_no" <c:if test="${t_select eq 'p_no' }">selected</c:if> >제품 번호</option>
+					<option value="p_name" <c:if test="${t_select eq 'p_name' }">selected</c:if> >제품명</option>
+					<option value="p_level" <c:if test="${t_select eq 'p_level' }">selected</c:if> >판촉 레벨</option>
 				</select>
 				<input type="text" name="t_search" value="${t_search }" class="sel_text">
 				<button type="button" class="sel_button" onclick="goSearch()"><i class="fa fa-search"></i> SEARCH</button>
@@ -59,8 +69,8 @@
 				<c:forEach items="${t_arr }" var="dto">
 					<tr>
 						<td ><a href="javascript:void()" onClick="goView('${dto.getP_no()}')">${dto.getP_no()}</a></td>
-						<td><c:if test="${not empty dto.getAttach()}"><img src="attach/product/${dto.getAttach()}"></c:if></td>
-						<td>${dto.getP_name() }</td>
+						<td><c:if test="${not empty dto.getAttach()}"><a href="javascript:void()" onClick="goView('${dto.getP_no()}')"><img src="attach/product/${dto.getAttach()}"></a></c:if></td>
+						<td><a href="javascript:void()" onClick="goView('${dto.getP_no()}')">${dto.getP_name() }</a></td>
 						<td>${dto.getP_level()}</td>
 						<td>${dto.getPrice() }</td>
 					</tr>	
