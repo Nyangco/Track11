@@ -32,12 +32,14 @@
 </script>
 <script>
 	function goSave(){
+		var extensions=["jpg","gif","svg","png"];
+		
 		if(checking(product.t_p_name,20,"상품명"));
 		else if(checking(product.t_p_tag,10,"태그"));
 		else if(checking(product.t_p_level,1,"판촉 레벨"));
 		else if(checking(product.t_p_content,500,"상품 상세설명"));
 		else if(checking(product.t_attach,20,"사진 첨부"));
-		else if(checkAttach(product.t_attach));
+		else if(checkAttach(product.t_attach,5,extensions));
 		else if(checking(product.t_p_size_w,4,"가로 길이"));
 		else if(checking(product.t_p_weight,6,"무게"));
 		else if(checking(product.t_p_size_l,4,"세로 길이"));
@@ -50,19 +52,35 @@
 			product.submit();
 		}
 	}
-	function checkAttach(dir){
+	function checkAttach(dir, maxSize, extensions){
 		var fileName = dir.value;
 		if(fileName != ""){ //  C:\fakepath\img_1.png
 			var pathFileName = fileName.lastIndexOf(".")+1;    //확장자 제외한 경로+파일명
 			var extension = (fileName.substr(pathFileName)).toLowerCase();	//확장자명
+			
+			/*
 			if(extension != "jpg" && extension != "gif" && extension != "png" && extension != "svg"){
 				alert(extension +" 형식 파일은 업로드 안됩니다. jpg, gif, png, svg만 가능!");
 				return true;
 			}
+			*/
+			
+			var counts=0;
+			for(var k = 0; k<extensions.length; k++){
+				if(extension==extensions[k]){
+					counts++;
+				}
+			}
+			if(counts!=1){
+				alerts("해당 파일 형식은 사용할 수 없습니다.");
+				return true;
+			}
+			
+			
 		}
 		
 		var file = dir;
-		var fileMaxSize  = 5; // 첨부 최대 용량 설정
+		var fileMaxSize  = maxSize; // 첨부 최대 용량 설정
 		if(file.value !=""){
 			// 사이즈체크
 			var maxSize  = 1024 * 1024 * fileMaxSize;  
@@ -127,16 +145,16 @@
 					</tr>
 					<tr>
 						<th >상품 사진</th>
-						<td colspan="3" style="height:400px;"><img id="preview-image" style="border:1px solid gray;display:none;"></td>
+						<td colspan="3" style="height:400px;width:400px;"><img id="preview-image" style="border:1px solid gray;display:none;height:398px;width:398px;"></td>
+					</tr>
+					<tr>
+						<th >사진 첨부</th>
+						<td colspan="3">※이미지 첨부 필수 400px * 400px 권장<br><input type="file" class="input600" name="t_attach" id="input-image"></td>
 					</tr>
 					<tr>
 						<th >상품 상세설명</th>
 						<td colspan="3"><textarea class="textArea_H250" name="t_p_content"></textarea></td>
 					</tr>	
-					<tr>
-						<th >사진 첨부</th>
-						<td colspan="3">※이미지 첨부 필수 400px * 400px 권장<br><input type="file" class="input600" name="t_attach" id="input-image"></td>
-					</tr>
 					<tr>
 						<th >가로 길이</th>
 						<td><input type="text" class="input100" name="t_p_size_w">mm</td>
