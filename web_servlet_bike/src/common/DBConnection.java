@@ -23,7 +23,7 @@ public class DBConnection {
 //			ojdbc6.jar 가 JRE에 설치되어 있어야 함 - OracleDB와 Java IDE를 연결해주는 driver file
 		} catch (ClassNotFoundException e) {
 			goIng = false;
-			System.out.println("오라클 드리이버 없음~~");
+			System.out.println("오라클 드라이버 없음~~");
 			e.printStackTrace();
 		}
 		
