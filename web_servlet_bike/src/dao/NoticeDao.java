@@ -15,6 +15,35 @@ public class NoticeDao {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+
+	public ArrayList<String[]> indexDB(){
+		ArrayList<String[]> arr = new ArrayList<>();
+		String subSql = "select no, title, to_char(reg_date,'yy-mm-dd') as reg_date from bike_연석모_notice";
+		String sql = "select rownum as rnum, sub.* from ("+subSql+") sub order by sub.reg_date desc";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			for(int k=0; k<7; k++) {
+				rs.next();
+				String title = rs.getString("title");
+				if(title.length()>10) {
+					title=title.substring(0,10)+"...";
+				}
+				String reg_date = rs.getString("reg_date");
+				String no = rs.getString("no");
+				String[] str = {no, title, reg_date};
+				arr.add(str);
+			}
+		}catch(SQLException e) {
+			System.out.println("indexDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return arr;
+	}
 	
 	public int updateDB(NoticeDto dto,String delete) {
 		int k = 0;

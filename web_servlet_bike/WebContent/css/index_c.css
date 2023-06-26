@@ -127,7 +127,7 @@
         animation-name: lineani;
         animation-duration: 1s;
 		animation-delay: 1s;
-		animation-iteration-count: infinite(°è¼Ó¹Ýº¹);  ¶Ç´Â animation-iteration-count: 1;
+		animation-iteration-count: infinite(ï¿½ï¿½Ó¹Ýºï¿½);  ï¿½Ç´ï¿½ animation-iteration-count: 1;
 */			
 		}	
 		@keyframes lineani{
@@ -310,12 +310,12 @@
 		}
 /*11.20*/		
 		.b_center_middle img{
-			width:111px;
-			height:106px;			
+			width:101px;
+			height:101px;			
 		}	
 		.b_center_bottom img{
-			width:111px;
-			height:106px;			
+			width:101px;
+			height:101px;			
 		}	
 /************* b_b_bottom_2 **************/	
 		#b_bottom{

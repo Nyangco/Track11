@@ -7,6 +7,9 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>	
 <title>JSL11 연석모</title>
+<style>
+	.main_center_img{width:101px;height:101px;border:solid 1px black;margin:1px;}
+</style>
 <script type="text/javascript">
 	$(function(){
 		$(".main_menu > li > a").hover(function(){
@@ -107,12 +110,21 @@
 		goGo.method="post";
 		goGo.action="Product";
 		goGo.submit();
+	}function goNoticeView(no){
+		noticeView.t_no.value = no;
+		noticeView.method="post";
+		noticeView.action="Notice";
+		noticeView.submit();
 	}
 </script>
 </head>
 <body>
 <form name="goGo">
 	<input type="hidden" name="t_requestPage">
+</form>
+<form name="noticeView">
+	<input type="hidden" name="t_requestPage" value="view">
+	<input type="hidden" name="t_no">
 </form>
 <div id="disableDiv" class="disableDiv" style="display:none"></div>
 <div id="container">
@@ -203,11 +215,11 @@
 				</div>
 				<div class="menu1"><a href="javascript:void()" onClick="goNotice('list')"><span class="maintitle">Notice & News</span></a>
 					<ul>
-						<li><a href="javascript:void()" onClick="goNotice('list')">Notice</a></li>
-						<li><a href="">News</a></li>
-						<li><a href="">Q & A</a></li>
-						<li><a href="">Free Board</a></li>
-						<li><a href="">Etc</a></li>
+						<li><a href="javascript:void()" onClick="goNotice('list')">News</a></li>
+						<li><a href="javascript:void()" onClick="goNews('list')">News</a></li>
+						<li><a href="javascript:void()" onClick="goQna('list')">Q & A</a></li>
+						<li><a href="javascript:void()" onClick="goFreeBoard('list')">Free Board</a></li>
+						<li><a href="javascript:void()" onClick="goEtc('list')">Etc</a></li>
 					</ul>
 				</div>
 				
@@ -251,25 +263,60 @@
 			</p>
 			<div class="left_middle">
 				<ul>
-					<li><a href=""><span class="noti_t">7.Convert between </span><span class="noti_d">22-08-25</span></a></li>
-					<li><a href=""><span class="noti_t">6.회원운영정책 변경안내 </span><span class="noti_d">22-08-21</span></a></li>
-					<li><a href=""><span class="noti_t">5.회원운영정책 변경안내 </span><span class="noti_d">22-07-15</span></a></li>
-					<li><a href=""><span class="noti_t">4.회원운영정책 변경안내 </span><span class="noti_d">22-07-10</span></a></li>
-					<li><a href=""><span class="noti_t">3.회원운영정책 변경안내 </span><span class="noti_d">22-07-08</span></a></li>
-					<li><a href=""><span class="noti_t">2.회원운영정책 변경안내 </span><span class="noti_d">22-07-02</span></a></li>
-					<li><a href=""><span class="noti_t">1.회원운영정책 변경안내 </span><span class="noti_d">22-07-01</span></a></li>
+					<c:set value="7" var="t_order"></c:set>
+					<c:forEach items="${t_nArr }" var="arr" begin="0" end="${t_nArr.size() }" varStatus="vs">
+					<li><a href="javascript:void()" onclick="goNoticeView('${arr[0]}')"><span class="noti_t">${t_nArr.size() - vs.index} . ${arr[1] } </span><span class="noti_d">${arr[2] }</span></a></li>
+					</c:forEach>
 				</ul>
 			</div>
 		
 		</div>
+<style>
+	.b_center_middle a{
+		position:relative;
+		display:inline-block;
+		width:105px;
+		height:105px;
+	}
+	.b_center_middle a .over{
+		position:absolute;
+		top:0;
+		opacity:0;
+		transform:translate(0,50px);
+		transition:0.5s;
+		background:#E6E6E6E6;
+		width:105px;
+		height:75px;
+		padding-top:30px;
+	}
+	.b_center_middle a:hover .over{
+		transform:translate(0,0);
+		opacity:1;
+		
+	}
+	.over p{
+		text-align:center;
+		color:black;
+	}
+	.over .p_name{
+		font-size:11px;
+		font-weight:bold;		
+	}
+	.over p{
+		font-size:10px;
+	}
+</style>		
 		<div id="b_center">
 			<p class="b_center_top"><img src="images/center_top.jpg"></p>
-			<p class="b_center_middle">
-				<a href=""><img src="images/center_middle_1.jpg"><a href=""><img src="images/center_middle_2.jpg"><a href=""><img src="images/center_middle_3.jpg"></a>
-			</p>
-			<p class="b_center_bottom">
-				<a href=""><img src="images/center_middle_4.jpg"><a href=""><img src="images/center_middle_5.jpg"><a href=""><img src="images/center_middle_6.jpg"></a>
-			</p>
+			<div class="b_center_middle">
+				<c:forEach items="${t_pArr }" var="arr" begin="0" end="5">
+					<a href=""><img class="main_center_img" src="<c:if test="${not empty arr[0] }">attach/product/${arr[1] }</c:if>" <c:if test="${empty arr }">style="display:none;"</c:if>>
+					<div class="over">
+						<p class="p_name">${arr[2] }</p>
+						<p class="p_price">${arr[3] }</p>
+					</div></a>
+				</c:forEach>
+			</div>
 		</div>
 		<div id="b_right">
 			<img src="images/center_right.jpg">

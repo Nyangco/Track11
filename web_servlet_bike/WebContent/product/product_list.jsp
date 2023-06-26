@@ -12,6 +12,11 @@
 		product.method="post";
 		product.action="Product";
 		product.submit();
+	}function goPage(page){
+		product.t_nowPage.value=page;
+		product.method="post";
+		product.action="Product";
+		product.submit()
 	}
 </script>
 	<div id="container">
@@ -25,14 +30,15 @@
 			<form name="product">
 			<input type="hidden" name="t_requestPage" value="list">
 			<input type="hidden" name="t_p_no">
+			<input type="hidden" name="t_nowPage">
 			<p class="select_box select_box_right" style="width:600px;">
-				<select name="t_sort" onchange="goSearch()">
+				<select name="t_sort" onchange="goSearch()" class="sel_box">
 					<option value="5" <c:if test="${t_sort eq '5' }">selected</c:if> >5개씩 정렬</option>
 					<option value="10" <c:if test="${t_sort eq '10' }">selected</c:if> >10개씩 정렬</option>
 					<option value="20" <c:if test="${t_sort eq '20' }">selected</c:if> >20개씩 정렬</option>
 					<option value="50" <c:if test="${t_sort eq '50' }">selected</c:if> >50개씩 정렬</option>
 				</select>
-				<select name="t_tag" onchange="goSearch()">
+				<select name="t_tag" onchange="goSearch()" class="sel_box">
 					<option value="" >모든 태그</option>
 					<c:forEach items="${t_tagArr }" var="str" >
 						<option value="${str[0] }" <c:if test="${t_tag eq str[0] }">selected</c:if> >${str[1] }</option>
@@ -69,7 +75,7 @@
 				<c:forEach items="${t_arr }" var="dto">
 					<tr>
 						<td ><a href="javascript:void()" onClick="goView('${dto.getP_no()}')">${dto.getP_no()}</a></td>
-						<td><c:if test="${not empty dto.getAttach()}"><a href="javascript:void()" onClick="goView('${dto.getP_no()}')"><img src="attach/product/${dto.getAttach()}"></a></c:if></td>
+						<td><c:if test="${not empty dto.getAttach()}"><a href="javascript:void()" onClick="goView('${dto.getP_no()}')"><img src="attach/product/${dto.getAttach()}" style="width:200px;"></a></c:if></td>
 						<td><a href="javascript:void()" onClick="goView('${dto.getP_no()}')">${dto.getP_name() }</a></td>
 						<td>${dto.getP_level()}</td>
 						<td>${dto.getPrice() }</td>

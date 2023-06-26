@@ -31,11 +31,13 @@ public class Index extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
 		String page = "index.jsp";
 		String requestPage = request.getParameter("t_requestPage");
 		if(requestPage == null) requestPage=(String)request.getAttribute("t_requestPage");
 		if(requestPage == null) requestPage="";
+		
+		command.index.Index index = new command.index.Index();
+		index.excute(request);
 		
 		RequestDispatcher rd = request.getRequestDispatcher(page);
 		rd.forward(request, response);

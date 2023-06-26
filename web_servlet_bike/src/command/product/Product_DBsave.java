@@ -31,10 +31,6 @@ public class Product_DBsave implements CommonExcute {
 			String p_size_h = mpr.getParameter("t_p_size_h");
 			String p_weight = mpr.getParameter("t_p_weight");
 			String price = mpr.getParameter("t_price");
-			int iPrice = Integer.parseInt(price);
-			String discount = mpr.getParameter("t_discount");
-			int iDiscount = Integer.parseInt(discount);
-			price = String.valueOf(iPrice*iDiscount/100);
 			String p_level = mpr.getParameter("t_p_level");
 			String c_name = mpr.getParameter("t_c_name");
 			String reg_date = mpr.getParameter("t_reg_date");

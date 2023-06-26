@@ -33,10 +33,7 @@
 <script>
 	function goSave(){
 		if(checking(product.t_p_name,20,"상품명"));
-		else if(checking(product.t_p_tag,10,"태그"));
-		else if(checking(product.t_p_level,1,"판촉 레벨"));
-		else if(checking(product.t_p_content,500,"상품 상세설명"));
-		else if(checking(product.t_attach,20,"사진 첨부"));
+		else if(checking(product.t_p_content,1000,"상품 상세설명"));
 		else if(checkAttach(product.t_attach));
 		else if(checking(product.t_p_size_w,4,"가로 길이"));
 		else if(checking(product.t_p_weight,6,"무게"));
@@ -46,7 +43,7 @@
 		else if(checking(product.t_price,9,"가격"));
 		else {
 			product.method="post";
-			product.action="Product?t_requestPage=DBsave";
+			product.action="Product?t_requestPage=DBupdate";
 			product.submit();
 		}
 	}
@@ -97,6 +94,7 @@
 				PRODUCT
 			</p>
 			<form name="product" enctype="multipart/form-data">
+			<input type="hidden" name="t_p_no" value="${t_dto.getP_no() }">
 			<table class="boardForm">
 				<colgroup>
 					<col width="10%">
@@ -107,54 +105,55 @@
 				<tbody>
 					<tr>
 						<th >상품명</th>
-						<td ><input type="text" class="input300" name="t_p_name"></td>
+						<td ><input type="text" class="input300" name="t_p_name" value=${t_dto.getP_name() }></td>
 						<th >태그/판촉</th>
 						<td>
 							<select name="t_p_tag">
-								<option value="">태그 선택</option>
 								<c:forEach items="${t_tagArr}" var="sTag">
-								<option value="${sTag[0]}">${sTag[1]}</option>
+									<option value="${sTag[0]}"<c:if test="${sTag[0] eq t_dto.getP_tag() }">selected</c:if>>${sTag[1]}</option>
 								</c:forEach>
 							</select>
 							<select name="t_p_level">
-								<option value="">판촉 레벨 선택</option>
-								<option value="0">보통(0)</option>
-								<option value="1">높음(1)</option>
-								<option value="2">매우 높음(2)</option>
+								<option value="0" <c:if test="${t_dto.getP_level() eq '0' }">selected</c:if>>보통(0)</option>
+								<option value="1" <c:if test="${t_dto.getP_level() eq '1' }">selected</c:if>>높음(1)</option>
+								<option value="2" <c:if test="${t_dto.getP_level() eq '2' }">selected</c:if>>매우 높음(2)</option>
 							</select>	
 						</td>
 						
 					</tr>
 					<tr>
 						<th >상품 사진</th>
-						<td colspan="3" style="height:400px;"><img id="preview-image" style="border:1px solid gray;display:none;"></td>
+						<td colspan="3" style="height:400px;">
+							<img src="attach/product/${t_dto.getAttach() }" id="preview-image" style="border:1px solid gray;height:400px;width:400px;">
+							<input type="hidden" name="t_old_attach" value="${t_dto.getAttach() }">
+						</td>
+					</tr>
+					<tr>
+						<th >사진 첨부</th>
+						<td colspan="3">※ 400px * 400px 권장<br><input type="file" class="input600" name="t_attach" id="input-image"></td>
 					</tr>
 					<tr>
 						<th >상품 상세설명</th>
-						<td colspan="3"><textarea class="textArea_H250" name="t_p_content"></textarea></td>
+						<td colspan="3"><textarea class="textArea_H250" name="t_p_content">${t_dto.getP_content() }</textarea></td>
 					</tr>	
 					<tr>
-						<th >사진 첨부</th>
-						<td colspan="3">※이미지 첨부 필수 400px * 400px 권장<br><input type="file" class="input600" name="t_attach" id="input-image"></td>
-					</tr>
-					<tr>
 						<th >가로 길이</th>
-						<td><input type="text" class="input100" name="t_p_size_w">mm</td>
+						<td><input type="text" class="input100" name="t_p_size_w" value="${t_dto.getP_size_w() }">mm</td>
 						<th >무게</th>
-						<td><input type="text" class="input100" name="t_p_weight"></td>
+						<td><input type="text" class="input100" name="t_p_weight" value="${t_dto.getP_weight()}">kg</td>
 					</tr>	
 					<tr>
 						<th >세로 길이</th>
-						<td><input type="text" class="input100" name="t_p_size_l">mm</td>
+						<td><input type="text" class="input100" name="t_p_size_l"  value="${t_dto.getP_size_l() }">mm</td>
 						<th >제조사명</th>
-						<td><input type="text" class="input100" name="t_c_name"></td>
+						<td><input type="text" class="input100" name="t_c_name" value="${t_dto.getC_name() }"></td>
 					</tr>	
 					<tr>
 						<th >높이</th>
-						<td><input type="text" class="input100" name="t_p_size_h">mm</td>
+						<td><input type="text" class="input100" name="t_p_size_h"  value="${t_dto.getP_size_h() }">mm</td>
 						<th >가격</th>
 						<td >
-							<input type="text" class="input100" name="t_price">원&nbsp;&nbsp;
+							<input type="text" class="input100" name="t_price" value="${t_dto.getPrice() }">원&nbsp;&nbsp;
 							<select name="t_discount">
 								<option value="100">할인율</option>
 								<option value="90">10%</option>
@@ -167,12 +166,22 @@
 					<tr>
 						<th >작성자</th>
 						<td>
-							<input type="text" class="input100" value="${sName }" readonly>
-							<input type="hidden" value="${sId }" name="t_reg_id">
+							<input type="text" class="input100" value="${t_dto.getReg_id()}" readonly>
 						</td>
 						<th >작성일자</th>
 						<td>
-							<input type="date" class="input130" value="${t_today }" name="t_reg_date" readonly>
+							<input type="date" class="input130" value="${t_dto.getReg_date() }" readonly>
+						</td>
+					</tr>	
+					<tr>
+						<th >수정자</th>
+						<td>
+							<input type="text" class="input100" value="${sName }" readonly>
+							<input type="hidden" value="${sId }" name="t_update_id">
+						</td>
+						<th >수정일자</th>
+						<td>
+							<input type="date" class="input130" value="${t_today }" name="t_update_date" readonly>
 						</td>
 					</tr>	
 

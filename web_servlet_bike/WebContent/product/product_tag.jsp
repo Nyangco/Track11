@@ -30,7 +30,7 @@
 				  	<select name="t_tag_code">
 				  		<option value="new">새 태그 입력</option>
 				  		<c:forEach items="${t_arr }" var="arr">
-				  			<option value="${arr[0] }">${arr[1] }</option>
+				  			<c:if test="${arr[0] ne 'T000'}"><option value="${arr[0] }">${arr[1] }</option></c:if>
 				  		</c:forEach>
 				  	</select>
 				  </td>
@@ -38,7 +38,7 @@
 				<tr>
 				  <th>Tag 명</th>
 				  <td>
-				  	<input name="t_tag_name" type="text" >
+				  	<input name="t_tag_name" type="text" placeholder="삭제하시려면 0을 입력해주세요" size="25">
 				  </td>
 				</tr>
 			  </tbody>

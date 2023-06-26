@@ -35,8 +35,8 @@
 		if(checking(product.t_p_name,20,"상품명"));
 		else if(checking(product.t_p_tag,10,"태그"));
 		else if(checking(product.t_p_level,1,"판촉 레벨"));
-		else if(checking(product.t_p_content,500,"상품 상세설명"));
-		else if(checking(product.t_attach,20,"사진 첨부"));
+		else if(checking(product.t_p_content,1000,"상품 상세설명"));
+		else if(checking(product.t_attach,40,"사진 첨부"));
 		else if(checkAttach(product.t_attach));
 		else if(checking(product.t_p_size_w,4,"가로 길이"));
 		else if(checking(product.t_p_weight,6,"무게"));
@@ -127,21 +127,21 @@
 					</tr>
 					<tr>
 						<th >상품 사진</th>
-						<td colspan="3" style="height:400px;"><img id="preview-image" style="border:1px solid gray;display:none;"></td>
+						<td colspan="3" style="height:400px;"><img id="preview-image" style="border:1px solid gray;display:none;height:400px;width:400px;"></td>
+					</tr>
+					<tr>
+						<th >사진 첨부</th>
+						<td colspan="3">※이미지 첨부 필수 400px * 400px 권장<br><input type="file" class="input600" name="t_attach" id="input-image"></td>
 					</tr>
 					<tr>
 						<th >상품 상세설명</th>
 						<td colspan="3"><textarea class="textArea_H250" name="t_p_content"></textarea></td>
 					</tr>	
 					<tr>
-						<th >사진 첨부</th>
-						<td colspan="3">※이미지 첨부 필수 400px * 400px 권장<br><input type="file" class="input600" name="t_attach" id="input-image"></td>
-					</tr>
-					<tr>
 						<th >가로 길이</th>
 						<td><input type="text" class="input100" name="t_p_size_w">mm</td>
 						<th >무게</th>
-						<td><input type="text" class="input100" name="t_p_weight"></td>
+						<td><input type="text" class="input100" name="t_p_weight">kg</td>
 					</tr>	
 					<tr>
 						<th >세로 길이</th>
@@ -155,13 +155,6 @@
 						<th >가격</th>
 						<td >
 							<input type="text" class="input100" name="t_price">원&nbsp;&nbsp;
-							<select name="t_discount">
-								<option value="100">할인율</option>
-								<option value="90">10%</option>
-								<option value="80">20%</option>
-								<option value="50">50%</option>
-								<option value="10">90%</option>
-							</select>
 						</td>
 					</tr>	
 					<tr>

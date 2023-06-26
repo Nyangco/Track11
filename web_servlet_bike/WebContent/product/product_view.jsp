@@ -55,7 +55,12 @@
 						<td>${t_dto.getP_tag()}</td>
 						<th >판촉 레벨</th>
 						<td>
-							${t_dto.getP_level()}
+							<c:choose>
+								<c:when test="${t_dto.getP_level() eq '0'}">보통(0)</c:when>
+								<c:when test="${t_dto.getP_level() eq '1'}">높음(1)</c:when>
+								<c:when test="${t_dto.getP_level() eq '2'}">아주높음(2)</c:when>
+								<c:otherwise></c:otherwise>
+							</c:choose>
 						</td>
 					</tr>	
 					<tr>
@@ -73,7 +78,7 @@
 						<th >사이즈</th>
 						<td>${t_dto.getP_size_w()}mm - ${t_dto.getP_size_l()}mm - ${t_dto.getP_size_h()}mm</td>
 						<th >무게</th>
-						<td>${t_dto.getP_weight()}g</td>
+						<td>${t_dto.getP_weight()}kg</td>
 					</tr>
 					<tr>
 						<th >제조사명</th>
@@ -91,7 +96,12 @@
 						<th >수정자</th>
 						<td>${t_dto.getUpdate_id()}</td>
 						<th >수정일</th>
-						<td>${t_dto.getUpdate_date()}</td>
+						<td>
+							<c:choose>
+								<c:when test="${not empty t_dto.getUpdate_date()}">${t_dto.getUpdate_date()}</c:when>
+								<c:otherwise>수정 이력 없음</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>	
 
 				</tbody>
