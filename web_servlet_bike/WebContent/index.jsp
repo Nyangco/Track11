@@ -68,6 +68,40 @@
 </script>
 <style>
 #disableDiv { position:absolute; left:0; top:0;width:100%; height:1700px; z-index:995 ; background-color:#EEEEEE; filter:Alpha(opacity=80);opacity:0.8; -moz-opaciry:0.8}
+.b_center_middle a{
+		position:relative;
+		display:inline-block;
+		width:105px;
+		height:105px;
+	}
+	.b_center_middle a .over{
+		position:absolute;
+		top:0;
+		opacity:0;
+		transform:translate(0,50px);
+		transition:0.5s;
+		background:#E6E6E6E6;
+		width:105px;
+		height:75px;
+		padding-top:30px;
+	}
+	.b_center_middle a:hover .over{
+		transform:translate(0,0);
+		opacity:1;
+		
+	}
+	.over p{
+		text-align:center;
+		color:black;
+	}
+	.over .p_name{
+		font-size:11px;
+		font-weight:bold;		
+	}
+	.over .p_price{
+		font-size:10px;
+		color:blue;
+	}
 </style>
 <script>
 	function goMember(page){
@@ -271,49 +305,22 @@
 			</div>
 		
 		</div>
-<style>
-	.b_center_middle a{
-		position:relative;
-		display:inline-block;
-		width:105px;
-		height:105px;
-	}
-	.b_center_middle a .over{
-		position:absolute;
-		top:0;
-		opacity:0;
-		transform:translate(0,50px);
-		transition:0.5s;
-		background:#E6E6E6E6;
-		width:105px;
-		height:75px;
-		padding-top:30px;
-	}
-	.b_center_middle a:hover .over{
-		transform:translate(0,0);
-		opacity:1;
-		
-	}
-	.over p{
-		text-align:center;
-		color:black;
-	}
-	.over .p_name{
-		font-size:11px;
-		font-weight:bold;		
-	}
-	.over p{
-		font-size:10px;
-	}
-</style>		
 		<div id="b_center">
 			<p class="b_center_top"><img src="images/center_top.jpg"></p>
 			<div class="b_center_middle">
-				<c:forEach items="${t_pArr }" var="arr" begin="0" end="5">
-					<a href=""><img class="main_center_img" src="<c:if test="${not empty arr[0] }">attach/product/${arr[1] }</c:if>" <c:if test="${empty arr }">style="display:none;"</c:if>>
+				<c:set var="rVar"></c:set>
+				<c:forEach items="${t_pArr }" var="arr" begin="0" end="5" varStatus="vs">
+					<a href="Customer"><img class="main_center_img" src="<c:if test="${not empty arr[0] }">attach/product/${arr[1] }</c:if>" <c:if test="${empty arr }">style="display:none;"</c:if>>
 					<div class="over">
 						<p class="p_name">${arr[2] }</p>
-						<p class="p_price">${arr[3] }</p>
+						<p class="p_price">₩${arr[3] }</p>
+					</div></a>
+					<c:set var="rVar" value="${vs.count }"></c:set>
+				</c:forEach>
+				<c:forEach begin="${rVar }" end="5">
+					<a href=""><img class="main_center_img" src="images/ready.png">
+					<div class="over">
+						<p class="p_name">준비중</p>
 					</div></a>
 				</c:forEach>
 			</div>

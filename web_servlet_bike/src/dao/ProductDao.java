@@ -15,6 +15,21 @@ public class ProductDao {
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
+	public void getHit(String no) {
+		String sql = "update bike_연석모_product set hit=hit+1 where p_no='"+no+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			int k = ps.executeUpdate();
+			if(k!=1) System.out.println("조회수 증가 오류");
+		}catch(SQLException e) {
+			System.out.println("getHit:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+	}
 
 	public ArrayList<String[]> getMainImage(){
 		ArrayList<String[]> arr = new ArrayList<>();
@@ -23,7 +38,7 @@ public class ProductDao {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
-			for(int k=0; k<6; k++) {
+			for(int k=0; k<4; k++) {
 				rs.next();
 				String p_no = rs.getString("p_no");
 				String attach = rs.getString("attach");
@@ -220,9 +235,9 @@ public class ProductDao {
 	
 	public ArrayList<ProductDto> listDB(String select, String search, String tag, int start, int end){
 		ArrayList<ProductDto> arr = new ArrayList<ProductDto>();
-		String subSql = "select p_no, attach, p_name, p_level, price, reg_date from bike_연석모_product where "+select+" like '%"+search+"%' order by p_level desc, reg_date desc";
+		String subSql = "select p_no, attach, p_name, p_level, price, reg_date, hit from bike_연석모_product where "+select+" like '%"+search+"%' ";
 		if(tag!=null && !tag.equals("")) subSql += "and p_tag='"+tag+"' ";
-		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+") tbl) where rnum>="+start+" and rnum<="+end+" order by p_level desc, reg_date desc";
+		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+"order by p_level desc, reg_date desc ) tbl) where rnum>="+start+" and rnum<="+end+" order by p_level desc, reg_date desc ";
 		
 		try {
 			con = DBConnection.getConnection();
@@ -235,9 +250,10 @@ public class ProductDao {
 				String p_name = rs.getString("p_name");
 				String p_level = rs.getString("p_level");
 				String price = rs.getString("price");
+				int hit = rs.getInt("hit");
 				price = df.format(Integer.parseInt(price));
 			
-				ProductDto dto = new ProductDto(p_no, p_name, "", "", attach, "", "", "", "", price, p_level, "", 0, "", "", "", "");
+				ProductDto dto = new ProductDto(p_no, p_name, "", "", attach, "", "", "", "", price, p_level, "", hit, "", "", "", "");
 				arr.add(dto);
 			}
 		}catch(SQLException e) {

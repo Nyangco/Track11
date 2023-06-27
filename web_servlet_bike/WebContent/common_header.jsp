@@ -62,6 +62,11 @@
 		goGo.method="post";
 		goGo.action="Product";
 		goGo.submit();
+	}function goCustomer(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Customer";
+		goGo.submit();
 	}
 </script>
 </head>
@@ -171,7 +176,7 @@
 				</li>
 			</ul>		
 		</div>	
-		<c:if test="${t_nowPage ne 'Member' && t_nowPage ne 'Admin' && t_nowPage ne 'Product'}">
+		<c:if test="${t_nowPage ne 'Member' && t_nowPage ne 'Admin' && t_nowPage ne 'Product' && not empty t_nowPage}">
 			<div id="b_left">
 			<P>${t_nowPage }</P>
 			<ul>
