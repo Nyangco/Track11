@@ -16,6 +16,32 @@ public class ProductDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+
+	public ProductDto productBuy(String p_no) {
+		ProductDto dto = null;
+		String sql = "select p_name, price, attach from bike_연석모_product where p_no='"+p_no+"'";
+		DecimalFormat df = new DecimalFormat("###,###");
+				
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String p_name = rs.getString("p_name");
+				String price = rs.getString("price");
+				price = df.format(Integer.parseInt(price));
+				String attach = rs.getString("attach");
+				dto = new ProductDto(p_no, p_name, "", "", attach, "", "", "", "", price, "", "", 0, "", "", "", "");
+			}
+		}catch(SQLException e) {
+			System.out.println("productBuy:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return dto;
+	}
+	
 	public void getHit(String no) {
 		String sql = "update bike_연석모_product set hit=hit+1 where p_no='"+no+"'";
 		try {

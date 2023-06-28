@@ -274,7 +274,7 @@
 				<li><a href="">Clothing</a></li>
 				<li><a href="">Maintenance</a></li>
 				<li><a href="">Parts</a></li>
-				<li><a href="">Tires & Tubes</a></li>
+				<li><a href="Customer">Product</a></li>
 				<li><a href="javascript:void()" onClick="goNotice('list')">Notice & News</a></li>
 			</ul>
 		</div>

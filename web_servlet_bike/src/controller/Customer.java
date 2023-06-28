@@ -8,7 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import command.customer.Buy;
 import command.customer.List;
 import command.customer.View;
 
@@ -35,6 +37,9 @@ public class Customer extends HttpServlet {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		
+		HttpSession session = request.getSession();
+		String sLevel = (String)session.getAttribute("sLevel");
+		
 		String page = "alert.jsp";
 		
 		String requestPage = request.getParameter("t_requestPage");
@@ -44,10 +49,20 @@ public class Customer extends HttpServlet {
 			List customer = new List();
 			customer.excute(request);
 			page="customer/customer_list.jsp";
-		}if(requestPage.equals("view")) {
+		}else if(requestPage.equals("view")) {
 			View customer = new View();
 			customer.excute(request);
 			page="customer/customer_view.jsp";
+		}else if(requestPage.equals("buy")) {
+			if(sLevel==null) {
+				request.setAttribute("t_msg", "로그인 후에 다시 시도해주십시오");
+				request.setAttribute("t_url", "Member");
+				request.setAttribute("t_nextPage", "login");
+			}else {
+				Buy customer = new Buy();
+				customer.excute(request);
+				page="customer/customer_buy.jsp";
+			}
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher(page);

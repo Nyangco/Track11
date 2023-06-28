@@ -17,6 +17,11 @@
 		customer.method="post";
 		customer.action="Customer";
 		customer.submit();
+	}function goBuy(){
+		customer.t_requestPage.value="buy";
+		customer.method="post";
+		customer.action="Customer";
+		customer.submit();
 	}
 </script>
 <form name="customer">
@@ -113,8 +118,14 @@
 					</a>
 				</c:if>
 			</div>
+<style>
+	.buy_btn{
+		margin-right:230px;
+	}
+</style>
 			<div class="buttonGroup">
 				<a href="javascript:void()" onClick="goCustomer('list')" class="butt">List</a>
+				<a href="javascript:void()" onClick="goBuy()" class="butt buy_btn">Buy</a>
 			</div>	
 		</div>	
 	</div>

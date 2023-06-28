@@ -15,6 +15,32 @@ public class MemberDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public MemberDto memberBuy(String id) {
+		MemberDto dto = null;
+		String sql = "select name,mobile_1,mobile_2,mobile_3,address,email from bike_연석모_member where id='"+id+"'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String name = rs.getString("name");
+				String mobile_1 = rs.getString("mobile_1");
+				String mobile_2 = rs.getString("mobile_2");
+				String mobile_3 = rs.getString("mobile_3");
+				String address = rs.getString("address");
+				String email = rs.getString("email");
+				dto = new MemberDto(id, "", name, "", "", address, mobile_1, mobile_2, mobile_3, "", "", "", "", "", "", "", "", email, 0);
+			}
+		}catch(SQLException e) {
+			System.out.println("memberBuy:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return dto;
+	}
+	
 	public int setMemberPW(String id, String oldPW, String newPW, int pwLength) {
 		int k = 0;
 		String sql = "update bike_연석모_member set password='"+newPW+"', PASSWORD_LEN="+pwLength+" where id = '"+id+"' and password='"+oldPW+"'";

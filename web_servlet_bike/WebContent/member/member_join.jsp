@@ -70,7 +70,6 @@
 	}
 </script>
 	<div id="container">
-	<%@include file="./member_leftN.jsp" %>
 		<div id="b_right">
 			<p class="n_title">
 				MEMBER JOIN

@@ -1,5 +1,10 @@
-function checkAttach(dir, maxSize, extensions){
+function checkAttach(dir, maxSize){
 		var fileName = dir.value;
+		var extensions = ['jpg','svg','png','gif'];
+		for(var k = 2; k<arguments.length; k++){
+			extensions.add(arguments[k]);
+		}
+		
 		if(fileName != ""){ //  C:\fakepath\img_1.png
 			var pathFileName = fileName.lastIndexOf(".")+1;    //확장자 제외한 경로+파일명
 			var extension = (fileName.substr(pathFileName)).toLowerCase();	//확장자명
@@ -12,13 +17,14 @@ function checkAttach(dir, maxSize, extensions){
 			*/
 			
 			var counts=0;
-			for(var k = 0; k<extensions.length; k++){
+				
+			for(var k = 0; k<extension.length; k++){
 				if(extension==extensions[k]){
 					counts++;
 				}
 			}
 			if(counts!=1){
-				alerts("해당 파일 형식은 사용할 수 없습니다.");
+				alert("해당 파일 형식은 사용할 수 없습니다.");
 				return true;
 			}
 			
@@ -52,22 +58,6 @@ function checkAttach(dir, maxSize, extensions){
 	
 function test_alert(){
 	alert("imported");
-}
-
-function checkValue(input,obj){
-	if(input.value==""){
-		alert(obj+" 확인해주세요");
-		input.focus();
-		return true;
-	}else return false;
-}
-		
-function checkLength(input,len,obj){
-	if(input.value.length>Number(len)){
-		alert(obj+" 길이는 "+len+"자리 이하로 해주세요");
-		input.focus();
-		return true;
-	}return false;
 }
 
 function checking(input,len,obj){
