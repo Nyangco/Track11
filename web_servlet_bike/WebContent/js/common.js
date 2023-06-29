@@ -1,10 +1,6 @@
 function checkAttach(dir, maxSize){
 		var fileName = dir.value;
 		var extensions = ['jpg','svg','png','gif'];
-		for(var k = 2; k<arguments.length; k++){
-			extensions.add(arguments[k]);
-		}
-		
 		if(fileName != ""){ //  C:\fakepath\img_1.png
 			var pathFileName = fileName.lastIndexOf(".")+1;    //확장자 제외한 경로+파일명
 			var extension = (fileName.substr(pathFileName)).toLowerCase();	//확장자명

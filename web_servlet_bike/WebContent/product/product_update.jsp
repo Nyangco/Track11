@@ -42,7 +42,7 @@
 		else if(checking(product.t_p_tag,10,"태그"));
 		else if(checking(product.t_p_level,1,"판촉 레벨"));
 		else if(checking(product.t_p_content,500,"상품 상세설명"));
-		else if(checking(product.t_attach,20,"사진 첨부"));
+		else if(checkLength(product.t_attach,20,"사진 첨부"));
 		else if(checkAttach(product.t_attach,5));
 		else if(checking(product.t_p_size_w,4,"가로 길이"));
 		else if(checking(product.t_p_weight,6,"무게"));

@@ -20,10 +20,8 @@ public class Buy implements CommonExcute {
 		
 		String p_no = request.getParameter("t_p_no");
 		if(p_no==null || p_no.equals("")) {
-			System.out.println("Catched");
 			p_no = (String)request.getAttribute("t_p_no");
 		}
-		System.out.println(p_no);
 		ProductDto pDto = pDao.productBuy(p_no);
 		request.setAttribute("t_pDto", pDto);
 		

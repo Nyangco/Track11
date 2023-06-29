@@ -35,8 +35,11 @@ public class Purchase implements CommonExcute {
 		today = today.substring(2).replaceAll("-", "").trim();
 		String purchase_number = dao.getMaxNo(today);
 		String purchase_date = CommonUtil.getTodayTime();
+		String status = null;
+		if(buy_method.equals("cash")) status="0";
+		else status="1";
 		
-		CustomerDto dto = new CustomerDto(id, name, mobile_1, mobile_2, mobile_3, email, shipping_method, address, comment, buy_method, credit_1, credit_2, credit_3, credit_4, cvc, transfer_name, purchase_number, p_no, "0", price, purchase_date);
+		CustomerDto dto = new CustomerDto(id, name, mobile_1, mobile_2, mobile_3, email, shipping_method, address, comment, buy_method, credit_1, credit_2, credit_3, credit_4, cvc, transfer_name, purchase_number, p_no, status, price, purchase_date);
 		int k = dao.insertDB(dto);
 		String msg = "상품 구매에 실패하였습니다."; String url = "Customer"; String nextPage="list";
 		if(k==1) {

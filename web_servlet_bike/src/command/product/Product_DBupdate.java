@@ -29,10 +29,9 @@ public class Product_DBupdate implements CommonExcute {
 			String p_tag = mpr.getParameter("t_p_tag");
 			String old_attach = mpr.getParameter("t_old_attach");
 			String attach = mpr.getFilesystemName("t_attach");
-			if(attach!=null && !attach.equals("") && old_attach!=null && !old_attach.equals("")) {
-				File f = new File("attach/product/"+old_attach);
-				boolean tf = true;
-				if(f.exists()) tf = f.delete();
+			if(attach!=null) {
+				File f = new File(CommonUtil.getFile_dir("product"),old_attach);
+				boolean tf = f.delete();
 				if(!tf) System.out.println("파일 삭제 실패");
 			};
 			if(attach==null) attach=old_attach;

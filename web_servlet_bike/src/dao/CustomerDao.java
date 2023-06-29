@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import common.DBConnection;
 import dto.CustomerDto;
@@ -14,7 +15,55 @@ public class CustomerDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	//CustomerDto dto = new CustomerDto(id, name, mobile_1, mobile_2, mobile_3, email, shipping_method, address, comment, buy_method, credit_1, credit_2, credit_3, credit_4, cvc, transfer_name, "", "", "", "", "");
+	public ArrayList<CustomerDto> listDB(String select, String search, int start, int end){
+		ArrayList<CustomerDto> arr = new ArrayList<CustomerDto>();
+		String subSql = "select s.purchase_number, p.p_name, to_char(s.purchase_date,'yyyy-mm-dd hh24:mi:ss') as purchase_date, "
+					+ "s.s_price, s.status from bike_연석모_product_sale s, bike_연석모_product p where "+select+" "
+					+ "like '%"+search+"%' and s.p_no=p.p_no order by status asc, purchase_date desc";
+		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+") tbl) "
+					+ "where rnum>="+start+" and rnum<="+end;
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				String purchase_number = rs.getString("purchase_number");
+				String p_name = rs.getString("p_name");
+				String purchase_date = rs.getString("purchase_date");
+				String price = rs.getString("s_price");
+				String status = rs.getString("status");
+				CustomerDto dto = new CustomerDto(purchase_number, p_name, status, price, purchase_date);
+				//CustomerDto dto = new CustomerDto(purchase_number, product_number, status, price, purchase_date)
+				arr.add(dto);
+			}
+		}catch(SQLException e) {
+			System.out.println("listDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		
+		return arr;
+	}
+	
+	public int totalCountDB(String select, String search) {
+		int k = 0;
+		String sql = "select count(*) as count from bike_연석모_product_sale where "+select+" like '%"+search+"%'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) k = rs.getInt("count");
+		}catch(SQLException e) {
+			System.out.println("totalCountDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
 	
 	public int insertDB(CustomerDto dto) {
 		int k = 0;
