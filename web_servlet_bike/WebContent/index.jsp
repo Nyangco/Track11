@@ -144,11 +144,21 @@
 		goGo.method="post";
 		goGo.action="Product";
 		goGo.submit();
+	}function goCustomer(page){
+		goGo.t_requestPage.value=page;
+		goGo.method="post";
+		goGo.action="Customer";
+		goGo.submit();
 	}function goNoticeView(no){
 		noticeView.t_no.value = no;
 		noticeView.method="post";
 		noticeView.action="Notice";
 		noticeView.submit();
+	}function goProductView(no){
+		productView.t_p_no.value=no;
+		productView.method="post";
+		productView.action="Customer";
+		productView.submit();
 	}
 </script>
 </head>
@@ -160,6 +170,10 @@
 	<input type="hidden" name="t_requestPage" value="view">
 	<input type="hidden" name="t_no">
 </form>
+<form name="productView">
+	<input type="hidden" name="t_requestPage" value="view">
+	<input type="hidden" name="t_p_no">
+</form>
 <div id="disableDiv" class="disableDiv" style="display:none"></div>
 <div id="container">
 
@@ -167,6 +181,9 @@
 			<div id="b_top_menu">
 				<ul class="top_menu">
 					<li><a href="" class="allclick"><i class="fas fa-bars"></i></a></li>
+					<c:if test="${not empty sLevel}">
+					<li><a href="javascript:void()" onClick="goCustomer('receipt_list')">구매 이력</a></li>
+					</c:if>
 					<c:if test="${sLevel >= 1 }">
 					<li><a href="javascript:void()" onClick="goAdmin('list')">Admin</a></li>
 					</c:if>
@@ -274,7 +291,7 @@
 				<li><a href="">Clothing</a></li>
 				<li><a href="">Maintenance</a></li>
 				<li><a href="">Parts</a></li>
-				<li><a href="Customer">Product</a></li>
+				<li><a href="javascript:void()" onClick="goCustomer('list')">Product</a></li>
 				<li><a href="javascript:void()" onClick="goNotice('list')">Notice & News</a></li>
 			</ul>
 		</div>
@@ -310,7 +327,7 @@
 			<div class="b_center_middle">
 				<c:set var="rVar"></c:set>
 				<c:forEach items="${t_pArr }" var="arr" begin="0" end="5" varStatus="vs">
-					<a href="Customer"><img class="main_center_img" src="<c:if test="${not empty arr[0] }">attach/product/${arr[1] }</c:if>" <c:if test="${empty arr }">style="display:none;"</c:if>>
+					<a href="javascript:void()" onclick="goProductView('${arr[0]}')"><img class="main_center_img" src="<c:if test="${not empty arr[0] }">attach/product/${arr[1] }</c:if>" <c:if test="${empty arr }">style="display:none;"</c:if>>
 					<div class="over">
 						<p class="p_name">${arr[2] }</p>
 						<p class="p_price">₩${arr[3] }</p>

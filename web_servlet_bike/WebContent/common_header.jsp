@@ -78,6 +78,9 @@
 		<div id="b_top_menu">
 			<ul class="top_menu">
 				<li><a href="" class="allclick"><i class="fas fa-bars"></i></a></li>
+					<c:if test="${not empty sLevel }">
+					<li><a href="javascript:void()" onClick="goCustomer('receipt_list')">구매이력</a></li>
+					</c:if>
 					<c:if test="${sLevel >= 1 }">
 					<li><a href="javascript:void()" onClick="goAdmin('list')">Admin</a></li>
 					</c:if>
@@ -195,6 +198,24 @@
 				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_nowPage eq 'Admin'}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MEMBER</a></li>
 				<li><a href="javascript:void()" onClick="goProduct('list')"><c:if test="${t_nowPage eq 'Product'}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PRODUCT</a></li>
 			</ul>
+			</div>
+		</c:if>
+		<c:if test="${t_nowPage eq 'Member' && empty sLevel}">
+			<div id="b_left">
+				<P>MEMBER</P>
+				<ul>
+					<li><a href="javascript:void()" onClick="goMember('login')"><c:if test="${t_requestPage eq 'login' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> LOGIN</a></li>
+					<li><a href="javascript:void()" onClick="goMember('passwordFind')"><c:if test="${t_requestPage eq 'passwordFind' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> ID / PASSWORD</a></li>
+					<li><a href="javascript:void()" onClick="goMember('join')"><c:if test="${t_requestPage eq 'join' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> JOIN</a></li>
+				</ul>
+			</div>
+		</c:if>
+		<c:if test="${t_nowPage eq 'Member' && not empty sLevel}">
+			<div id="b_left">
+				<P>MEMBER</P>
+				<ul>
+					<li><a href="javascript:void()" onClick="goMember('myinfo')"><c:if test="${t_requestPage eq 'myinfo' }"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MYINFO</a></li>
+				</ul>
 			</div>
 		</c:if>
 	</div>

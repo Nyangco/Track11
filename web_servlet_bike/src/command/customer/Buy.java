@@ -19,8 +19,16 @@ public class Buy implements CommonExcute {
 		HttpSession session = request.getSession();
 		
 		String p_no = request.getParameter("t_p_no");
+		if(p_no==null || p_no.equals("")) {
+			System.out.println("Catched");
+			p_no = (String)request.getAttribute("t_p_no");
+		}
+		System.out.println(p_no);
 		ProductDto pDto = pDao.productBuy(p_no);
 		request.setAttribute("t_pDto", pDto);
+		
+		String pnc = pDto.getPrice().replaceAll(",", "");
+		request.setAttribute("t_pnc", pnc);
 		
 		String sId = (String)session.getAttribute("sId");
 		MemberDto mDto = mDao.memberBuy(sId);

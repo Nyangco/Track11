@@ -83,6 +83,16 @@ function checkingMobile(input,len,obj){
 		return true;
 	}else return false;
 }
+
+function checkLength(input,len,obj){
+	if(Number(input.value.length)>Number(len)){
+		alert(obj+" 길이는 "+len+"자리 이하로 해주세요");
+		input.focus();
+		return true;
+	}else return false;
+}
+/*
+}
 /*
 function checkAttach(dir){
 		var fileName = dir.value;

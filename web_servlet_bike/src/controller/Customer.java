@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import command.customer.Buy;
 import command.customer.List;
+import command.customer.Purchase;
+import command.customer.Receipt_list;
 import command.customer.View;
 
 
@@ -62,6 +64,25 @@ public class Customer extends HttpServlet {
 				Buy customer = new Buy();
 				customer.excute(request);
 				page="customer/customer_buy.jsp";
+			}
+		}else if(requestPage.equals("purchase")) {
+			if(sLevel==null) {
+				request.setAttribute("t_msg", "로그인 후에 다시 시도해주십시오");
+				request.setAttribute("t_url", "Member");
+				request.setAttribute("t_nextPage", "login");
+			}else {
+				Purchase customer = new Purchase();
+				customer.excute(request);
+			}
+		}else if(requestPage.equals("receipt_list")) {
+			if(sLevel==null) {
+				request.setAttribute("t_msg", "로그인 후에 다시 시도해주십시오");
+				request.setAttribute("t_url", "Member");
+				request.setAttribute("t_nextPage", "login");
+			}else {
+				Receipt_list customer = new Receipt_list();
+				customer.excute(request);
+				page="customer/receipt_list.jsp";
 			}
 		}
 		
