@@ -15,14 +15,45 @@ public class CustomerDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	public ArrayList<CustomerDto> listDB(String select, String search, int start, int end){
+	public String getP_no(String search) {
+		String result = null;
+		String sql1 = "select count(*) as count from bike_연석모_product where p_name like '%"+search+"%'";
+		String sql2 = "select p_no from bike_연석모_product where p_name like '%"+search+"%'";
+		System.out.println(sql1);
+		System.out.println(sql2);
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql1);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				if(rs.getInt("count")!=1) {
+					result = "error";
+				}else {
+					con = DBConnection.getConnection();
+					ps = con.prepareStatement(sql2);
+					rs = ps.executeQuery();
+					if(rs.next()) {
+						result = rs.getString("p_no");
+					}
+				}
+			}
+		}catch(SQLException e) {
+			System.out.println("getP_no_sql1:"+sql1+"\n getP_no_sql2:"+sql2);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return result;
+	}
+	
+	public ArrayList<CustomerDto> listDB(String select, String search, int start, int end, String id){
 		ArrayList<CustomerDto> arr = new ArrayList<CustomerDto>();
 		String subSql = "select s.purchase_number, p.p_name, to_char(s.purchase_date,'yyyy-mm-dd hh24:mi:ss') as purchase_date, "
 					+ "s.s_price, s.status from bike_연석모_product_sale s, bike_연석모_product p where "+select+" "
-					+ "like '%"+search+"%' and s.p_no=p.p_no order by status asc, purchase_date desc";
+					+ "like '%"+search+"%' and s.p_no=p.p_no and s.id = '"+id+"' order by status asc, purchase_date desc";
 		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+") tbl) "
 					+ "where rnum>="+start+" and rnum<="+end;
-		
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
@@ -47,9 +78,9 @@ public class CustomerDao {
 		return arr;
 	}
 	
-	public int totalCountDB(String select, String search) {
+	public int totalCountDB(String select, String search, String id) {
 		int k = 0;
-		String sql = "select count(*) as count from bike_연석모_product_sale where "+select+" like '%"+search+"%'";
+		String sql = "select count(*) as count from bike_연석모_product_sale where "+select+" like '%"+search+"%' and id='"+id+"'";
 		
 		try {
 			con = DBConnection.getConnection();
@@ -94,7 +125,6 @@ public class CustomerDao {
 		String result = null;
 		String sql = "select nvl(max(purchase_number),'S"+today+"000') as purchase_number from bike_연석모_product_sale "
 					+ "where purchase_number like '%"+today+"%'";
-		
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);

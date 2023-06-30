@@ -14,6 +14,7 @@ import command.customer.Buy;
 import command.customer.List;
 import command.customer.Purchase;
 import command.customer.Receipt_list;
+import command.customer.Receipt_view;
 import command.customer.View;
 
 
@@ -81,6 +82,16 @@ public class Customer extends HttpServlet {
 				request.setAttribute("t_nextPage", "login");
 			}else {
 				Receipt_list customer = new Receipt_list();
+				customer.excute(request);
+				page="customer/receipt_list.jsp";
+			}
+		}else if(requestPage.equals("receipt_view")) {
+			if(sLevel==null) {
+				request.setAttribute("t_msg", "로그인 후에 다시 시도해주십시오");
+				request.setAttribute("t_url", "Member");
+				request.setAttribute("t_nextPage", "login");
+			}else {
+				Receipt_view customer = new Receipt_view();
 				customer.excute(request);
 				page="customer/receipt_list.jsp";
 			}

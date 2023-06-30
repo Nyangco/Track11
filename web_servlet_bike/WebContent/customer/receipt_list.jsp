@@ -8,6 +8,54 @@
 		customer.method="post";
 		customer.action="Customer";
 		customer.submit();
+	}function goView(purchase_number){
+		customer.t_purchase_number.value=purchase_number;
+		customer.t_requestPage.value="receipt_view";
+		customer.method="post";
+		customer.action="Customer";
+		customer.submit();
+	}function goCancel(purchase_number){
+		if(confirm("정말로 취소하시겠습니까?")){
+			customer.t_purchase_number.value=purchase_number;
+			customer.t_requestPage.value="cancel";
+			customer.method="post";
+			customer.action="Customer";
+			customer.submit();
+		}
+	}function goRefund(purchase_number){
+		customer.t_purchase_number.value=purchase_number;
+		customer.t_requestPage.value="refund";
+		customer.method="post";
+		customer.action="Customer";
+		customer.submit();
+	}function goConfirm(purchase_number){
+		if(confirm("정말로 구매 확정하시겠습니까?")){
+			customer.t_purchase_number.value=purchase_number;
+			customer.t_requestPage.value="confirm";
+			customer.method="post";
+			customer.action="Customer";
+			customer.submit();
+		}
+	}function goSearch(){
+		if(checking(customer.t_select,30,"검색 항목"))return;
+		customer.method="post";
+		customer.action="Customer";
+		customer.submit();
+	}function changeInput(){
+		var k = customer.t_select.value;
+		if(k=="status"){
+			$('#input_text').hide();
+			$('#input_select').show();
+			$('#input_date').hide();
+		}else if(k=="purchase_date"){
+			$('#input_text').hide();
+			$('#input_select').hide();
+			$('#input_date').show();
+		}else{
+			$('#input_text').show();
+			$('#input_select').hide();
+			$('#input_date').hide();
+		}
 	}
 </script>
 	<div id="b_right" style="float:none;width:1024px;margin:0 auto;padding:20px 0;">
@@ -20,21 +68,41 @@
 		<form name="customer">
 		<input type="hidden" name="t_nowPage">
 		<input type="hidden" name="t_requestPage" value="receipt_list">
-		<input type="hidden" name="t_id">
-			<p class="select_box select_box_right" style="width:500px;">
-				<input type="radio" name="t_sort" value="5" onchange="goList()" <c:if test="${t_sort eq '5' }">checked</c:if>>5명 
-				<input type="radio" name="t_sort" value="10" onchange="goList()" <c:if test="${t_sort eq '10' }">checked</c:if>>10명 
-				<input type="radio" name="t_sort" value="20" onchange="goList()" <c:if test="${t_sort eq '20' }">checked</c:if>>20명 
-				<input type="radio" name="t_sort" value="30" onchange="goList()" <c:if test="${t_sort eq '30' }">checked</c:if>>30명 
-				<select name="t_select" class="sel_box" style="width:63px;">
-					<option value="id">ID</option>
-					<option value="name">Name</option>
-					<option value="mobile_3">Mobile</option>
+		<input type="hidden" name="t_purchase_number">
+			<div class="select_box select_box_right" style="width:500px;">
+				<select name="t_sort" class="sel_box" onchange="goSearch()">
+					<option value="">정렬 개수</option>
+					<option value="5" <c:if test="${t_sort eq '5'}">selected</c:if>>5건씩</option>
+					<option value="10" <c:if test="${t_sort eq '10'}">selected</c:if>>10건씩</option>
+					<option value="20" <c:if test="${t_sort eq '20'}">selected</c:if>>20건씩</option>
+					<option value="30" <c:if test="${t_sort eq '30'}">selected</c:if>>30건씩</option>
 				</select>
-				<input type="text" name="t_search" value="${t_search }" class="sel_text">
-	
-				<button type="button" onclick="goList()" class="sel_button"><i class="fa fa-search"></i> SEARCH</button>
-			</p>		
+				<select name="t_select" class="sel_box" onchange="changeInput()">
+					<option value="">검색 항목</option>
+					<option value="purchase_number" <c:if test="${t_select eq 'purchase_number'}">selected</c:if>>주문 번호</option>
+					<option value="p_no" <c:if test="${t_select eq 'p_no'}">selected</c:if>>제품명</option>
+					<option value="status" <c:if test="${t_select eq 'status'}">selected</c:if>>배송 상태</option>
+					<option value="purchase_date" <c:if test="${t_select eq 'purchase_date'}">selected</c:if>>구매일</option>
+				</select>
+				<button type="button" onclick="goSearch()" class="sel_button" style="float:right;margin-top:2px;margin-left:5px;"><i class="fa fa-search"></i> SEARCH</button>
+				<div id="input_boxes" style="width:120px;float:right;margin-top:2px;margin-left:5px;">
+					<div id="input_text">
+						<input type="text" name="t_search" value="${t_search }" class="sel_text" placeholder="검색 내용을 입력">
+					</div><div id="input_select" style="display:none;">
+						<select name="t_search_s" style="height:22px;width:120px;">
+							<option value="1">입금 확인중</option>
+							<option value="2">결제 완료</option>
+							<option value="3">배송 준비중</option>
+							<option value="4">배송중</option>
+							<option value="5">배송 완료</option>
+							<option value="6">구매 확정</option>
+							<option value="7">수령 대기중</option>
+						</select>
+					</div><div id="input_date" style="display:none;">
+						<input type="date" name="t_search_d" style="height:22px;width:120px;">
+					</div>
+				</div>
+			</div>		
 		</form>	
 		
 		<table class="boardList">
@@ -69,19 +137,20 @@
 								<c:when test="${arr.getStatus() eq 2}">결제 완료</c:when>
 								<c:when test="${arr.getStatus() eq 3}">배송 준비중</c:when>
 								<c:when test="${arr.getStatus() eq 4}">배송중</c:when>
-								<c:when test="${arr.getStatus() eq 5}">배송완료</c:when>
+								<c:when test="${arr.getStatus() eq 5}">배송 완료</c:when>
 								<c:when test="${arr.getStatus() eq 6}">구매 확정</c:when>
+								<c:when test="${arr.getStatus() eq 7}">수령 대기중</c:when>
 							</c:choose>						
 						</td>
 						<td>
 						<div class="buttonGroup_center" style="margin:0;">
-							<a href="javascript:void()" onClick="goView(${arr.getPurchase_number() })" class="butt">상세 보기</a>
-							<c:if test="${(arr.getStatus() eq 1)or(arr.getStatus() eq 2) }">
-							<a href="javascript:void()" onClick="goCancel(${arr.getPurchase_number() })" class="butt">주문 취소</a>
+							<a href="javascript:void()" onClick="goView('${arr.getPurchase_number() }')" class="butt">상세 보기</a>
+							<c:if test="${arr.getStatus() eq '1' || arr.getStatus() eq '2' }">
+							<a href="javascript:void()" onClick="goCancel('${arr.getPurchase_number() }')" class="butt">주문 취소</a>
 							</c:if>
-							<c:if test="${(arr.getStatus() eq 3)or(arr.getStatus() eq 4)or(arr.getStatus() eq 5) }">
-							<a href="javascript:void()" onClick="goCancel(${arr.getPurchase_number() })" class="butt">반품/교환</a>
-							<a href="javascript:void()" onClick="goCancel(${arr.getPurchase_number() })" class="butt">주문 확정</a>
+							<c:if test="${arr.getStatus() eq '3' || arr.getStatus() eq '4' || arr.getStatus() eq '5' || arr.getStatus() eq '7' }">
+							<a href="javascript:void()" onClick="goRefund('${arr.getPurchase_number() }')" class="butt">반품/교환</a>
+							<a href="javascript:void()" onClick="goConfirm('${arr.getPurchase_number() }')" class="butt">주문 확정</a>
 							</c:if>
 						</div>
 						</td>

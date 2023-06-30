@@ -3,6 +3,7 @@ package command.customer;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import common.CommonExcute;
 import common.CommonUtil;
@@ -15,21 +16,34 @@ public class Receipt_list implements CommonExcute {
 	public void excute(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		CustomerDao dao = new CustomerDao();
+		HttpSession session = request.getSession();
 		String select = request.getParameter("t_select");
 		String search = request.getParameter("t_search");
 		String sSort = request.getParameter("t_sort");
-		if(select == null) {
+		if(select == null || select.equals("")) {
 			select = "purchase_number";
 			search = "";
-		}if(sSort==null)sSort = "5";
-		
+		}if(sSort==null || sSort.equals(""))sSort = "5";
 		int sort = Integer.parseInt(sSort);
+		search = search.trim();
+		String sId = (String)session.getAttribute("sId");
 		request.setAttribute("t_select", select);
 		request.setAttribute("t_search", search);
 		request.setAttribute("t_sort", sort);
 		
+		if(select.equals("p_no")) {
+			String p_no = dao.getP_no(search);
+			if(p_no.equals("error")){
+				request.setAttribute("t_search", "더 정확하게 입력해주세요.");
+				search="";
+			}else {
+				search=p_no;
+			}
+		}
+
 		
-		int total_count = dao.totalCountDB(select,search);
+		
+		int total_count = dao.totalCountDB(select,search,sId);
 		request.setAttribute("t_totalCount", total_count);
 		int list_setup_count = sort;  //한페이지당 출력 행수 
 		int pageNumber_count = 3;  //한페이지당 출력 페이지 갯수
@@ -51,7 +65,8 @@ public class Receipt_list implements CommonExcute {
 		String paging = CommonUtil.pageListPost(current_page, total_page, pageNumber_count);
 		request.setAttribute("t_paging", paging);
 		
-		ArrayList<CustomerDto> arr = dao.listDB(select,search,start,end);
+		select="s."+select;
+		ArrayList<CustomerDto> arr = dao.listDB(select,search,start,end,sId);
 		request.setAttribute("t_arr", arr);
 	}
 
