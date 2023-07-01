@@ -93,7 +93,7 @@ public class Customer extends HttpServlet {
 			}else {
 				Receipt_view customer = new Receipt_view();
 				customer.excute(request);
-				page="customer/receipt_list.jsp";
+				page="customer/receipt_view.jsp";
 			}
 		}
 		

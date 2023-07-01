@@ -155,17 +155,7 @@
 						</ul>
 					</div>					
 				</li>
-				<li><a href="">Tires & Tubes</a>
-					<div class="div6">
-						<ul>
-							<li><a href="">6sub menu 1</a></li>
-							<li><a href="">6sub menu 2</a></li>
-							<li><a href="">6sub menu 3</a></li>
-							<li><a href="">6sub menu 4</a></li>
-							<li><a href="">6sub menu 5</a></li>
-						</ul>
-					</div>					
-				</li>
+				<li><a href="Customer">Product</a></li>
 				<li><a href="javascript:void()" onClick="goNotice('list')">Notice & News</a>
 					<div class="div7">
 						<ul>

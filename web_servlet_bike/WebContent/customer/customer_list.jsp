@@ -82,8 +82,8 @@
 								</div>
 								<div class="product_content">
 									<p class="product_name">${arr.getP_name() }</p>
-									<p class="product_price">${arr.getPrice() }</p>
-									<p class="product_hit">${arr.getHit() }</p>
+									<p class="product_price" style="color:red;">${arr.getPrice() }₩</p>
+									<p class="product_hit"><i class="fa-solid fa-eye"></i>${arr.getHit() }</p>
 								</div>
 							</div>
 							</a>

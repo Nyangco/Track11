@@ -12,13 +12,14 @@
 	}
 	function showShipping(){
 		$('#shipping').show();
-		customer.t_shipping_fee.value="5000";
-		customer.t_total_fee.value=Number(5000)+Number(${t_pnc});
+		customer.t_shipping_fee.value="5,000";
+		var k = Number(5000)+Number(${t_pnc});
+		customer.t_total_fee.value= comma(k);
 	}
 	function hideShipping(){
 		$('#shipping').hide();
 		customer.t_shipping_fee.value="0";
-		customer.t_total_fee.value=${t_pnc};
+		customer.t_total_fee.value="${t_pDto.getPrice()}";
 	}
 	function goBuy() {
 		if (checking(customer.t_name, 10, "받는분"))
@@ -75,7 +76,7 @@
 		<input type="hidden" name="t_requestPage" value="purchase"> <input
 			type="hidden" name="t_id" value="${t_mDto.getId() }">
 		<div id="b_right" style="float: left; width: 650px; height: 420px;">
-			<p class="n_title" style="width: 650px;">구매 페이지</p>
+			<p class="n_title" style="width: 650px;">제품 구매</p>
 			<table class="boardForm">
 				<colgroup>
 					<col width="200" />
@@ -116,14 +117,14 @@
 							</div></td>
 					</tr>
 					<tr>
-						<th>배송 요청사항</th>
+						<th>요청사항</th>
 						<td><input type="text" name="t_comment" style="width: 340px">
 						</td>
 					</tr>
 					<tr>
 						<th>결제 수단</th>
 						<td><input type="radio" name="t_buy_method" value="card"
-							onchange="showCard()">카드 <input type="radio"
+							onchange="showCard()">카드&nbsp;&nbsp; <input type="radio"
 							name="t_buy_method" value="cash" onchange="showCash()">무통장입금
 							<div id="card" style="display: none;">
 								카드 번호 입력 <input type="text" name="t_credit_1"
@@ -139,6 +140,12 @@
 								입금자명 입력 <input type="text" name="t_transfer_name"
 									style="width: 140px">
 							</div></td>
+					</tr>
+					<tr>
+						<th>영수증 이메일 발송</th>
+						<td>
+							<input type="checkbox" name="t_mailing" value="y">발송
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -168,7 +175,7 @@
 					</tr>
 					<tr>
 						<th>제품 가격</th>
-						<td><input type="text" name="t_price" value="${t_pnc }"
+						<td><input type="text" name="t_price" value="${t_pDto.getPrice() }"
 							readonly style="border: none;"></td>
 					</tr>
 					<tr>
@@ -178,7 +185,7 @@
 					</tr>
 					<tr>
 						<th>합계</th>
-						<td><input type="text" name="t_total_fee" value="${t_pnc }"
+						<td><input type="text" name="t_total_fee" value="${t_pDto.getPrice() }"
 							readonly style="border: none;"></td>
 					</tr>
 				</tbody>

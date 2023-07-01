@@ -14,7 +14,7 @@ input:disabled {
 	<div id="container">
 		<div id="b_right" style="float:none; margin=0 auto;">
 			<p class="n_title">
-				MEMBER MYINFO
+				상세 구매이력
 			</p>
 			<table class="boardForm">
 			  <colgroup>
@@ -23,66 +23,85 @@ input:disabled {
 			  </colgroup>
 			  <tbody>
 				<tr>
-				  <th><label for="id">I D</label></th>
-				  <td>${t_dto.getId()}</td>
+				  <th>주문 번호</th>
+				  <td>${t_dto.getPurchase_number() }</td>
 				</tr>
 				<tr>
-				  <th><label for="nana">성 명</label></th>
-				  <td>${t_dto.getName()}</td>
-				</tr>
-				<tr>
-				  <th>비밀번호</th>
-				  <td>${t_dto.getPassword()}</td>
-				</tr>
-				<tr>
-				  <th>이메일</th>
-				  <td>${t_dto.getEmail()}</td>
-				</tr>
-				<tr>
-				  <th>지역</th>
-				  <td>${t_dto.getArea()}</td>
-				</tr>
-				<tr>
-				  <th>주소</th>
-				  <td>${t_dto.getAddress()}</td>
-				</tr>
-				<tr>
-				  <th>연락처</th>
-				  <td>${t_dto.getMobile_1()}-${t_dto.getMobile_2()}-${t_dto.getMobile_3()}</td>
-				</tr>
-				<tr>
-				  <th>성별</th>
+				  <th>배송 상황</th>
 				  <td>
-				  	<c:if test="${t_dto.getGender() eq 'm' }">남성</c:if>
-				  	<c:if test="${t_dto.getGender() eq 'f' }">여성</c:if>
+				  	<c:choose>
+						<c:when test="${t_dto.getStatus() eq 1}">입금 확인중</c:when>
+						<c:when test="${t_dto.getStatus() eq 2}">결제 완료</c:when>
+						<c:when test="${t_dto.getStatus() eq 3}">배송 준비중</c:when>
+						<c:when test="${t_dto.getStatus() eq 4}">배송중</c:when>
+						<c:when test="${t_dto.getStatus() eq 5}">배송 완료</c:when>
+						<c:when test="${t_dto.getStatus() eq 6}">구매 확정</c:when>
+						<c:when test="${t_dto.getStatus() eq 7}">수령 대기중</c:when>
+					</c:choose>	
 				  </td>
 				</tr>
 				<tr>
-				  <th>취미</th>
+				  <th>주문 상품</th>
+				  <td>${t_dto.getProduct_number() }</td>
+				</tr>
+				<tr>
+				  <th>구매일자</th>
+				  <td>${t_dto.getPurchase_date() }</td>
+				</tr>
+				<tr>
+				  <th>가격</th>
+				  <td>${t_dto.getPrice() }</td>
+				</tr>
+				<tr>
+				  <th>배송 방법</th>
 				  <td>
-				  	<input type="checkbox" <c:if test="${t_dto.getHobby_travel() eq 'y'}">checked</c:if> disabled>여행 &nbsp;&nbsp;&nbsp;
-				  	<input type="checkbox" <c:if test="${t_dto.getHobby_reading() eq 'y'}">checked</c:if> disabled>독서&nbsp;&nbsp;&nbsp;
-				  	<input type="checkbox" <c:if test="${t_dto.getHobby_sports() eq 'y'}">checked</c:if> disabled>스포츠
+				  	<c:choose>
+				  		<c:when test="${t_dto.getShipping_method() eq 'byhand' }">직접 수령</c:when>
+				  		<c:when test="${t_dto.getShipping_method() eq 'shipping' }">택배 배송</c:when>
+				  	</c:choose>
 				  </td>
 				</tr>
+				<c:if test="${t_dto.getShipping_method() eq 'shipping' }">
+					<tr>
+					  <th>받는분 성함</th>
+					  <td>${t_dto.getName() }</td>
+					</tr>
+					<tr>
+					  <th>받는분 이메일</th>
+					  <td>${t_dto.getEmail() }</td>
+					</tr>
+					<tr>
+					  <th>받는분 전화번호</th>
+					  <td>${t_dto.getMobile_1() }-${t_dto.getMobile_2() }-${t_dto.getMobile_3() }</td>
+					</tr>
+					<tr>
+					  <th>배송지 주소</th>
+					  <td>${t_dto.getAddress() }</td>
+					</tr>
+				</c:if>
 				<tr>
-				  <th>가입일</th>
-				  <td>${t_dto.getReg_date()}</td>
+				  <th>요청 사항</th>
+				  <td>${t_dto.getComment() }</td>
 				</tr>
 				<tr>
-				  <th>회원 수정일</th>
-				  <td>${t_dto.getUpdate_date()}</td>
+				  <th>결제 수단</th>
+				  <td>
+				  	<c:choose>
+				  		<c:when test="${t_dto.getBuy_method() eq 'cash' }">무통장 입금</c:when>
+				  		<c:when test="${t_dto.getBuy_method() eq 'card' }">카드 결제</c:when>
+				  	</c:choose>
+				  </td>
 				</tr>
-				<tr>
-				  <th>최근 로그인 일자</th>
-				  <td>${t_dto.getLast_login_date()}</td>
-				</tr>
+				<c:if test="${t_dto.getBuy_method() eq 'cash' }">
+					<tr>
+					  <th>입금자명</th>
+					  <td>${t_dto.getTransfer_name() }</td>
+					</tr>
+				</c:if>
 			  </tbody>
 			</table>
 			<div class="buttonGroup_center">
-				<a href="javascript:void()" onClick="goUpdate()" class="butt">계정 정보 변경</a>
-				<a href="javascript:void()" onClick="goPWchange()" class="butt">비밀 번호 변경</a>
-				<a href="javascript:void()" onClick="goDelete()" class="butt">계정 삭제</a>
+				<a href="javascript:void()" onClick="goCustomer('receipt_list')" class="butt">목록으로</a>
 			</div>	
 		</div>	
 	</div>

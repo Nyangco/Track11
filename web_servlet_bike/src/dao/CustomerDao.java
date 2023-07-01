@@ -15,13 +15,50 @@ public class CustomerDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public CustomerDto viewDB(String purchase_number) {
+		CustomerDto dto = null;
+		DecimalFormat df = new DecimalFormat("###,###");
+		String subSql = "select status,p_no,to_char(purchase_date,'yyyy-mm-dd hh24:mi:ss')as purchase_date,s_price,"
+					+ "shipping_method,s_name,s_email,s_mobile_1,s_mobile_2,s_mobile_3,s_address,comments,buy_method,"
+					+ "transfer_name from bike_연석모_product_sale where purchase_number = '"+purchase_number+"'";
+		String sql = "select tbl.*, p.p_name from ("+subSql+") tbl, bike_연석모_product p where p.p_no=tbl.p_no";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String status = rs.getString("status");
+				String p_name = rs.getString("p_name");
+				String purchase_date = rs.getString("purchase_date");
+				int iPrice = rs.getInt("s_price");
+				String price = df.format(iPrice);
+				String shipping_method = rs.getString("shipping_method");
+				String name = rs.getString("s_name");
+				String email = rs.getString("s_email");
+				String mobile_1 = rs.getString("s_mobile_1");
+				String mobile_2 = rs.getString("s_mobile_2");
+				String mobile_3 = rs.getString("s_mobile_3");
+				String address = rs.getString("s_address");
+				String comment = rs.getString("comments");
+				String buy_method = rs.getString("buy_method");
+				String transfer_name = rs.getString("transfer_name");
+				dto = new CustomerDto("", name, mobile_1, mobile_2, mobile_3, email, shipping_method, address, comment, buy_method, "", "", "", "", "", transfer_name, purchase_number, p_name, status, price, purchase_date);
+			}
+		}catch(SQLException e) {
+			System.out.println("viewDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return dto;
+	}
+	
 	public String getP_no(String search) {
 		String result = null;
 		String sql1 = "select count(*) as count from bike_연석모_product where p_name like '%"+search+"%'";
 		String sql2 = "select p_no from bike_연석모_product where p_name like '%"+search+"%'";
-		System.out.println(sql1);
-		System.out.println(sql2);
-		
+
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql1);
@@ -49,6 +86,7 @@ public class CustomerDao {
 	
 	public ArrayList<CustomerDto> listDB(String select, String search, int start, int end, String id){
 		ArrayList<CustomerDto> arr = new ArrayList<CustomerDto>();
+		DecimalFormat df = new DecimalFormat("###,###");
 		String subSql = "select s.purchase_number, p.p_name, to_char(s.purchase_date,'yyyy-mm-dd hh24:mi:ss') as purchase_date, "
 					+ "s.s_price, s.status from bike_연석모_product_sale s, bike_연석모_product p where "+select+" "
 					+ "like '%"+search+"%' and s.p_no=p.p_no and s.id = '"+id+"' order by status asc, purchase_date desc";
@@ -62,7 +100,8 @@ public class CustomerDao {
 				String purchase_number = rs.getString("purchase_number");
 				String p_name = rs.getString("p_name");
 				String purchase_date = rs.getString("purchase_date");
-				String price = rs.getString("s_price");
+				int iPrice = rs.getInt("s_price");
+				String price = df.format(iPrice);
 				String status = rs.getString("status");
 				CustomerDto dto = new CustomerDto(purchase_number, p_name, status, price, purchase_date);
 				//CustomerDto dto = new CustomerDto(purchase_number, product_number, status, price, purchase_date)
@@ -140,7 +179,7 @@ public class CustomerDao {
 		}
 		int iResult = Integer.parseInt(result.substring(1));
 		iResult++;
-		DecimalFormat df = new DecimalFormat("S#########");
+		DecimalFormat df = new DecimalFormat("S000000000");
 		result = df.format(iResult);
 		return result;
 	}
