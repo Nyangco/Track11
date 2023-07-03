@@ -2,7 +2,7 @@ package dto;
 
 public class ProductDto {
 
-	private String p_no, p_name, p_content, p_tag, attach, p_size_w, p_size_l, p_size_h, p_weight, price, p_level, c_name, reg_date, reg_id, update_id, update_date;
+	private String p_no, p_name, p_content, p_tag, attach, p_size_w, p_size_l, p_size_h, p_weight, price, p_level, c_name, reg_date, reg_id, update_id, update_date, discount;
 	private int hit;
 	
 	public ProductDto(String p_no, String p_name, String p_content, String p_tag, String attach, String p_size_w,
@@ -27,6 +27,32 @@ public class ProductDto {
 		this.update_id = update_id;
 		this.update_date = update_date;
 	}
+	
+	public ProductDto(String p_no, String p_name, String p_content, String p_tag, String attach, String p_size_w,
+			String p_size_l, String p_size_h, String p_weight, String price, String p_level, String c_name,
+			String reg_date, String reg_id, String update_id, String update_date, String discount, int hit) {
+		super();
+		this.p_no = p_no;
+		this.p_name = p_name;
+		this.p_content = p_content;
+		this.p_tag = p_tag;
+		this.attach = attach;
+		this.p_size_w = p_size_w;
+		this.p_size_l = p_size_l;
+		this.p_size_h = p_size_h;
+		this.p_weight = p_weight;
+		this.price = price;
+		this.p_level = p_level;
+		this.c_name = c_name;
+		this.reg_date = reg_date;
+		this.reg_id = reg_id;
+		this.update_id = update_id;
+		this.update_date = update_date;
+		this.discount = discount;
+		this.hit = hit;
+	}
+
+
 
 	public String getP_no() {
 		return p_no;
@@ -42,6 +68,10 @@ public class ProductDto {
 
 	public String getP_tag() {
 		return p_tag;
+	}
+
+	public String getDiscount() {
+		return discount;
 	}
 
 	public String getAttach() {

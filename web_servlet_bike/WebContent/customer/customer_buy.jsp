@@ -13,13 +13,13 @@
 	function showShipping(){
 		$('#shipping').show();
 		customer.t_shipping_fee.value="5,000";
-		var k = Number(5000)+Number(${t_pnc});
+		var k = Number(5000)+Number("${t_pnc}");
 		customer.t_total_fee.value= comma(k);
 	}
 	function hideShipping(){
 		$('#shipping').hide();
 		customer.t_shipping_fee.value="0";
-		customer.t_total_fee.value="${t_pDto.getPrice()}";
+		customer.t_total_fee.value="${t_pDto.getP_content()}";
 	}
 	function goBuy() {
 		if (checking(customer.t_name, 10, "받는분"))
@@ -175,7 +175,7 @@
 					</tr>
 					<tr>
 						<th>제품 가격</th>
-						<td><input type="text" name="t_price" value="${t_pDto.getPrice() }"
+						<td><input type="text" name="t_price" value="${t_pDto.getP_content() }"
 							readonly style="border: none;"></td>
 					</tr>
 					<tr>
@@ -185,7 +185,7 @@
 					</tr>
 					<tr>
 						<th>합계</th>
-						<td><input type="text" name="t_total_fee" value="${t_pDto.getPrice() }"
+						<td><input type="text" name="t_total_fee" value="${t_pDto.getP_content() }"
 							readonly style="border: none;"></td>
 					</tr>
 				</tbody>

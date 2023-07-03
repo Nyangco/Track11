@@ -50,10 +50,30 @@
 		else if(checking(product.t_c_name,10,"제조사명"));
 		else if(checking(product.t_p_size_h,4,"높이"));
 		else if(checking(product.t_price,9,"가격"));
-		else {
+		else if(product.t_price.value<0){
+			alert("금액은 0원 이하가 될 수 없습니다.");
+			product.t_price.focus();
+			return;
+		}else if(product.t_discount.value=="etc"&&product.t_discount_t.value==""){
+			alert("할인율을 입력해주세요");
+			product.t_discount.focus();
+			return;
+		}else if(product.t_discount_t.value<0 || product.t_discount_t.value>100){
+			alert("할인율은 0에서 100까지 입력 가능합니다");
+			product.t_discount_t.focus();
+			return;
+		}else {
+			if(product.t_discount.value!="etc") product.t_discount_t.value="";
 			product.method="post";
 			product.action="Product?t_requestPage=DBupdate";
 			product.submit();
+		}
+	}
+	function textShowHide(){
+		if(product.t_discount.value == "etc"){
+			$('#discount_t').show();
+		}else{
+			$('#discount_t').hide();
 		}
 	}
 </script>
@@ -129,13 +149,21 @@
 						<th >가격</th>
 						<td >
 							<input type="text" class="input100" name="t_price" value="${t_dto.getPrice() }">원&nbsp;&nbsp;
-							<select name="t_discount">
-								<option value="100">할인율</option>
-								<option value="90">10%</option>
-								<option value="80">20%</option>
-								<option value="50">50%</option>
-								<option value="10">90%</option>
+							<c:set var="dis" value="${t_discount }"></c:set>
+							<select name="t_discount" onchange="textShowHide()">
+								<option value="etc" selected>직접 입력</option>
+								<option value="0" <c:if test="${dis == '0' }">selected</c:if>>0%</option>
+								<option value="10" <c:if test="${dis == '10' }">selected</c:if>>10%</option>
+								<option value="20" <c:if test="${dis == '20' }">selected</c:if>>20%</option>
+								<option value="50" <c:if test="${dis == '50' }">selected</c:if>>50%</option>
+								<option value="90" <c:if test="${dis == '90' }">selected</c:if>>90%</option>
 							</select>
+							<div id="discount_t" style="display:none"><input type="text" class="input100" name="t_discount_t" placeholder="%를 제외한 숫자를 입력해주세요" value="${dis }"></div>
+							<c:if test="${dis != '0' && dis != '10' && dis != '20' && dis != '50' && dis != '90' }">
+								<style>
+									#discount_t{display:inline;}
+								</style>
+							</c:if>
 						</td>
 					</tr>	
 					<tr>

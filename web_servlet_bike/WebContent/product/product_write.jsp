@@ -53,6 +53,11 @@
 		else if(checking(product.t_c_name,10,"제조사명"));
 		else if(checking(product.t_p_size_h,4,"높이"));
 		else if(checking(product.t_price,9,"가격"));
+		else if(product.t_price.value<0){
+			alert("금액은 0원 이하가 될 수 없습니다.");
+			product.t_price.focus();
+			return;
+		}
 		else {
 			product.method="post";
 			product.action="Product?t_requestPage=DBsave";

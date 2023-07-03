@@ -70,7 +70,17 @@
 						<th >제조사명</th>
 						<td>${t_dto.getC_name()}</td>
 						<th >가격</th>
-						<td>${t_dto.getPrice()}</td>
+						<td>
+							<c:choose>
+								<c:when test="${t_dto.getPrice() eq t_dto.getDiscount() }">
+									<span class="price" >${t_dto.getPrice() }</span>
+								</c:when>
+								<c:when test="${t_dto.getPrice() ne t_dto.getDiscount() }">
+									<span class="price" style="color:gray;text-decoration:line-through;">${t_dto.getPrice() }</span>
+									→<span class="discount">${t_dto.getDiscount() }원</span>
+								</c:when>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<th >작성자</th>

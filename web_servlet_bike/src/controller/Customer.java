@@ -11,10 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import command.customer.Buy;
+import command.customer.Cancel;
+import command.customer.Confirm;
 import command.customer.List;
 import command.customer.Purchase;
 import command.customer.Receipt_list;
 import command.customer.Receipt_view;
+import command.customer.DBrefund;
 import command.customer.View;
 
 
@@ -94,6 +97,41 @@ public class Customer extends HttpServlet {
 				Receipt_view customer = new Receipt_view();
 				customer.excute(request);
 				page="customer/receipt_view.jsp";
+			}
+		}else if(requestPage.equals("cancel")) {
+			if(sLevel==null) {
+				request.setAttribute("t_msg", "로그인 후에 다시 시도해주십시오");
+				request.setAttribute("t_url", "Member");
+				request.setAttribute("t_nextPage", "login");
+			}else {
+				Cancel customer = new Cancel();
+				customer.excute(request);
+			}
+		}else if(requestPage.equals("confirm")) {
+			if(sLevel==null) {
+				request.setAttribute("t_msg", "로그인 후에 다시 시도해주십시오");
+				request.setAttribute("t_url", "Member");
+				request.setAttribute("t_nextPage", "login");
+			}else {
+				Confirm customer = new Confirm();
+				customer.excute(request);
+			}
+		}else if(requestPage.equals("refund")) {
+			if(sLevel==null) {
+				request.setAttribute("t_msg", "로그인 후에 다시 시도해주십시오");
+				request.setAttribute("t_url", "Member");
+				request.setAttribute("t_nextPage", "login");
+			}else {
+				page="customer/receipt_refund.jsp";
+			}
+		}else if(requestPage.equals("DBrefund")) {
+			if(sLevel==null) {
+				request.setAttribute("t_msg", "로그인 후에 다시 시도해주십시오");
+				request.setAttribute("t_url", "Member");
+				request.setAttribute("t_nextPage", "login");
+			}else {
+				DBrefund customer = new DBrefund();
+				customer.excute(request);
 			}
 		}
 		

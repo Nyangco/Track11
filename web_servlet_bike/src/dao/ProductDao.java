@@ -16,10 +16,28 @@ public class ProductDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public int getDiscount(String p_no) {
+		int k = 0;
+		String sql = "select discount from bike_연석모_product where p_no='"+p_no+"'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				k = rs.getInt("discount");
+			}
+		}catch(SQLException e) {
+			System.out.println("productBuy:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}return k;
+	}
 
 	public ProductDto productBuy(String p_no) {
 		ProductDto dto = null;
-		String sql = "select p_name, price, attach from bike_연석모_product where p_no='"+p_no+"'";
+		String sql = "select p_name, price, attach, discount from bike_연석모_product where p_no='"+p_no+"'";
 		DecimalFormat df = new DecimalFormat("###,###");
 				
 		try {
@@ -29,9 +47,15 @@ public class ProductDao {
 			if(rs.next()) {
 				String p_name = rs.getString("p_name");
 				String price = rs.getString("price");
+				int iPrice = Integer.parseInt(price);
 				price = df.format(Integer.parseInt(price));
 				String attach = rs.getString("attach");
-				dto = new ProductDto(p_no, p_name, "", "", attach, "", "", "", "", price, "", "", 0, "", "", "", "");
+				String discount = rs.getString("discount");
+				int iDiscount = 100-Integer.parseInt(discount);
+				iPrice = (int)(iPrice*((double)iDiscount/100));
+				discount = df.format(iPrice);
+				
+				dto = new ProductDto(p_no, p_name, discount, "", attach, "", "", "", "", price, "", "", 0, "", "", "", "");
 			}
 		}catch(SQLException e) {
 			System.out.println("productBuy:"+sql);
@@ -87,7 +111,8 @@ public class ProductDao {
 		String sql = "update bike_연석모_product set p_name='"+dto.getP_name()+"', p_content='"+dto.getP_content()+"', p_tag='"+dto.getP_tag()+"', "
 					+ "attach='"+dto.getAttach()+"', p_size_w="+dto.getP_size_w()+", p_size_l="+dto.getP_size_l()+", p_size_h="+dto.getP_size_h()+", "
 					+ "p_weight="+dto.getP_weight()+", price="+dto.getPrice()+", p_level="+dto.getP_level()+", c_name='"+dto.getC_name()+"', "
-					+ "update_id='"+dto.getUpdate_id()+"', update_date=to_date('"+dto.getUpdate_date()+"','yyyy-mm-dd hh24:mi:ss') where p_no='"+dto.getP_no()+"'";
+					+ "update_id='"+dto.getUpdate_id()+"', update_date=to_date('"+dto.getUpdate_date()+"','yyyy-mm-dd hh24:mi:ss'), "
+					+ "discount='"+dto.getReg_date()+"' where p_no='"+dto.getP_no()+"'";
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
@@ -143,7 +168,7 @@ public class ProductDao {
 	
 	public ProductDto viewDB(String p_no) {
 		ProductDto dto = null;
-		String sql = "select p.p_name, p.hit, t.tag_name as p_tag, p.p_level, p.attach, p.p_content, p.p_size_w, "
+		String sql = "select p.p_name, p.hit, t.tag_name as p_tag, p.p_level, p.attach, p.p_content, p.p_size_w, p.discount, "
 					+ "p.p_size_l, p.p_size_h, p.p_weight, p.c_name, p.price, r.name as reg_name, to_char(p.reg_date,'yyyy-mm-dd') as reg_date, "
 					+ "u.name as update_name, to_char(p.update_date,'yyyy-mm-dd hh24:mi:ss') as update_date from bike_연석모_product p, "
 					+ "bike_연석모_product_tag t, bike_연석모_member r, bike_연석모_member u where r.id = p.reg_id and ((u.id = p.update_id) or (u.id = '000')) "
@@ -166,14 +191,21 @@ public class ProductDao {
 				String p_size_h = rs.getString("p_size_h");
 				String p_weight = rs.getString("p_weight");
 				String c_name = rs.getString("c_name");
+				
 				String price = rs.getString("price");
-				price = df.format(Integer.parseInt(price));
+				int iPrice = Integer.parseInt(price);
+				String discount = rs.getString("discount");
+				int iDiscount = 100-Integer.parseInt(discount);
+				Double dPrice = iPrice*((double)iDiscount/100);
+				
+				price = df.format(iPrice);
+				discount = df.format(dPrice);
+				
 				String reg_name = rs.getString("reg_name");
 				String reg_date = rs.getString("reg_date");
 				String update_name = rs.getString("update_name");
 				String update_date = rs.getString("update_date");
-				dto = new ProductDto(p_no, p_name, p_content, p_tag, attach, p_size_w, p_size_l, p_size_h, p_weight, price, p_level, c_name, hit, reg_date, reg_name, update_name, update_date);
-				
+				dto = new ProductDto(p_no, p_name, p_content, p_tag, attach, p_size_w, p_size_l, p_size_h, p_weight, price, p_level, c_name, reg_date, reg_name, update_name, update_date, discount, hit);
 			}
 		}catch(SQLException e) {
 			System.out.println("viewDB:"+sql);
@@ -261,7 +293,7 @@ public class ProductDao {
 	
 	public ArrayList<ProductDto> listDB(String select, String search, String tag, int start, int end){
 		ArrayList<ProductDto> arr = new ArrayList<ProductDto>();
-		String subSql = "select p_no, attach, p_name, p_level, price, reg_date, hit from bike_연석모_product where "+select+" like '%"+search+"%' ";
+		String subSql = "select p_no, attach, p_name, p_level, price, reg_date, hit, discount from bike_연석모_product where "+select+" like '%"+search+"%' ";
 		if(tag!=null && !tag.equals("")) subSql += "and p_tag='"+tag+"' ";
 		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+"order by p_level desc, reg_date desc ) tbl) where rnum>="+start+" and rnum<="+end+" order by p_level desc, reg_date desc ";
 		
@@ -276,10 +308,15 @@ public class ProductDao {
 				String p_name = rs.getString("p_name");
 				String p_level = rs.getString("p_level");
 				String price = rs.getString("price");
+				Long iPrice = Long.parseLong(price);
 				int hit = rs.getInt("hit");
-				price = df.format(Integer.parseInt(price));
+				String discount = rs.getString("discount");
+				int iDiscount = 100-Integer.parseInt(discount);
+				Double dPrice = iPrice*((double)iDiscount/100);
+				price = df.format(iPrice);
+				discount = df.format(dPrice);
 			
-				ProductDto dto = new ProductDto(p_no, p_name, "", "", attach, "", "", "", "", price, p_level, "", hit, "", "", "", "");
+				ProductDto dto = new ProductDto(p_no, p_name, discount, "", attach, "", "", "", "", price, p_level, "", hit, "", "", "", "");
 				arr.add(dto);
 			}
 		}catch(SQLException e) {

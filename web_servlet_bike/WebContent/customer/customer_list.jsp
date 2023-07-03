@@ -19,6 +19,22 @@
 		customer.submit();
 	}
 </script>
+<style>
+	.product_image{
+		width:251px;
+		height:251px;
+	}
+	.product_image img{
+		width:251px;
+		height:251px;
+	}
+	.product_price{
+		color:red;
+	}
+	.product_hit{
+		color:gray;
+	}
+</style>
 	<div id="container">
 		<div id="b_right" style="width:1024px;float:left;">
 			<p class="n_title" style="width:1024px;">
@@ -58,16 +74,6 @@
 					<col width="25%">
 					<col width="25%">
 				</colgroup>
-				<style>
-					.product_image{
-						width:251px;
-						height:251px;
-					}
-					.product_image img{
-						width:251px;
-						height:251px;
-					}
-				</style>
 				<c:set var="sVar"></c:set>
 				<c:forEach items="${t_arr }" var="rArr" step="4" varStatus="rs">
 				<c:set var="sVar" value="${rs.index }"></c:set>
@@ -75,18 +81,27 @@
 				<tr>
 					<c:forEach items="${t_arr }" var="arr" begin="${sVar }" end="${sVar+3 }">
 						<td>
-							<a href="javascript:void()" onclick="goView('${arr.getP_no()}')">
-							<div class="product_total">
+							<div class="product_total" onclick="goView('${arr.getP_no()}')">
 								<div class="product_image">
-									<img src="attach/product/${arr.getAttach() }">
+									<img src="attach/product/${arr.getAttach() }" >
 								</div>
 								<div class="product_content">
 									<p class="product_name">${arr.getP_name() }</p>
-									<p class="product_price" style="color:red;">${arr.getPrice() }₩</p>
+									<c:choose>
+										<c:when test="${arr.getPrice() eq arr.getP_content() }">
+											<p class="product_price">${arr.getPrice() }원</p>
+										</c:when>
+										<c:when test="${arr.getPrice() ne arr.getP_content() }">
+											<p class="product_price" >
+												<span style="color:gray;text-decoration:line-through;">${arr.getPrice() }원</span>
+												${arr.getP_content() }원
+											</p>
+										</c:when>
+									</c:choose>
+									
 									<p class="product_hit"><i class="fa-solid fa-eye"></i>${arr.getHit() }</p>
 								</div>
 							</div>
-							</a>
 						</td>
 					</c:forEach>				
 				</tr>

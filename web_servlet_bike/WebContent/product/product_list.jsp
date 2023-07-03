@@ -78,7 +78,17 @@
 						<td><c:if test="${not empty dto.getAttach()}"><a href="javascript:void()" onClick="goView('${dto.getP_no()}')"><img src="attach/product/${dto.getAttach()}" style="width:200px;"></a></c:if></td>
 						<td><a href="javascript:void()" onClick="goView('${dto.getP_no()}')">${dto.getP_name() }</a></td>
 						<td>${dto.getP_level()}</td>
-						<td>${dto.getPrice() }</td>
+						<td>
+							<c:choose>
+								<c:when test="${dto.getPrice() eq dto.getP_content() }">
+									<span class="price" >${dto.getPrice() }</span>
+								</c:when>
+								<c:when test="${dto.getPrice() ne dto.getP_content() }">
+									<span class="price" style="color:gray;text-decoration:line-through;">${dto.getPrice() }</span>
+									<br><span class="discount">${dto.getP_content() }</span>
+								</c:when>
+							</c:choose>
+						</td>
 					</tr>	
 				</c:forEach>
 				</tbody>

@@ -97,6 +97,8 @@
 							<option value="5">배송 완료</option>
 							<option value="6">구매 확정</option>
 							<option value="7">수령 대기중</option>
+							<option value="8">주문 취소됨</option>
+							<option value="9">제품 변경중</option>
 						</select>
 					</div><div id="input_date" style="display:none;">
 						<input type="date" name="t_search_d" style="height:22px;width:120px;">
@@ -110,7 +112,7 @@
 				<col width="95">
 				<col width="300">
 				<col width="160">
-				<col width="78">
+				<col width="95">
 				<col width="80">
 				<col width="*">
 			</colgroup>
@@ -130,7 +132,7 @@
 						<td>${arr.getPurchase_number() }</td>
 						<td>${arr.getProduct_number() }</td>
 						<td>${arr.getPurchase_date() }</td>
-						<td>${arr.getPrice() }</td>
+						<td>${arr.getPrice() }원</td>
 						<td>
 							<c:choose>
 								<c:when test="${arr.getStatus() eq 1}">입금 확인중</c:when>
@@ -140,6 +142,8 @@
 								<c:when test="${arr.getStatus() eq 5}">배송 완료</c:when>
 								<c:when test="${arr.getStatus() eq 6}">구매 확정</c:when>
 								<c:when test="${arr.getStatus() eq 7}">수령 대기중</c:when>
+								<c:when test="${arr.getStatus() eq 8}">주문 취소됨</c:when>
+								<c:when test="${arr.getStatus() eq 9}">제품 변경중</c:when>
 							</c:choose>						
 						</td>
 						<td>

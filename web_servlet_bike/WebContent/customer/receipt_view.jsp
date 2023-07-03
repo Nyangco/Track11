@@ -37,6 +37,8 @@ input:disabled {
 						<c:when test="${t_dto.getStatus() eq 5}">배송 완료</c:when>
 						<c:when test="${t_dto.getStatus() eq 6}">구매 확정</c:when>
 						<c:when test="${t_dto.getStatus() eq 7}">수령 대기중</c:when>
+						<c:when test="${t_dto.getStatus() eq 8}">주문 취소됨</c:when>
+						<c:when test="${t_dto.getStatus() eq 9}">주문 변경중</c:when>
 					</c:choose>	
 				  </td>
 				</tr>

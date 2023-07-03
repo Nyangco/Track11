@@ -15,6 +15,58 @@ public class CustomerDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public int refundDB(String purchase_number, String refund_change, String why, String change) {
+		int k = 0;
+		String sql = "";
+		if(refund_change.equals("refund"))
+		sql = "update bike_연석모_product_sale set status='8', refund='"+why+"' where purchase_number='"+purchase_number+"'";
+		else if(refund_change.equals("change")) 
+		sql = "update bike_연석모_product_sale set status='9', refund='"+change+"' where purchase_number='"+purchase_number+"'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("confirmDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}return k;
+	}
+	
+	public int confirmDB(String purchase_number) {
+		int k = 0;
+		String sql = "update bike_연석모_product_sale set status='6' where purchase_number='"+purchase_number+"'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("confirmDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}return k;
+	}
+	
+	public int cancelDB(String purchase_number) {
+		int k = 0;
+		String sql = "update bike_연석모_product_sale set status='8' where purchase_number='"+purchase_number+"'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("cancelDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}return k;
+	}
+	
 	public CustomerDto viewDB(String purchase_number) {
 		CustomerDto dto = null;
 		DecimalFormat df = new DecimalFormat("###,###");

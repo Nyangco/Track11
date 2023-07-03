@@ -25,7 +25,7 @@ public class Buy implements CommonExcute {
 		ProductDto pDto = pDao.productBuy(p_no);
 		request.setAttribute("t_pDto", pDto);
 		
-		String pnc = pDto.getPrice().replaceAll(",", "");
+		String pnc = pDto.getP_content().replaceAll(",", "");
 		request.setAttribute("t_pnc", pnc);
 		
 		String sId = (String)session.getAttribute("sId");
