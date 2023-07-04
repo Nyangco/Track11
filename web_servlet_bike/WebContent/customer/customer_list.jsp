@@ -25,8 +25,9 @@
 		height:251px;
 	}
 	.product_image img{
-		width:251px;
-		height:251px;
+		width:249px;
+		height:249px;
+		border:solid black 1px;
 	}
 	.product_price{
 		color:red;

@@ -9,12 +9,101 @@ import java.util.ArrayList;
 import common.CommonUtil;
 import common.DBConnection;
 import dto.AdminDto;
+import dto.CustomerDto;
 
 public class AdminDao {
 
 	Connection con = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
+	
+	public CustomerDto getPurchase_view(String purchase_number) {
+		CustomerDto dto = null;
+		String sql = "select id, p_no, status, s_email, to_char(purchase_date,'yyyy-mm-dd hh24:mi:ss') as purchase_date, "
+					+ "s_price, s_name, s_mobile_1, s_mobile_2, s_mobile_3, shipping_method, s_address, comments, "
+					+ "buy_method, credit_1, credit_2, credit_3, credit_4, cvc, transfer_name, refund "
+					+ "from bike_연석모_product_sale where purchase_number = '"+purchase_number+"'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String id = rs.getString("id");
+				String name = rs.getString("s_name");
+				String mobile_1 = rs.getString("s_mobile_1");
+				String mobile_2 = rs.getString("s_mobile_2");
+				String mobile_3 = rs.getString("s_mobile_3");
+				String email = rs.getString("s_email");
+				String shipping_method = rs.getString("shipping_method");
+				String address = rs.getString("s_address");
+				String comment = rs.getString("comments");
+				String buy_method = rs.getString("buy_method");
+				String credit_1 = rs.getString("credit_1");
+				String credit_2 = rs.getString("credit_2");
+				String credit_3 = rs.getString("credit_3");
+				String credit_4 = rs.getString("credit_4");
+				String cvc = rs.getString("cvc");
+				String transfer_name = rs.getString("transfer_name");
+				String product_number = rs.getString("p_no");
+				String status = rs.getString("status");
+				String price = rs.getString("s_price");
+				String purchase_date = rs.getString("purchase_date");
+				
+				dto = new CustomerDto(id, name, mobile_1, mobile_2, mobile_3, email, shipping_method, address, comment, 
+						buy_method, credit_1, credit_2, credit_3, credit_4, cvc, transfer_name, purchase_number, 
+						product_number, status, price, purchase_date);
+			}
+		}catch(SQLException e) {
+			System.out.println("getPurchase_view:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return dto;
+	}
+	
+	public ArrayList<String> purchase_change(String purchase_number) {
+		ArrayList<String> arr = new ArrayList<String>();
+		String sql = "select p.p_name, p.p_no, s.refund from bike_연석모_product p, bike_연석모_product_sale s where "
+					+ "p.p_no = s.p_no and s.purchase_number='"+purchase_number+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String p_name = rs.getString("p_name");
+				arr.add(p_name);
+				String p_no = rs.getString("p_no");
+				arr.add(p_no);
+				String refund = rs.getString("refund");
+				arr.add(refund);
+			}
+		}catch(SQLException e) {
+			System.out.println("purchase_change:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return arr;
+	}
+	
+	//int k = dao.updateStatusDB(purchase_number,change_status);
+	public int updateStatusDB(String purchase_number, String change_status) {
+		int k = 0;
+		String sql = "update bike_연석모_product_sale set status='"+change_status+"' where purchase_number='"+purchase_number+"'";
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			k = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("updateStatusDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return k;
+	}
 	
 	public int updateDB(String id, String sLevel) {
 		int k = 0;

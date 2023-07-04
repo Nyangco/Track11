@@ -10,9 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import command.admin.Change_product;
+import command.admin.Change_status;
+import command.admin.DBchange_product;
 import command.admin.DBdelete;
 import command.admin.DBupdate;
 import command.admin.List;
+import command.admin.Purchase_list;
+import command.admin.Purchase_view;
 import command.admin.Update;
 import command.admin.View;
 
@@ -71,6 +76,24 @@ public class Admin extends HttpServlet {
 			}else if(requestPage.equals("DBdelete")) {
 				DBdelete admin = new DBdelete();
 				admin.excute(request);
+			}else if(requestPage.equals("purchase_list")) {
+				Purchase_list admin = new Purchase_list();
+				admin.excute(request);
+				page="admin/purchase_list.jsp";
+			}else if(requestPage.equals("change_status")) {
+				Change_status admin = new Change_status();
+				admin.excute(request);
+			}else if(requestPage.equals("change_product")) {
+				Change_product admin = new Change_product();
+				admin.excute(request);
+				page="admin/purchase_change.jsp";
+			}else if(requestPage.equals("DBchange_product")) {
+				DBchange_product admin = new DBchange_product();
+				admin.excute(request);
+			}else if(requestPage.equals("purchase_view")) {
+				Purchase_view admin = new Purchase_view();
+				admin.excute(request);
+				page="admin/purchase_view.jsp";
 			}
 		}
 		

@@ -15,6 +15,54 @@ public class CustomerDao {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	public ArrayList<CustomerDto> listDB(String select, String search, int start, int end){
+		ArrayList<CustomerDto> arr = new ArrayList<CustomerDto>();
+		String subSql = "select purchase_number, status, p_no, shipping_method, to_char(purchase_date,'yyyy-mm-dd hh24:mi:ss') as purchase_date "
+					+ "from bike_연석모_product_sale where "+select+" like '%"+search+"%' "
+					+ "order by status desc, purchase_date desc";
+		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+") tbl) where rnum>="+start+" and rnum<="+end;
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				String purchase_number = rs.getString("purchase_number");
+				String status = rs.getString("status");
+				String p_no = rs.getString("p_no");
+				String shipping_method = rs.getString("shipping_method");
+				String purchase_date = rs.getString("purchase_date");
+				CustomerDto dto = new CustomerDto("", "", "", "", "", "", shipping_method, "", "", "", "", "", "", "", "", "", purchase_number, p_no, status, "", purchase_date);
+				arr.add(dto);
+			}
+		}catch(SQLException e) {
+			System.out.println("listDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}
+		return arr;
+		
+	}
+	
+	public int totalCountDB(String select, String search) {
+		int k = 0;
+		String sql = "select count(*) as count from bike_연석모_product_sale where "+select+" like '%"+search+"%'";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				k = rs.getInt("count");
+			}
+		}catch(SQLException e) {
+			System.out.println("totalCountDB:"+sql);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}return k;
+	}
+	
 	public int refundDB(String purchase_number, String refund_change, String why, String change) {
 		int k = 0;
 		String sql = "";
@@ -28,7 +76,7 @@ public class CustomerDao {
 			ps = con.prepareStatement(sql);
 			k = ps.executeUpdate();
 		}catch(SQLException e) {
-			System.out.println("confirmDB:"+sql);
+			System.out.println("refundDB:"+sql);
 			e.printStackTrace();
 		}finally {
 			DBConnection.closeDB(con, ps, rs);
@@ -117,7 +165,7 @@ public class CustomerDao {
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				if(rs.getInt("count")!=1) {
-					result = "error";
+					result = "해당하는 제품명이 너무 많습니다.";
 				}else {
 					con = DBConnection.getConnection();
 					ps = con.prepareStatement(sql2);
@@ -152,7 +200,7 @@ public class CustomerDao {
 				String purchase_number = rs.getString("purchase_number");
 				String p_name = rs.getString("p_name");
 				String purchase_date = rs.getString("purchase_date");
-				int iPrice = rs.getInt("s_price");
+				long iPrice = rs.getLong("s_price");
 				String price = df.format(iPrice);
 				String status = rs.getString("status");
 				CustomerDto dto = new CustomerDto(purchase_number, p_name, status, price, purchase_date);

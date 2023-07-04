@@ -41,6 +41,7 @@ public class Purchase implements CommonExcute {
 		String p_no = request.getParameter("t_p_no");
 		String p_name = request.getParameter("t_p_name");
 		String price = request.getParameter("t_total_fee");
+		price = price.replaceAll(",", "").trim();
 		String today = CommonUtil.getToday();
 		today = today.substring(2).replaceAll("-", "").trim();
 		String purchase_number = dao.getMaxNo(today);
@@ -84,7 +85,7 @@ public class Purchase implements CommonExcute {
 				"<tr style=\"border-bottom:solid 1px black; margin-bottom:20px; display:inline-block; width:596px;height:40px;\">" + 
 				"<th style=\"width:120px;text-align:center;display:block;border-right:solid black 1px;float:left;\">가격</th>" + 
 				"<td style=\"display:block;width:465px;float:right;\">"+price+"</td></tr></table></fieldset>";
-		if(mailing.equals("y")) {
+		if(mailing!=null) {
 			try {
 				String mailSet_Server="smtp.mail.nate.com"; // 보내는 메일 server
 				String mailSet_ID="ysm951204";        // 보내는 메일 ID
