@@ -15,6 +15,9 @@ public class Cancel implements CommonExcute {
 		int k = dao.cancelDB(purchase_number);
 		String msg="주문 취소에 실패하였습니다"; String url="Customer"; String nextPage="receipt_list";
 		if(k==1) msg = "주문이 취소되었습니다.";
+		request.setAttribute("t_msg", msg);
+		request.setAttribute("t_url", url);
+		request.setAttribute("t_nextPage", nextPage);
 	}
 
 }

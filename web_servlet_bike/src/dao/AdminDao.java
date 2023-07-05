@@ -23,7 +23,8 @@ public class AdminDao {
 					+ "s_price, s_name, s_mobile_1, s_mobile_2, s_mobile_3, shipping_method, s_address, comments, "
 					+ "buy_method, credit_1, credit_2, credit_3, credit_4, cvc, transfer_name, refund "
 					+ "from bike_연석모_product_sale where purchase_number = '"+purchase_number+"'";
-		
+		String subsql = "";
+
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);
@@ -50,12 +51,18 @@ public class AdminDao {
 				String price = rs.getString("s_price");
 				String purchase_date = rs.getString("purchase_date");
 				
-				dto = new CustomerDto(id, name, mobile_1, mobile_2, mobile_3, email, shipping_method, address, comment, 
-						buy_method, credit_1, credit_2, credit_3, credit_4, cvc, transfer_name, purchase_number, 
-						product_number, status, price, purchase_date);
+				subsql = "select name from bike_연석모_member where id='"+id+"'";
+				ps = con.prepareStatement(subsql);
+				rs = ps.executeQuery();
+				if(rs.next()) {
+					String m_name = rs.getString("name");
+					dto = new CustomerDto(id, name, mobile_1, mobile_2, mobile_3, email, shipping_method, address, comment, 
+							buy_method, credit_1, credit_2, credit_3, credit_4, cvc, transfer_name, purchase_number, 
+							product_number, status, price, purchase_date,m_name);
+				}
 			}
 		}catch(SQLException e) {
-			System.out.println("getPurchase_view:"+sql);
+			System.out.println("getPurchase_view \nsql:"+sql+"\n subsql:"+subsql);
 			e.printStackTrace();
 		}finally {
 			DBConnection.closeDB(con, ps, rs);
@@ -92,6 +99,7 @@ public class AdminDao {
 	public int updateStatusDB(String purchase_number, String change_status) {
 		int k = 0;
 		String sql = "update bike_연석모_product_sale set status='"+change_status+"' where purchase_number='"+purchase_number+"'";
+		
 		try {
 			con = DBConnection.getConnection();
 			ps = con.prepareStatement(sql);

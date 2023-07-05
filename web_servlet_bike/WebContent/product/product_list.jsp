@@ -32,13 +32,13 @@
 			<input type="hidden" name="t_p_no">
 			<input type="hidden" name="t_nowPage">
 			<p class="select_box select_box_right" style="width:600px;">
-				<select name="t_sort" onchange="goSearch()" class="sel_box">
+				<select name="t_sort" onchange="goSearch()" class="sel_box" style="width:95px;">
 					<option value="5" <c:if test="${t_sort eq '5' }">selected</c:if> >5개씩 정렬</option>
 					<option value="10" <c:if test="${t_sort eq '10' }">selected</c:if> >10개씩 정렬</option>
 					<option value="20" <c:if test="${t_sort eq '20' }">selected</c:if> >20개씩 정렬</option>
 					<option value="50" <c:if test="${t_sort eq '50' }">selected</c:if> >50개씩 정렬</option>
 				</select>
-				<select name="t_tag" onchange="goSearch()" class="sel_box">
+				<select name="t_tag" onchange="goSearch()" class="sel_box" style="width:90px;">
 					<option value="" >모든 태그</option>
 					<c:forEach items="${t_tagArr }" var="str" >
 						<option value="${str[0] }" <c:if test="${t_tag eq str[0] }">selected</c:if> >${str[1] }</option>

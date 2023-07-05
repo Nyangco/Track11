@@ -30,8 +30,8 @@ public class Purchase implements CommonExcute {
 		String comment = request.getParameter("t_comment");
 		String buy_method = request.getParameter("t_buy_method");
 		String buy_method_name = "";
-		if(buy_method.equals("cash")) buy_method_name = "카드 결제";
-		else buy_method_name="현금 결제";
+		if(buy_method.equals("cash")) buy_method_name = "현금 결제";
+		else buy_method_name="카드 결제";
 		String credit_1 = request.getParameter("t_credit_1");
 		String credit_2 = request.getParameter("t_credit_2");
 		String credit_3 = request.getParameter("t_credit_3");
@@ -40,8 +40,8 @@ public class Purchase implements CommonExcute {
 		String transfer_name = request.getParameter("t_transfer_name");
 		String p_no = request.getParameter("t_p_no");
 		String p_name = request.getParameter("t_p_name");
-		String price = request.getParameter("t_total_fee");
-		price = price.replaceAll(",", "").trim();
+		String cPrice = request.getParameter("t_total_fee");
+		String price = cPrice.replaceAll(",", "").trim();
 		String today = CommonUtil.getToday();
 		today = today.substring(2).replaceAll("-", "").trim();
 		String purchase_number = dao.getMaxNo(today);
@@ -84,7 +84,7 @@ public class Purchase implements CommonExcute {
 				"<td style=\"display:block;width:465px;float:right;\">"+buy_method_name+"</td></tr>" + 
 				"<tr style=\"border-bottom:solid 1px black; margin-bottom:20px; display:inline-block; width:596px;height:40px;\">" + 
 				"<th style=\"width:120px;text-align:center;display:block;border-right:solid black 1px;float:left;\">가격</th>" + 
-				"<td style=\"display:block;width:465px;float:right;\">"+price+"</td></tr></table></fieldset>";
+				"<td style=\"display:block;width:465px;float:right;\">"+cPrice+"</td></tr></table></fieldset>";
 		if(mailing!=null) {
 			try {
 				String mailSet_Server="smtp.mail.nate.com"; // 보내는 메일 server

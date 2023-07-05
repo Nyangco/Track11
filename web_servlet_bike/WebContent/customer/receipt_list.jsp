@@ -38,6 +38,11 @@
 		}
 	}function goSearch(){
 		if(checking(customer.t_select,30,"검색 항목"))return;
+		if(customer.t_select.value=="p_no" && customer.t_search.value==""){
+			alert("제품명은 공백으로 검색하실 수 없습니다.");
+			customer.t_search.focus();
+			return;
+		}
 		customer.method="post";
 		customer.action="Customer";
 		customer.submit();
@@ -86,21 +91,21 @@
 				</select>
 				<button type="button" onclick="goSearch()" class="sel_button" style="float:right;margin-top:2px;margin-left:5px;"><i class="fa fa-search"></i> SEARCH</button>
 				<div id="input_boxes" style="width:120px;float:right;margin-top:2px;margin-left:5px;">
-					<div id="input_text">
+					<div id="input_text" <c:if test="${t_select eq 'purchase_date' or t_select eq 'status'}">style="display:none;"</c:if>>
 						<input type="text" name="t_search" value="${t_search }" class="sel_text" placeholder="검색 내용을 입력">
-					</div><div id="input_select" style="display:none;">
+					</div><div id="input_select" <c:if test="${t_select ne 'status'}">style="display:none;"</c:if>>
 						<select name="t_search_s" style="height:22px;width:120px;">
-							<option value="1">입금 확인중</option>
-							<option value="2">결제 완료</option>
-							<option value="3">배송 준비중</option>
-							<option value="4">배송중</option>
-							<option value="5">배송 완료</option>
-							<option value="6">구매 확정</option>
-							<option value="7">수령 대기중</option>
-							<option value="8">주문 취소됨</option>
-							<option value="9">제품 변경중</option>
+							<option value="1" <c:if test="${t_search eq '1' }">selected</c:if>>입금 확인중</option>
+							<option value="2" <c:if test="${t_search eq '2' }">selected</c:if>>결제 완료</option>
+							<option value="3" <c:if test="${t_search eq '3' }">selected</c:if>>배송 준비중</option>
+							<option value="4" <c:if test="${t_search eq '4' }">selected</c:if>>배송중</option>
+							<option value="5" <c:if test="${t_search eq '5' }">selected</c:if>>배송 완료</option>
+							<option value="6" <c:if test="${t_search eq '6' }">selected</c:if>>구매 확정</option>
+							<option value="7" <c:if test="${t_search eq '7' }">selected</c:if>>수령 대기중</option>
+							<option value="8" <c:if test="${t_search eq '8' }">selected</c:if>>주문 취소됨</option>
+							<option value="9" <c:if test="${t_search eq '9' }">selected</c:if>>제품 변경중</option>
 						</select>
-					</div><div id="input_date" style="display:none;">
+					</div><div id="input_date" <c:if test="${t_select ne 'purchase_date'}">style="display:none;"</c:if>>
 						<input type="date" name="t_search_d" style="height:22px;width:120px;">
 					</div>
 				</div>

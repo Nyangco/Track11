@@ -17,9 +17,9 @@ public class CustomerDao {
 	
 	public ArrayList<CustomerDto> listDB(String select, String search, int start, int end){
 		ArrayList<CustomerDto> arr = new ArrayList<CustomerDto>();
-		String subSql = "select purchase_number, status, p_no, shipping_method, to_char(purchase_date,'yyyy-mm-dd hh24:mi:ss') as purchase_date "
-					+ "from bike_연석모_product_sale where "+select+" like '%"+search+"%' "
-					+ "order by status desc, purchase_date desc";
+		String subSql = "select p.attach, p.p_name, s.purchase_number, s.status, s.p_no, s.shipping_method, to_char(s.purchase_date,'yyyy-mm-dd hh24:mi:ss') as purchase_date "
+					+ "from bike_연석모_product_sale s, bike_연석모_product p where "+select+" like '%"+search+"%' "
+					+ "and p.p_no = s.p_no order by status desc, purchase_date desc";
 		String sql = "select * from (select rownum as rnum, tbl.* from ("+subSql+") tbl) where rnum>="+start+" and rnum<="+end;
 		try {
 			con = DBConnection.getConnection();
@@ -29,9 +29,11 @@ public class CustomerDao {
 				String purchase_number = rs.getString("purchase_number");
 				String status = rs.getString("status");
 				String p_no = rs.getString("p_no");
+				String p_name = rs.getString("p_name");
+				String attach = rs.getString("attach");
 				String shipping_method = rs.getString("shipping_method");
 				String purchase_date = rs.getString("purchase_date");
-				CustomerDto dto = new CustomerDto("", "", "", "", "", "", shipping_method, "", "", "", "", "", "", "", "", "", purchase_number, p_no, status, "", purchase_date);
+				CustomerDto dto = new CustomerDto(attach, "", "", "", "", "", shipping_method, "", "", "", "", "", "", "", "", "", purchase_number, p_no, status, p_name, purchase_date);
 				arr.add(dto);
 			}
 		}catch(SQLException e) {

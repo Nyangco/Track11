@@ -3,8 +3,8 @@
 <%@include file="../common_header.jsp" %>
 <div id="container">	
 <script>
-	function goProductView(pn){
-		admin.t_p_no.value=pn;
+	function goProductView(product_number){
+		admin.t_p_no.value=product_number;
 		admin.t_requestPage.value="view";
 		admin.method="post";
 		admin.action="Product";
@@ -50,12 +50,29 @@
 		admin.method="post";
 		admin.action="Admin";
 		admin.submit();
-	}function goView(pn){
-		admin.t_purchase_number.value=pn;
+	}function goView(product_number,product_name,attach){
+		admin.t_purchase_number.value=product_number;
 		admin.t_requestPage.value="purchase_view";
+		admin.t_p_name.value=product_name;
+		admin.t_attach.value=attach;
 		admin.method="post";
 		admin.action="Admin";
 		admin.submit();
+	}function goStatus(pn,pValue){
+        
+		$.ajax({
+			type : 'POST',
+			url : 'Change_status_ajax',
+			data: 't_purchase_number='+pn+'&t_status_number='+pValue,
+			dataType : 'text',
+			error : function(){
+				alert('통신 실패');
+			},
+			success : function(data){
+				if(data=='1') alert('수정 성공');
+				else alert('수정 실패');
+			}
+		});				
 	}
 </script>
 <style>
@@ -68,13 +85,15 @@
 		<div class="record_group record_group_left">
 			<p><i class="fa-solid fa-bell"></i> 총 구매건 수<span> ${t_totalCount} </span>건</p>
 		</div>			
-		<form name="admin">
+		<form name="admin" id="admin">
 		<input type="hidden" name="t_requestPage" value="purchase_list">
 		<input type="hidden" name="t_nowPage">
 		<input type="hidden" name="t_purchase_number">
 		<input type="hidden" name="t_change_status">
 		<input type="hidden" name="t_search">
 		<input type="hidden" name="t_p_no">
+		<input type="hidden" name="t_p_name">
+		<input type="hidden" name="t_attach">
 			<p class="select_box select_box_right" style="width:500px;">
 				<input type="radio" name="t_sort" value="5" onchange="goSearch()" <c:if test="${t_sort eq '5' }">checked</c:if>>5건 
 				<input type="radio" name="t_sort" value="10" onchange="goSearch()" <c:if test="${t_sort eq '10' }">checked</c:if>>10건 
@@ -117,7 +136,7 @@
 				<tr>
 					<th>주문 번호</th>
 					<th>배송 상황</th>
-					<th>상품 번호</th>
+					<th>제품 번호</th>
 					<th>배송 방법</th>
 					<th>구매 일자</th>
 					<th></th>
@@ -128,7 +147,7 @@
 					<tr>
 						<td>${dto.getPurchase_number() }</td>
 						<td>
-							<select name="t_status_${dto.getPurchase_number() }" onchange="goStatus('${dto.getPurchase_number() }')">
+							<select name="t_status_${dto.getPurchase_number() }" onchange="goStatus('${dto.getPurchase_number() }',this.value)">
 								<option value="1" <c:if test="${dto.getStatus() eq '1' }">selected</c:if>>입금 확인중</option>
 								<option value="2" <c:if test="${dto.getStatus() eq '2' }">selected</c:if>>결제 완료</option>
 								<option value="3" <c:if test="${dto.getStatus() eq '3' }">selected</c:if>>배송 준비중</option>
@@ -149,7 +168,7 @@
 						</td>
 						<td>${dto.getPurchase_date() }</td>
 						<td> 
-							<a href="javascript:void()" onClick="goView('${dto.getPurchase_number()}')" class="butt" style="border:solid black 1px; background-color:#F2F2F2;">상세 보기</a>
+							<a href="javascript:void()" onClick="goView('${dto.getPurchase_number()}','${dto.getPrice() }','${dto.getId() }')" class="butt" style="border:solid black 1px; background-color:#F2F2F2;">상세 보기</a>
 							<c:if test="${dto.getStatus() eq '9' }">
 							<a href="javascript:void()" onClick="goChange('${dto.getPurchase_number()}')" class="butt" style="border:solid black 1px; background-color:#F2F2F2;">제품 변경</a>
 							</c:if>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/common_header.jsp"%>
+<link href="css/addrlinkSample.css" rel="stylesheet">
 <script>
 	function showCard() {
 		$('#cash').hide();
@@ -60,6 +61,16 @@
 		customer.action = "Customer";
 		customer.submit();
 
+	}function goPopup(){
+		var pop = window.open("popup/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
+	}function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, 
+			rnMgtSn, bdMgtSn , detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, 
+			mtYn, lnbrMnnm, lnbrSlno, emdNo){
+		document.customer.roadFullAddr.value = roadFullAddr; 
+		document.customer.roadAddrPart1.value = roadAddrPart1; 
+		document.customer.roadAddrPart2.value = roadAddrPart2; 
+		documentform.addrDetail.value = addrDetail; 
+		document.customer.zipNo.value = zipNo; 
 	}
 </script>
 <style>
@@ -69,6 +80,9 @@
 	height: 420px;
 	padding: 20px;
 	margin-bottom: 10px;
+}
+input {
+	height:22px;
 }
 </style>
 <div id="container">
@@ -108,12 +122,15 @@
 					<tr>
 						<th>수령 방법 선택</th>
 						<td><input type="radio" name="t_shipping_method"
-							value="shipping" onchange="showShipping()">택배 배송 &nbsp;
+							value="shipping" onchange="showShipping()" >택배 배송 &nbsp;
 							&nbsp; <input type="radio" name="t_shipping_method"
-							value="byhand" onchange="hideShipping()">직접 수령
+							value="byhand" onchange="hideShipping()" >직접 수령
 							<div id="shipping" style="display: none;">
-								<br>배송지 주소<input type="text" name="t_address"
+								<br>배송지 주소<input type="text" name="t_address" id="roadAddrPart1"
 									value="${t_mDto.getAddress() }" style="width: 400px">
+									<input type="text" name="t_address_d" id="addrDetail"
+									value="${t_mDto.getAddress() }" style="width: 400px">
+									<input type="button" onClick="goPopup();" value="주소"/>
 							</div></td>
 					</tr>
 					<tr>
@@ -170,7 +187,7 @@
 					<tr>
 						<th>제품명</th>
 						<td><input type="text" value="${t_pDto.getP_name() }"
-							readonly style="border: none;"> <input type="hidden"
+							readonly style="border: none;" name="t_p_name"> <input type="hidden"
 							name="t_p_no" value="${t_pDto.getP_no() }"></td>
 					</tr>
 					<tr>
