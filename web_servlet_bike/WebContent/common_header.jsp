@@ -7,6 +7,7 @@
 <link href="css/sub_c.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/17da812ad5.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script src="js/common.js"></script>
 <script type="text/javascript">
     //<![CDATA[
@@ -69,9 +70,6 @@
 		goGo.submit();
 	}
 </script>
-<style>
-	input[type=text]{height:22px;}
-</style>
 </head>
 <body>
 <form name="goGo">

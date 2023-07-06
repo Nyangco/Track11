@@ -35,8 +35,11 @@
 			return;
 		if(checking(customer.t_shipping_method,10,"수령 방법"))return;
 		if(customer.t_shipping_method.value=="shipping"){
-			if (checking(customer.t_address, 40, "배송지 주소"))
+			if (customer.t_address.value == "해당하는 주소가 없습니다. 다시 검색해주세요" || customer.t_address.value ==""){
+				alert("주소를 다시한번 확인해주세요");
+				customer.t_address_s.focus();
 				return;
+			}
 		}
 		if (checkLength(customer.t_comment, 160, "배송 요청사항"))
 			return;
@@ -61,16 +64,27 @@
 		customer.action = "Customer";
 		customer.submit();
 
-	}function goPopup(){
-		var pop = window.open("popup/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
-	}function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, 
-			rnMgtSn, bdMgtSn , detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, 
-			mtYn, lnbrMnnm, lnbrSlno, emdNo){
-		document.customer.roadFullAddr.value = roadFullAddr; 
-		document.customer.roadAddrPart1.value = roadAddrPart1; 
-		document.customer.roadAddrPart2.value = roadAddrPart2; 
-		documentform.addrDetail.value = addrDetail; 
-		document.customer.zipNo.value = zipNo; 
+	}function searchAddress(){
+		var q = customer.t_address_s.value; //검색 내용
+	    //ajax 시작
+		$.ajax({
+			url : 'https://dapi.kakao.com/v2/local/search/address.json',
+			headers : { 'Authorization' : 'KakaoAK a33297a5e59da7171ed69198dc906fa1'	},
+			type: 'GET',
+			data : { 'query' : q },
+			success : function(data){
+				//호출 성공하면 작성할 내용
+	            if(data.documents.length != 0 ){ // 값이 있으면
+	            	console.log(data.documents[0].address.address_name);
+					customer.t_address.value = data.documents[0].address.address_name;
+				}else{
+            		customer.t_address.value = "해당하는 주소가 없습니다. 다시 검색해주세요";
+            	}
+			}, 
+			error:function(request,status,error){
+			    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
+		}).done(function(data){console.log(data);});	
 	}
 </script>
 <style>
@@ -89,7 +103,7 @@ input {
 	<form name="customer">
 		<input type="hidden" name="t_requestPage" value="purchase"> <input
 			type="hidden" name="t_id" value="${t_mDto.getId() }">
-		<div id="b_right" style="float: left; width: 650px; height: 420px;">
+		<div id="b_right" style="float: left; width: 650px;">
 			<p class="n_title" style="width: 650px;">제품 구매</p>
 			<table class="boardForm">
 				<colgroup>
@@ -126,11 +140,10 @@ input {
 							&nbsp; <input type="radio" name="t_shipping_method"
 							value="byhand" onchange="hideShipping()" >직접 수령
 							<div id="shipping" style="display: none;">
-								<br>배송지 주소<input type="text" name="t_address" id="roadAddrPart1"
-									value="${t_mDto.getAddress() }" style="width: 400px">
-									<input type="text" name="t_address_d" id="addrDetail"
-									value="${t_mDto.getAddress() }" style="width: 400px">
-									<input type="button" onClick="goPopup();" value="주소"/>
+								<br>배송지 주소&nbsp;&nbsp;<input type="text" name="t_address_s" id="roadAddrPart1"
+									value="${t_mDto.getAddress() }" style="width: 264px;" placeholder="검색할 주소를 입력해주세요";>
+									<input type="button" onClick="searchAddress()" value="주소 검색"/><br>
+									<input type="text" name="t_address" style="width: 400px;margin-top:5px;" readonly placeholder="검색 결과가 이곳에 표시됩니다.">
 							</div></td>
 					</tr>
 					<tr>

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../common_header.jsp" %>
-<div id="container">	
 <script>
 	function goProductView(product_number){
 		admin.t_p_no.value=product_number;
@@ -73,14 +72,26 @@
 				else alert('수정 실패');
 			}
 		});				
+	}function goStatics(){
+		admin.t_requestPage.value="statics_list";
+		admin.method="post";
+		admin.action="Admin";
+		admin.submit();
 	}
 </script>
 <style>
 	#search_t, #search_d, #search_s{width:120px;}
+	.btn {float:right;
+		width:60px;
+		text-align:center;
+		padding:5px 10px;
+		background:#D8D8D8;
+		margin-left:5px;}
 </style>
+<div id="container">	
 	<div id="b_right">
 		<p class="n_title">
-			PURCHASE
+			PURCHASE <span><a href="javascript:void()" onclick="goStatics()" class="btn">월별 통계</a></span>
 		</p>
 		<div class="record_group record_group_left">
 			<p><i class="fa-solid fa-bell"></i> 총 구매건 수<span> ${t_totalCount} </span>건</p>

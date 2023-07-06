@@ -18,6 +18,7 @@ import command.admin.DBupdate;
 import command.admin.List;
 import command.admin.Purchase_list;
 import command.admin.Purchase_view;
+import command.admin.Statics_list;
 import command.admin.Update;
 import command.admin.View;
 
@@ -94,6 +95,10 @@ public class Admin extends HttpServlet {
 				Purchase_view admin = new Purchase_view();
 				admin.excute(request);
 				page="admin/purchase_view.jsp";
+			}else if(requestPage.equals("statics_list")) {
+				Statics_list admin = new Statics_list();
+				admin.excute(request);
+				page="admin/statics_list.jsp";
 			}
 		}
 		
