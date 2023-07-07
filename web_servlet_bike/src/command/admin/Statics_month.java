@@ -45,45 +45,59 @@ public class Statics_month extends HttpServlet {
 		
 		ArrayList<String> arr_1 = dao.getTC_TS(month);
 		ArrayList<ArrayList<String>> arr_2 = dao.getPC(month);
+		ArrayList<ArrayList<String>> arr_3 = dao.getCC(month);
 		String t_count = arr_1.get(0);
 		String t_sell = arr_1.get(1);
 		
 		HashMap<String, Object> hM = new HashMap<String, Object>();
 		JSONObject jsob1 = new JSONObject();
+		JSONObject jsob2 = new JSONObject();
 		JSONArray jsar1 = new JSONArray();
+		JSONArray jsar2 = new JSONArray();
 		JSONObject finaljsob = new JSONObject();
 		
-		hM.put("t_t_count_m", t_count);
-		hM.put("t_t_sell_m", t_sell);
-		finaljsob.put(hM);
+		//hM.put("t_t_count_m", t_count);
+		//hM.put("t_t_sell_m", t_sell);
+		
+		
+		
+		
 		
 		for(int k=0; k<arr_2.size(); k++) {
-			p_count_label+=(arr_2.get(k).get(0)+"\",\"");
-			p_count_value+=(arr_2.get(k).get(1)+", ");
+			hM = new HashMap<String, Object>();
+			hM.put("label",arr_2.get(k).get(0));
+			hM.put("value",arr_2.get(k).get(1));
+			jsob1 = new JSONObject(hM);
+			jsar1.add(jsob1);
 		}for(int k=arr_2.size();k<5;k++) {
-			p_count_label+="\",\"";
-			p_count_value+=", ";
+			hM = new HashMap<String, Object>();
+			hM.put("label","");
+			hM.put("value","");
+			jsob1 = new JSONObject(hM);
+			jsar1.add(jsob1);
 		}
 		
 		
 		for(int k=0; k<arr_3.size(); k++) {
-			c_cell_label+=(arr_3.get(k).get(0)+"\",\"");
-			c_cell_value+=(arr_3.get(k).get(1)+", ");
+			hM = new HashMap<String, Object>();
+			hM.put("label",arr_2.get(k).get(0));
+			hM.put("value",arr_2.get(k).get(1));
+			jsob2 = new JSONObject(hM);
+			jsar2.add(jsob2);
 		}for(int k=arr_3.size();k<5;k++) {
-			c_cell_label+="\",\"";
-			c_cell_value+=", ";
+			hM = new HashMap<String, Object>();
+			hM.put("label","");
+			hM.put("value","");
+			jsob2 = new JSONObject(hM);
+			jsar2.add(jsob2);
 		}
 		
+		finaljsob.put("t_t_count_m", t_count);
+		finaljsob.put("t_t_sell_m", t_sell);
+		finaljsob.put("t_p_count_m",jsar1);
+		finaljsob.put("t_c_cell_m",jsar2);
 		
-
-		hM.put("t_p_count_m_label", p_count_label);
-		hM.put("t_p_count_m_value", p_count_value);
-		hM.put("t_c_cell_m_label", c_cell_label);
-		hM.put("t_c_cell_m_value", c_cell_value);
-		JSONObject jsob = new JSONObject(hM);
-		out.print(jsob);
-		
-		
+		out.print(finaljsob);
 	}
 
 	/**

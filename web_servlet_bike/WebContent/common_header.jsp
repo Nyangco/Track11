@@ -186,9 +186,9 @@
 			<div id="b_left">
 			<P>Admin</P>
 			<ul>
-				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_nowPage eq 'Admin' and (t_requestPage ne 'purchase_list' and t_requestPage ne 'purchase_view' and t_requestPage ne 'change_product')}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MEMBER</a></li>
+				<li><a href="javascript:void()" onClick="goAdmin('list')"><c:if test="${t_nowPage eq 'Admin' and (t_requestPage ne 'purchase_list' and t_requestPage ne 'purchase_view' and t_requestPage ne 'change_product' and t_requestPage ne 'statics_list')}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> MEMBER</a></li>
 				<li><a href="javascript:void()" onClick="goProduct('list')"><c:if test="${t_nowPage eq 'Product'}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PRODUCT</a></li>
-				<li><a href="javascript:void()" onClick="goAdmin('purchase_list')"><c:if test="${t_nowPage eq 'Admin' and (t_requestPage eq 'purchase_list' or t_requestPage eq 'purchase_view' or t_requestPage eq 'change_product')}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PURCHASE</a></li>
+				<li><a href="javascript:void()" onClick="goAdmin('purchase_list')"><c:if test="${t_nowPage eq 'Admin' and (t_requestPage eq 'purchase_list' or t_requestPage eq 'purchase_view' or t_requestPage eq 'change_product' or t_requestPage eq 'statics_list')}"><span class="fnt"><i class="fas fa-apple-alt"></i></span></c:if> PURCHASE</a></li>
 			</ul>
 			</div>
 		</c:if>

@@ -17,13 +17,13 @@
 				<tr class="statics_text">
 					<th colspan="2">총 판매 건 수</th>
 					<td colspan="2">
-						<input type="text" name="" value="${t_t_count}" readonly style="border:none;">
+						<input type="text" name="" value="${t_t_count}" disabled style="border:none;">
 					</td>
 				</tr>
 				<tr class="statics_text">
 					<th colspan="2">총 매출액</th>
 					<td colspan="2">
-						<input type="text" name="" value="${t_t_sell }" readonly style="border:none;">
+						<input type="text" name="" value="${t_t_sell }" disabled style="border:none;">
 					</td>
 				</tr>
 				<tr>
@@ -61,23 +61,23 @@
 				</colgroup>
 				
 					<tr class="statics_text ">
-						<th colspan="2">총 판매 건 수</th>
+						<th colspan="2">월별 판매 건 수</th>
 						<td colspan="2">
-							<input type="text" name="t_count_m" readonly style="border:none;">
+							<input type="text" name="t_count_m" disabled style="border:none;">
 						</td>
 					</tr>
 					<tr class="statics_text ">
-						<th colspan="2">총 매출액</th>
+						<th colspan="2">월별 매출액</th>
 						<td colspan="2">
-							<input type="text" name="t_sell_m" readonly style="border:none;">
+							<input type="text" name="t_sell_m" disabled style="border:none;">
 						</td>
 					</tr>
 					<tr >
 						<th colspan="3">
-							제품별 판매 건수
+							제품별 월 판매 건수
 						</th>
 						<th>
-							고객별 매출액 
+							고객별 월 매출액 
 						</th>
 					</tr>
 					<tr >
@@ -109,15 +109,20 @@
 				alert('통신 실패');
 			},
 			success : function(data){
+				$('#hide').show();
 				var jsob = JSON.parse(data);
-				admin.t_count_m.value = jsob.t_t_count_m;
-				admin.t_sell_m.value = jsob.t_t_sell_m;
-				console.log(jsob.t_p_count_m_label);
-				console.log(jsob.t_p_count_m_value);
+				var count = comma(jsob.t_t_count_m);
+				var sell = comma(jsob.t_t_sell_m);
+				admin.t_count_m.value = count
+				admin.t_sell_m.value = sell;
 				
-				var labels = data.jsonarray.map(function(e) {
-				   return e.name;
+				var labels = jsob.t_p_count_m.map(function(e) {
+				   return e.label;
 				});
+				
+				var data = jsob.t_p_count_m.map(function(e) {
+					   return e.value;
+					});
 				
 				var context = document
 			        .getElementById('p_Count_m')
@@ -125,12 +130,12 @@
 			    var p_Count_m = new Chart(context, {
 			        type: 'bar', // 차트의 형태
 			        data: { // 차트에 들어갈 데이터
-			            labels: [jsob.t_p_count_m_label],
+			            labels: labels,
 			            datasets: [
 			                { //데이터
 			                    label: '판매 건수', //차트 제목
 			                    fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-			                    data: [jsob.t_p_count_m_value],
+			                    data: data,
 			                    backgroundColor: [
 			                        //색상
 			                        'rgba(255, 99, 132, 0.2)',
@@ -167,18 +172,26 @@
 			        }
 			    });
 		    
+		    var labels = jsob.t_c_cell_m.map(function(e) {
+			   return e.label;
+			});
+			
+			var data = jsob.t_c_cell_m.map(function(e) {
+				   return e.value;
+				});
+			    
 		    var context = document
 		        .getElementById('c_Cell_m')
 		        .getContext('2d');
 		    var c_cell_m = new Chart(context, {
 		        type: 'bar', // 차트의 형태
 		        data: { // 차트에 들어갈 데이터
-		            labels: [jsob.t_c_cell_m_label],
+		            labels: labels,
 		            datasets: [
 		                { //데이터
 		                    label: '판매 건수', //차트 제목
 		                    fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-		                    data: [jsob.t_c_cell_m_value],
+		                    data: data,
 		                    backgroundColor: [
 		                        //색상
 		                        'rgba(255, 99, 132, 0.2)',
@@ -214,7 +227,6 @@
 		            }
 		        }
 		    });
-		    $('#hide').show();
 			}
 		});				
 	}

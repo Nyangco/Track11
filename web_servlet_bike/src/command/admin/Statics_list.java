@@ -1,5 +1,6 @@
 package command.admin;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +15,15 @@ public class Statics_list implements CommonExcute {
 	public void excute(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		AdminDao dao = new AdminDao();
+		DecimalFormat df = new DecimalFormat("###,###");
 		ArrayList<String> arr_1 = dao.getTC_TS();
 		ArrayList<ArrayList<String>> arr_2 = dao.getPC();
 		ArrayList<ArrayList<String>> arr_3 = dao.getCC();
 		String t_count = arr_1.get(0);
+		t_count = df.format(Integer.parseInt(t_count));
 		request.setAttribute("t_t_count", t_count);
 		String t_sell = arr_1.get(1);
+		t_sell = df.format(Integer.parseInt(t_sell));
 		request.setAttribute("t_t_sell", t_sell);
 		
 		String p_count_label = "\"";
