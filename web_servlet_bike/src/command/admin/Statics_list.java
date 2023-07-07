@@ -27,6 +27,9 @@ public class Statics_list implements CommonExcute {
 		for(int k=0; k<arr_2.size(); k++) {
 			p_count_label+=(arr_2.get(k).get(0)+"\",\"");
 			p_count_value+=(arr_2.get(k).get(1)+", ");
+		}for(int k=arr_2.size();k<5;k++) {
+			p_count_label+="\",\"";
+			p_count_value+=", ";
 		}
 		p_count_label = p_count_label.substring(0,p_count_label.length()-2);
 		p_count_value = p_count_value.substring(0,p_count_value.length()-2);
@@ -35,9 +38,12 @@ public class Statics_list implements CommonExcute {
 		
 		String c_cell_label = "\"";
 		String c_cell_value = "";
-		for(int k=0; k<arr_2.size(); k++) {
-			c_cell_label+=(arr_2.get(k).get(0)+"\",\"");
-			c_cell_value+=(arr_2.get(k).get(1)+", ");
+		for(int k=0; k<arr_3.size(); k++) {
+			c_cell_label+=(arr_3.get(k).get(0)+"\",\"");
+			c_cell_value+=(arr_3.get(k).get(1)+", ");
+		}for(int k=arr_3.size();k<5;k++) {
+			c_cell_label+="\",\"";
+			c_cell_value+=", ";
 		}
 		c_cell_label = c_cell_label.substring(0,c_cell_label.length()-2);
 		c_cell_value = c_cell_value.substring(0,c_cell_value.length()-2);

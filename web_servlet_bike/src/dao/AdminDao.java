@@ -20,6 +20,31 @@ public class AdminDao {
 	
 	//public CustomerDto(String id, String name, String product_number, String price) {
 	//ArrayList<ArrayList<String>> arr = dao.getAllStatics();
+	public ArrayList<ArrayList<String>> getCC(String month){
+		ArrayList<ArrayList<String>> arr = new ArrayList<>();
+		String sql4="select id, sum(s_price) as s_price from bike_연석모_product_sale where status='6' "
+					+ "and to_char(purchase_date,'yyyy-mm')='"+month+"' group by id";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql4);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				ArrayList<String> sub = new ArrayList<>();
+				String id = rs.getString("id");
+				String s_price = rs.getString("s_price");
+				sub.add(id);
+				sub.add(s_price);
+				arr.add(sub);
+			}
+		}catch(SQLException e) {
+			System.out.println("getCC:"+sql4);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}return arr;
+	}
+	
 	public ArrayList<ArrayList<String>> getCC(){
 		ArrayList<ArrayList<String>> arr = new ArrayList<>();
 		String sql4="select id, sum(s_price) as s_price from bike_연석모_product_sale where status='6' group by id";
@@ -44,6 +69,31 @@ public class AdminDao {
 		}return arr;
 	}
 	
+	public ArrayList<ArrayList<String>> getPC(String month){
+		ArrayList<ArrayList<String>> arr = new ArrayList<>();
+		String sql3="select p_no, count(p_no) as count from bike_연석모_product_sale where status='6' "
+					+ "and to_char(purchase_date,'yyyy-mm')='"+month+"' group by p_no";
+		
+		try {
+			con = DBConnection.getConnection();
+			ps = con.prepareStatement(sql3);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				String p_no = rs.getString("p_no");
+				String count = rs.getString("count");
+				ArrayList<String> sub = new ArrayList<>();
+				sub.add(p_no);
+				sub.add(count);
+				arr.add(sub);
+			}
+		}catch(SQLException e) {
+			System.out.println("getPC:"+sql3);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}return arr;
+	}
+	
 	public ArrayList<ArrayList<String>> getPC(){
 		ArrayList<ArrayList<String>> arr = new ArrayList<>();
 		String sql3="select p_no, count(p_no) as count from bike_연석모_product_sale where status='6' group by p_no";
@@ -62,6 +112,37 @@ public class AdminDao {
 			}
 		}catch(SQLException e) {
 			System.out.println("getPC:"+sql3);
+			e.printStackTrace();
+		}finally {
+			DBConnection.closeDB(con, ps, rs);
+		}return arr;
+	}
+	
+	public ArrayList<String> getTC_TS(String month){
+		ArrayList<String> arr = new ArrayList<>();
+		String sql1="select count(*) as count from bike_연석모_product_sale where status='6' "
+					+ "and to_char(purchase_date,'yyyy-mm')='"+month+"'";
+		String sql2="select sum(s_price) as s_price from bike_연석모_product_sale where status='6' "
+					+ "and to_char(purchase_date,'yyyy-mm')='"+month+"'"; 
+		
+		try {
+			con = DBConnection.getConnection();
+			
+			ps = con.prepareStatement(sql1);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String count = rs.getString("count");
+				arr.add(count);
+			}
+			
+			ps = con.prepareStatement(sql2);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String price = rs.getString("s_price");
+				arr.add(price);
+			}
+		}catch(SQLException e) {
+			System.out.println("getTC_TS:\n sql1:"+sql1+"\n sql2:"+sql2);
 			e.printStackTrace();
 		}finally {
 			DBConnection.closeDB(con, ps, rs);
