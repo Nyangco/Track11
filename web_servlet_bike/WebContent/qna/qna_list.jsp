@@ -29,6 +29,43 @@
 		qna.method="post";
 		qna.action="Qna";
 		qna.submit();
+	}function goDelete(no){
+		if(confirm("정말로 삭제하시겠습니까?")){
+			if(delete_ajax(no)){
+				alert("답글이 달린 게시글입니다.");
+			}else{
+				qna.t_no.value=no;
+				qna.t_requestPage.value="DBdelete";
+				qna.method="post";
+				qna.action="Qna";
+				qna.submit();
+			}
+		}
+	}function delete_ajax(no){
+		var tf;
+		$.ajax({
+			//$(jQuery)의 ajax 라는 기능을 실행한다.
+				type : "POST",
+				//새창에서 연다
+				url : "CheckDelete",
+				//해당 url로 이동한다
+				data: "t_no="+no,
+				//매개변수를 입력한다.
+				dataType : "text",
+				//결과를 글자로 받겠다.
+				async : false,
+				//동기식으로 사용하겠다.
+				error : function(){
+				//에러가 생기면 function을 실행한다.
+					alert('통신실패!!!!!');
+				},
+				success : function(data){
+				//성공하면 data를 매개변수로 하는 function을 실행시킨다.
+					if(data!=0) tf=true;
+					else tf=false;
+				}
+			});
+		return tf;
 	}
 </script>
 <script>
@@ -77,7 +114,6 @@
 			<input type="hidden" name="t_requestPage" value="list">
 			<p class="select_box select_box_right">
 				<select name="t_select" class="sel_box">
-					<option value="title" <c:if test="${t_select eq 'title' }">selected</c:if> >Title</option>
 					<option value="content" <c:if test="${t_select eq 'content' }">selected</c:if> >Content</option>
 				</select>
 				<input type="text" name="t_search" value="${t_search }" class="sel_text">
@@ -86,15 +122,13 @@
 			</form>
 			<table class="boardList">
 				<colgroup>
-					<col width="10%">
 					<col width="*">
 					<col width="10%">
 					<col width="14%">
 				</colgroup>
 				<thead>
 					<tr>
-						<th>No</th>
-						<th>Title</th>
+						<th>Content</th>
 						<th>Reg Name</th>
 						<th>Reg Date</th>
 					</tr>
@@ -105,23 +139,28 @@
 					<div class="accordion" style="padding:0px;padding-bottom:18px;">
 						<table class="boardList">
 							<colgroup>
-								<col width="10%">
 								<col width="*">
 								<col width="10%">
 								<col width="14%">
 							</colgroup>
 							<tbody>
 								<tr>
-									<c:choose>
-										<c:when test="${arr.getNo() eq arr.getReply() }">
-											<td style="border:none;">${arr.getNo()}</td>
-										</c:when>
-										<c:when test="${arr.getNo() ne arr.getReply() }">
-											<td style="border:none;">→
-										</c:when>
-									</c:choose>
-									<td class="t_left" style="border:none;">${arr.getTitle() }</td>
-									<td style="border:none;">${arr.getReg_id() }</td>
+									<td class="t_left" style="border:none;">
+										<c:forEach begin="0" end="${arr.getS_count() }">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach>
+										<c:choose>
+											<c:when test="${arr.getNo() eq arr.getReply() }"><i class="fa-solid fa-question"></i></c:when>
+											<c:when test="${arr.getNo() ne arr.getReply() }"><i class="fa-solid fa-arrow-right-long"></i></c:when>
+										</c:choose>
+										<c:choose>
+											<c:when test="${fn:length(arr.getContent())>35-2*arr.getS_count() }">
+												${fn:substring(arr.getContent(),0,35-2*arr.getS_count()) }...	
+											</c:when>
+											<c:otherwise>
+												${arr.getContent() }
+											</c:otherwise>
+										</c:choose>
+									</td>
+									<td style="border:none;">${arr.getReg_name() }</td>
 									<td style="border:none;">${arr.getReg_date() }</td>
 								</tr>	
 							</tbody>
@@ -131,7 +170,9 @@
 						<div class="longlong">${arr.getContent() }</div>
 						<c:if test="${sLevel>=0 }">
 							<div class="buttonGroup">
-								<a href="javascript:goDelete('${arr.getNo() }')" class="butt">삭제</a>
+								<c:if test="${arr.getReg_id() eq sId or sLevel>1 }">
+									<a href="javascript:goDelete('${arr.getNo() }')" class="butt">삭제</a>
+								</c:if>
 								<a href="javascript:goReply('${arr.getNo() }')" class="butt">답변</a>
 							</div>
 						</c:if>

@@ -2,13 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@include file="../common_header.jsp"%>
 <style>
-	#preview-image {
-		border:1px solid gray;
-	}					
+	#preview-image {border:1px solid gray;}					
+	.longlong {word-break:break-all;white-space:pre-wrap;}
+	textarea {padding:5px;}
 </style>
 <script>
 	function goSave(){
-		if(checking(qna.t_title,50,"제목")) return;
 		if(checking(qna.t_content,2000,"내용")) return;
 		qna.method="post";
 		qna.action="Qna";
@@ -33,18 +32,10 @@
 				<tbody>
 					<c:if test="${not empty t_dto }">
 						<tr>
-							<th>원문 Title</th>
-							<td colspan="3"><input type="text" class="input600"  value="${t_dto.getTitle() }" disabled></td>
-						</tr>	
-						<tr>
 							<th>원문 Content</th>
-							<td colspan="3"><textarea class="textArea_H250" disabled>${t_dto.getContent() }</textarea></td>
+							<td colspan="3"><div class="longlong">${t_dto.getContent() }</div></td>
 						</tr>	
 					</c:if>
-					<tr>
-						<th>Title</th>
-						<td colspan="3"><input type="text" class="input600"  name="t_title"></td>
-					</tr>	
 					<tr>
 						<th>Content</th>
 						<td colspan="3"><textarea class="textArea_H250" name="t_content"></textarea></td>
@@ -52,11 +43,11 @@
 					<tr>
 						<th>Writer</th>
 						<td>
-							<input type="text" class="input100" value="${sName }" readonly>
+							<span class="text_right">${sName }</span>
 							<input type="hidden" name="t_reg_id" value="${sId }" readonly>
 						</td>
 						<th>RegDate</th>
-						<td><input type="date" class="input130" name="t_reg_date" value="${t_today }" readonly></td>
+						<td><span class="text_right">${t_today }</span></td>
 					</tr>	
 
 				</tbody>

@@ -12,7 +12,6 @@ public class DBsave implements CommonExcute {
 	public void excute(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		QnaDao dao = new QnaDao();
-		String title = request.getParameter("t_title");
 		String content = request.getParameter("t_content");
 		String reg_id = request.getParameter("t_reg_id");
 		String reg_date = request.getParameter("t_reg_date");
@@ -21,7 +20,7 @@ public class DBsave implements CommonExcute {
 		
 		String no = dao.getMaxNo();
 		
-		QnaDto dto = new QnaDto(no, title, reg_id, reg_date, content, reply);
+		QnaDto dto = new QnaDto(no, reg_id, "", reg_date, content, reply);
 		int k = dao.insertDB(dto);
 		String msg="Qna 등록에 실패했습니다"; String url="Qna"; String nextPage="list";
 		if(k==1) msg="Qna 등록에 성공했습니다";

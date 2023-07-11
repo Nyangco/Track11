@@ -18,7 +18,7 @@ public class List implements CommonExcute {
 		String select = request.getParameter("t_select");
 		String search = request.getParameter("t_search");
 		if(select == null) {
-			select="title"; search="";
+			select="no"; search="";
 		}
 		request.setAttribute("t_select", select);
 		request.setAttribute("t_search", search);

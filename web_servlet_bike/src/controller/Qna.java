@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import command.qna.DBdelete;
 import command.qna.DBsave;
 import command.qna.List;
 import command.qna.Write;
@@ -52,11 +53,16 @@ public class Qna extends HttpServlet {
 			if(CommonUtil.checkSession(request)){
 				Write qna = new Write();
 				qna.excute(request);
+				page="qna/qna_write.jsp";
 			}
-			page="qna/qna_write.jsp";
 		}else if(requestPage.equals("DBsave")) {
 			if(CommonUtil.checkSession(request)){
 				DBsave qna = new DBsave();
+				qna.excute(request);
+			}
+		}else if(requestPage.equals("DBdelete")) {
+			if(CommonUtil.checkSession(request)){
+				DBdelete qna = new DBdelete();
 				qna.excute(request);
 			}
 		}
