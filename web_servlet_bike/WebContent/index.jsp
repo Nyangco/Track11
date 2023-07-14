@@ -124,10 +124,10 @@
 		goGo.method="post";
 		goGo.action="Qna";
 		goGo.submit();
-	}function goFreeBoard(page){
+	}function goFreeboard(page){
 		goGo.t_requestPage.value=page;
 		goGo.method="post";
-		goGo.action="FreeBoard";
+		goGo.action="Freeboard";
 		goGo.submit();
 	}function goEtc(page){
 		goGo.t_requestPage.value=page;
@@ -269,7 +269,7 @@
 						<li><a href="javascript:void()" onClick="goNotice('list')">News</a></li>
 						<li><a href="javascript:void()" onClick="goNews('list')">News</a></li>
 						<li><a href="javascript:void()" onClick="goQna('list')">Q & A</a></li>
-						<li><a href="javascript:void()" onClick="goFreeBoard('list')">Free Board</a></li>
+						<li><a href="javascript:void()" onClick="goFreeboard('list')">Free Board</a></li>
 						<li><a href="javascript:void()" onClick="goEtc('list')">Etc</a></li>
 					</ul>
 				</div>

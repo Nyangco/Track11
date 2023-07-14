@@ -7,6 +7,7 @@ import dao.QnaDao;
 import dto.QnaDto;
 
 public class DBsave implements CommonExcute {
+	
 
 	@Override
 	public void excute(HttpServletRequest request) {

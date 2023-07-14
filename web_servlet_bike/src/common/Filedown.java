@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.FreeboardDao;
+
 /**
  * Servlet implementation class Filedown
  */
@@ -40,6 +42,13 @@ public class Filedown extends HttpServlet {
 		//화면상에 javascript 등을 출력하기 위한 printwriter method를 호출
 		String savePath = request.getParameter("t_fileDir"); // 첨부파일경로
 	 	String fileName = request.getParameter("t_fileName");  // 다운로드 받을 첨부파일명
+	 	String fromPage = request.getParameter("t_Page");
+	 	String no = request.getParameter("t_no");
+	 	
+	 	if(fromPage!=null && fromPage.equals("freeboard")) {
+        	FreeboardDao dao = new FreeboardDao();
+        	dao.getDownloadHit(no);
+        }
 
 		//if(savePath.equals("notice")) savePath = CommonUtil.getFile_dir_notice("notice"); 
 		savePath = CommonUtil.getFile_dir(savePath);
@@ -151,7 +160,6 @@ public class Filedown extends HttpServlet {
 	        //InputStream을 닫는다
 	        os.close();
 	        //OutputStream을 닫는다
-	 
 	    }catch(Exception e){
 	    //모든 경우의 예외에 대하여 동작하낟
 	    	System.out.println("첨부 파일 다운 오류~ 파일명:"+fileName);
